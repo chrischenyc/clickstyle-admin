@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import { userSignedIn } from '../../../../modules/client/redux/user';
-import { validateUserLogin } from '../../../../modules/validate';
+import { userSignedIn } from '../../../modules/client/redux/user';
+import { validateUserLogin } from '../../../modules/validate';
 import LoginPage from './LoginPage';
 
 // platform-independent stateful container component

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Button, Form, Grid, Message, Segment, Divider } from 'semantic-ui-react';
 import _ from 'lodash';
 
-import FormInputField from '../../../components/FormInputField';
+import FormInputField from '../../components/FormInputField';
 
 // web version of the login form, stateless component
 const LoginPage = ({
@@ -14,8 +14,6 @@ const LoginPage = ({
     <Grid.Row style={{ maxWidth: 450 }}>
       <Grid.Column>
         <Segment attached>
-          <Divider horizontal>or</Divider>
-
           <Form onSubmit={onSubmit} loading={loading} error={!_.isEmpty(errors)}>
             <FormInputField
               fluid

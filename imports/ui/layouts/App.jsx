@@ -10,13 +10,11 @@ import { userSignedIn, userSignedOut } from '../../modules/client/redux/user';
 import { fetchProfile } from '../../modules/client/redux/profile';
 
 import SecureRoute from '../components/SecureRoute';
-import PublicRoute from '../components/PublicRoute';
 import Header from '../components/Header';
 import SideMenuContainer from '../components/SideMenuContainer';
 
-import HomePage from '../layouts/home/HomePage';
-import Login from '../layouts/user/Login/Login';
-import DashboardPage from '../layouts/user/DashboardPage';
+import Login from '../layouts/Login/Login';
+import DashboardPage from '../layouts/DashboardPage';
 
 class App extends Component {
   // after web App is refreshed, try to fetch Meteor user data then update redux states
@@ -47,11 +45,9 @@ class App extends Component {
           <Header />
 
           <Switch>
-            <Route exact path="/" component={HomePage} />
-            <PublicRoute path="/login" component={Login} />
             <SecureRoute
               exact
-              path="/dashboard"
+              path="/"
               component={() => (
                 <SideMenuContainer>
                   <DashboardPage />
@@ -59,7 +55,9 @@ class App extends Component {
               )}
             />
 
-            <Route component={HomePage} />
+            <Route path="/login" component={Login} />
+
+            <Route component={Login} />
           </Switch>
         </div>
       </Router>

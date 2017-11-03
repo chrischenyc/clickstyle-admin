@@ -14,7 +14,7 @@ const SecureRoute = ({ authenticated, component, ...rest }) => {
     return <Route component={component} {...rest} />;
   }
 
-  return <Redirect to="/" />;
+  return <Redirect to="/login" />;
 };
 
 SecureRoute.propTypes = {
