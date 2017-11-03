@@ -4,7 +4,7 @@
 
 `npm install` (don't use yarn, Meteor doesn't work well with yarn)
 
-`meteor -s settings-development.json --port 4000`
+`npm run dev`
 
 Note: we use port 4000 to avoid conflicts with `stylesquad-web` instance
 

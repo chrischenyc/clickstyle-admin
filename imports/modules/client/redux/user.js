@@ -25,11 +25,6 @@ const reducer = (state = defaultState, action) => {
       return {
         ...state,
         authenticated: meteorUser && true,
-        verified:
-          meteorUser &&
-          meteorUser.emails &&
-          meteorUser.emails.length > 0 &&
-          meteorUser.emails[0].verified,
         roles: meteorUser && meteorUser.roles,
       };
     }
