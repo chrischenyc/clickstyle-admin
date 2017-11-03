@@ -12,9 +12,9 @@ This project re-uses some source files from stylesquad-web project. In order to 
 
 `npm install` (don't use yarn, Meteor doesn't work well with yarn)
 
-`meteor -s settings-development.json --port 3001`
+`meteor -s settings-development.json --port 4000`
 
-Note: we use port 3001 to avoid conflicts with `stylesquad-web` instance
+Note: we use port 4000 to avoid conflicts with `stylesquad-web` instance
 
 ## Heroku deployment
 
