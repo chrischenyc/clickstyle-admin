@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Container, Menu, Dropdown, Responsive } from 'semantic-ui-react';
 
-import { closeModal } from '../../modules/client/redux/modal';
-import ModalLink from '../components/ModalLink';
 import Login from '../layouts/user/Login/Login';
 
 const StylistLandingPageLink = () => (
@@ -44,19 +42,7 @@ const Header = props => (
         <Menu.Menu position="right">
           {!props.isStylist && <StylistLandingPageLink />}
 
-          <Menu.Item
-            as={ModalLink}
-            to="/login"
-            component={
-              <Login
-                modal
-                onLoggedIn={() => {
-                  props.closeModal();
-                }}
-              />
-            }
-            title="Log in to continue"
-          >
+          <Menu.Item as={Link} to="/login">
             Log In
           </Menu.Item>
         </Menu.Menu>
@@ -73,7 +59,6 @@ Header.defaultProps = {
 Header.propTypes = {
   authenticated: PropTypes.bool.isRequired,
   isStylist: PropTypes.bool,
-  closeModal: PropTypes.func.isRequired,
   firstName: PropTypes.string,
 };
 
@@ -83,4 +68,4 @@ const mapStateToProps = state => ({
   firstName: state.profile.name && state.profile.name.first,
 });
 
-export default connect(mapStateToProps, { closeModal })(Header);
+export default connect(mapStateToProps)(Header);

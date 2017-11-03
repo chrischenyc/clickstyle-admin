@@ -1,16 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { Button, Form, Grid, Message, Segment, Divider } from 'semantic-ui-react';
 import _ from 'lodash';
 
-import ModalLink from '../../../components/ModalLink';
 import FormInputField from '../../../components/FormInputField';
 
 // web version of the login form, stateless component
 const LoginPage = ({
-  onSubmit, onChange, loading, errors, modal, onLoggedIn,
+  onSubmit, onChange, loading, errors,
 }) => (
   <Grid textAlign="center" verticalAlign="middle" className="below-fixed-menu">
     <Grid.Row style={{ maxWidth: 450 }}>
@@ -55,17 +53,11 @@ const LoginPage = ({
   </Grid>
 );
 
-LoginPage.defaultProps = {
-  onLoggedIn: null,
-};
-
 LoginPage.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   errors: PropTypes.object.isRequired,
-  modal: PropTypes.bool.isRequired,
-  onLoggedIn: PropTypes.func,
 };
 
 export default LoginPage;

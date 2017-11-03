@@ -13,7 +13,6 @@ import SecureRoute from '../components/SecureRoute';
 import PublicRoute from '../components/PublicRoute';
 import Header from '../components/Header';
 import SideMenuContainer from '../components/SideMenuContainer';
-import ModalContainer from '../components/ModalContainer';
 
 import HomePage from '../layouts/home/HomePage';
 import Login from '../layouts/user/Login/Login';
@@ -62,8 +61,6 @@ class App extends Component {
 
             <Route component={HomePage} />
           </Switch>
-
-          {this.props.modalOpen && <Route to="/modal" component={ModalContainer} />}
         </div>
       </Router>
     );
@@ -74,14 +71,9 @@ App.propTypes = {
   userSignedIn: PropTypes.func.isRequired,
   userSignedOut: PropTypes.func.isRequired,
   fetchProfile: PropTypes.func.isRequired,
-  modalOpen: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = state => ({
-  modalOpen: state.modal.open,
-});
-
-export default connect(mapStateToProps, {
+export default connect(null, {
   userSignedIn,
   userSignedOut,
   fetchProfile,

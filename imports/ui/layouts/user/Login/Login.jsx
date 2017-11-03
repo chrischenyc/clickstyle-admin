@@ -56,11 +56,6 @@ class Login extends Component {
           });
 
           this.props.userSignedIn(Meteor.user());
-
-          // call back if in modal mode
-          if (this.props.modal && this.props.onLoggedIn) {
-            this.props.onLoggedIn();
-          }
         }
       });
     }
@@ -73,7 +68,6 @@ class Login extends Component {
         onChange={this.handleChange}
         loading={this.state.loading}
         errors={this.state.errors}
-        modal={this.props.modal}
         onLoggedIn={this.props.onLoggedIn}
       />
     );
@@ -81,12 +75,10 @@ class Login extends Component {
 }
 
 Login.defaultProps = {
-  modal: false,
   onLoggedIn: null,
 };
 
 Login.propTypes = {
-  modal: PropTypes.bool,
   onLoggedIn: PropTypes.func,
   userSignedIn: PropTypes.func.isRequired,
 };
