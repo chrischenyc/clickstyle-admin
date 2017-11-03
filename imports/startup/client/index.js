@@ -1,0 +1,1 @@
+import '../slingshot-restrictions';

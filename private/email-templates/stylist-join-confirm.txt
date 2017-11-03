@@ -1,0 +1,14 @@
+Hey, {{firstName}}!
+
+Thanks for you interest in becoming a stylist on {{applicationName}}! This is to confirm that we have received your application.
+
+What's next? 
+Please sit back and relax. We will contact your shortly to sort everything out. Meanwhile, if you have any question, feel free to contact us.
+
+Why join as a stylist on {{applicationName}}? 
+TBD
+
+
+Cheers, 
+{{applicationName}} Team
+{{supportEmail}}
