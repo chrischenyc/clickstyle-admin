@@ -40,6 +40,7 @@ const StylistsApplicationsPage = props => (
         <Table.Row>
           <Table.HeaderCell>Date</Table.HeaderCell>
           <Table.HeaderCell>Name</Table.HeaderCell>
+          <Table.HeaderCell>Mobile</Table.HeaderCell>
           <Table.HeaderCell>Email</Table.HeaderCell>
           <Table.HeaderCell>Services</Table.HeaderCell>
           <Table.HeaderCell>Status</Table.HeaderCell>
@@ -55,9 +56,10 @@ const StylistsApplicationsPage = props => (
             }}
           >
             <Table.Cell>{formatDateTime(application.createdAt)}</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
+            <Table.Cell>name</Table.Cell>
+            <Table.Cell>{application.mobile}</Table.Cell>
+            <Table.Cell>email</Table.Cell>
+            <Table.Cell>services</Table.Cell>
             <Table.Cell>{application.approved ? 'approved' : 'pending'}</Table.Cell>
           </Table.Row>
         ))}
