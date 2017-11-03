@@ -1,13 +1,5 @@
 # Stylesquad admin app
 
-## Important
-
-This project re-uses some source files from stylesquad-web project. In order to run this admin app, follow these steps if they haven't been done:
-
-1. place it inside `stylesquad-web` folder
-2. add `stylesquad-admin/` to `.gitignore` file in `stylesquad-web` folder
-3. add `stylesquad-admin/` to `.meteorignore` file in `stylesquad-web` folder
-
 ## Running on local machine
 
 `npm install` (don't use yarn, Meteor doesn't work well with yarn)
