@@ -7,9 +7,6 @@ import _ from 'lodash';
 
 import ModalLink from '../../../components/ModalLink';
 import FormInputField from '../../../components/FormInputField';
-import SocialLoginButtons from '../../../components/SocialLoginButtons';
-import SignUp from '../SignUp/SignUp';
-import ForgotPassword from '../ForgotPassword/ForgotPassword';
 
 // web version of the login form, stateless component
 const LoginPage = ({
@@ -19,8 +16,6 @@ const LoginPage = ({
     <Grid.Row style={{ maxWidth: 450 }}>
       <Grid.Column>
         <Segment attached>
-          <SocialLoginButtons onLoggedIn={onLoggedIn} />
-
           <Divider horizontal>or</Divider>
 
           <Form onSubmit={onSubmit} loading={loading} error={!_.isEmpty(errors)}>
@@ -54,32 +49,7 @@ const LoginPage = ({
 
             {!_.isEmpty(errors.message) && <Message error content={errors.message} />}
           </Form>
-
-          {modal ? (
-            <ModalLink to="/forgot-password" component={<ForgotPassword modal />}>
-              <p style={{ margin: '0.5rem 0' }}>Forgot password?</p>
-            </ModalLink>
-          ) : (
-            <Link to="/forgot-password">
-              <p style={{ margin: '0.5rem 0' }}>Forgot password?</p>
-            </Link>
-          )}
         </Segment>
-
-        <Message attached="bottom" size="large">
-          {"Don't have an account? "}
-          {modal ? (
-            <ModalLink
-              to="/signup"
-              component={<SignUp modal onLoggedIn={onLoggedIn} />}
-              title="Join us"
-            >
-              Sign up
-            </ModalLink>
-          ) : (
-            <Link to="/signup">Sign up</Link>
-          )}
-        </Message>
       </Grid.Column>
     </Grid.Row>
   </Grid>

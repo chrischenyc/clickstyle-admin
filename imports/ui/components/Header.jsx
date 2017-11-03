@@ -8,7 +8,6 @@ import { Container, Menu, Dropdown, Responsive } from 'semantic-ui-react';
 import { closeModal } from '../../modules/client/redux/modal';
 import ModalLink from '../components/ModalLink';
 import Login from '../layouts/user/Login/Login';
-import SignUp from '../layouts/user/SignUp/SignUp';
 
 const StylistLandingPageLink = () => (
   <Menu.Item as={Link} to="/stylists">
@@ -44,22 +43,6 @@ const Header = props => (
       ) : (
         <Menu.Menu position="right">
           {!props.isStylist && <StylistLandingPageLink />}
-
-          <Menu.Item
-            as={ModalLink}
-            to="/signup"
-            component={
-              <SignUp
-                modal
-                onLoggedIn={() => {
-                  props.closeModal();
-                }}
-              />
-            }
-            title="Join us"
-          >
-            Sign Up
-          </Menu.Item>
 
           <Menu.Item
             as={ModalLink}

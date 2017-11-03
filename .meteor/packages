@@ -23,14 +23,10 @@ audit-argument-checks@1.0.7           # require that all arguments passed to met
 ddp-rate-limiter@1.0.7                # client call throttle
 service-configuration@1.0.11           # configure third-party oAuth
 accounts-password@1.5.0               # email sign up / sign in
-accounts-facebook@1.3.0               # facebook sign in
-accounts-google@1.3.0                 # google sign in
 
 alanning:roles                  # user roles
 aldeed:collection2              # attache SimpleSchema to Meteor Collection
 zimme:collection-timestampable  # attache createdAt/updatedAt fields to Meteor Collection
 react-meteor-data               # Meteor reactive data -> React props
-splendido:accounts-meld         # merge social sign in accounts with password accounts
-
 edgee:slingshot                 # file upload
 jimmiebtlr:slingshot-cloudinary # support uploading to cloudinary
