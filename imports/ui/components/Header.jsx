@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Container, Menu, Dropdown, Responsive } from 'semantic-ui-react';
 
 const Header = props => (
-  <Responsive as={Menu} fixed="top" size="massive" inverted borderless stackable>
+  <Responsive as={Menu} fixed="top" inverted borderless stackable>
     <Container fluid style={{ paddingLeft: '1rem', paddingRight: '1rem' }}>
       <Menu.Item as={Link} to="/">
         {Meteor.settings.public.applicationName}

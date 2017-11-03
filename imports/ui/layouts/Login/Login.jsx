@@ -56,6 +56,7 @@ class Login extends Component {
           });
 
           this.props.userSignedIn(Meteor.user());
+          this.props.history.push('/');
         }
       });
     }
@@ -68,18 +69,12 @@ class Login extends Component {
         onChange={this.handleChange}
         loading={this.state.loading}
         errors={this.state.errors}
-        onLoggedIn={this.props.onLoggedIn}
       />
     );
   }
 }
 
-Login.defaultProps = {
-  onLoggedIn: null,
-};
-
 Login.propTypes = {
-  onLoggedIn: PropTypes.func,
   userSignedIn: PropTypes.func.isRequired,
 };
 

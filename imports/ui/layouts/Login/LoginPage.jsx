@@ -22,7 +22,6 @@ const LoginPage = ({
               placeholder="Email address"
               type="email"
               name="email"
-              size="huge"
               onChange={onChange}
               errors={errors}
             />
@@ -34,12 +33,11 @@ const LoginPage = ({
               placeholder="Password"
               type="password"
               name="password"
-              size="huge"
               onChange={onChange}
               errors={errors}
             />
 
-            <Button color={Meteor.settings.public.semantic.color} fluid size="huge" type="submit">
+            <Button color={Meteor.settings.public.semantic.color} fluid type="submit">
               Login
             </Button>
 
