@@ -15,6 +15,7 @@ import SideMenuContainer from '../components/SideMenuContainer';
 
 import Login from '../layouts/Login/Login';
 import DashboardPage from '../layouts/DashboardPage';
+import StylistsApplications from '../layouts/Stylists/StylistsApplications/StylistsApplications';
 
 class App extends Component {
   // after web App is refreshed, try to fetch Meteor user data then update redux states
@@ -55,9 +56,19 @@ class App extends Component {
               )}
             />
 
-            <Route path="/login" component={Login} />
+            <SecureRoute
+              exact
+              path="/stylists/applications"
+              component={() => (
+                <SideMenuContainer>
+                  <StylistsApplications />
+                </SideMenuContainer>
+              )}
+            />
 
-            <Route component={Login} />
+            <Route exact path="/login" component={Login} />
+
+            <Route component={() => <p className="below-fixed-menu">404 not found</p>} />
           </Switch>
         </div>
       </Router>

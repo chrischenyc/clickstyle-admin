@@ -13,6 +13,15 @@ const SideMenu = () => (
         </Menu.Item>
       </Menu.Menu>
     </Menu.Item>
+
+    <Menu.Item>
+      <Menu.Header>Stylists</Menu.Header>
+      <Menu.Menu>
+        <Menu.Item as={NavLink} to="/stylists/applications">
+          Applications
+        </Menu.Item>
+      </Menu.Menu>
+    </Menu.Item>
   </Menu>
 );
 
