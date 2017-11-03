@@ -4,10 +4,11 @@
   "description": "Stylesquad.com admin app",
   "private": true,
   "author": "Chris Chen",
-  "contributors": ["Chris Chen <chrischen79@gmail.com>"],
+  "contributors": [
+    "Chris Chen <chrischen79@gmail.com>"
+  ],
   "scripts": {
-    "dev":
-      "MONGO_URL=mongodb://localhost:27017/stylesquad  meteor -s settings-development.json --port 4000",
+    "dev": "MONGO_URL=mongodb://localhost:27017/stylesquad  meteor -s settings-development.json --port 4000",
     "start": "meteor run"
   },
   "dependencies": {

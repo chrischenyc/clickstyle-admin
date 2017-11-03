@@ -37,15 +37,13 @@ StylistsApplications.defaultProps = {
 };
 
 StylistApplications.propTypes = {
-  loading: PropTypes.bool.isRequired,
   applications: PropTypes.array,
 };
 
 export default withTracker(() => {
-  const handle = Meteor.subscribe('stylists.applications');
+  Meteor.subscribe('stylists.applications');
 
   return {
-    loading: !handle.ready(),
     applications: StylistApplications.find({}).fetch(),
   };
 })(StylistsApplications);
