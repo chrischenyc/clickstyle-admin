@@ -31,7 +31,6 @@ const reducer = (state = defaultState, action) => {
           meteorUser.emails.length > 0 &&
           meteorUser.emails[0].verified,
         roles: meteorUser && meteorUser.roles,
-        isStylist: meteorUser && meteorUser.roles && meteorUser.roles.indexOf('stylist') > -1,
       };
     }
 
