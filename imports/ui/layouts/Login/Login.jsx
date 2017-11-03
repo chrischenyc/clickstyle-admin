@@ -55,8 +55,12 @@ class Login extends Component {
             errors: {},
           });
 
-          this.props.userSignedIn(Meteor.user());
-          this.props.history.push('/');
+          if (Meteor.user().roles.indexOf('admin') >= 0) {
+            this.props.userSignedIn(Meteor.user());
+            this.props.history.push('/');
+          } else {
+            Meteor.logout();
+          }
         }
       });
     }

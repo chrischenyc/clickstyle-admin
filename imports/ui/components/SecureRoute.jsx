@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 // passed to the component via <App /> component.
 
 const SecureRoute = ({ authenticated, component, ...rest }) => {
-  if (authenticated) {
+  if (authenticated && roles.indexOf('admin') >= 0) {
     return <Route component={component} {...rest} />;
   }
 
@@ -24,5 +24,6 @@ SecureRoute.propTypes = {
 
 const mapStateToProps = state => ({
   authenticated: state.user.authenticated,
+  roles: state.user.roles,
 });
 export default connect(mapStateToProps)(SecureRoute);
