@@ -3,7 +3,9 @@ import { withTracker } from 'meteor/react-meteor-data';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import StylistApplications from '../../../../api/stylist_applications/stylist_applications.js';
+import StylistApplications from '../../../../api/stylist_applications/stylist_applications';
+import Profiles from '../../../../api/profiles/profiles';
+import Services from '../../../../api/services/services';
 import StylistsApplicationsPage from './StylistsApplicationsPage';
 
 class StylistsApplications extends Component {
@@ -44,6 +46,21 @@ export default withTracker(() => {
   Meteor.subscribe('stylists.applications');
 
   return {
-    applications: StylistApplications.find({}).fetch(),
+    applications: StylistApplications.find(
+      {},
+      {
+        transform: (application) => {
+          const profile = Profiles.findOne({ owner: application.userId });
+          const services = Services.find({ _id: { $in: application.services } });
+
+          return {
+            ...application,
+            email: profile.email,
+            name: `${profile.name.first} ${profile.name.last}`,
+            services: services.map(service => service.name),
+          };
+        },
+      },
+    ).fetch(),
   };
 })(StylistsApplications);
