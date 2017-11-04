@@ -1,12 +1,9 @@
 import { Meteor } from 'meteor/meteor';
-import { withTracker } from 'meteor/react-meteor-data';
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { Container, Header } from 'semantic-ui-react';
 
-import StylistApplications from '../../../../api/stylist_applications/stylist_applications';
-import Profiles from '../../../../api/profiles/profiles';
-import Services from '../../../../api/services/services';
-import StylistsApplicationsPage from './StylistsApplicationsPage';
+import StylistsApplicationsFilters from './StylistsApplicationsFilters';
+import StylistsApplicationsList from './StylistsApplicationsList';
 
 class StylistsApplications extends Component {
   constructor(props) {
@@ -25,42 +22,13 @@ class StylistsApplications extends Component {
 
   render() {
     return (
-      <StylistsApplicationsPage
-        filter={this.state.filter}
-        onFilter={this.handleFilter}
-        applications={this.props.applications}
-      />
+      <Container>
+        <Header as="h2">Stylists Applications</Header>
+        <StylistsApplicationsFilters filter={this.state.filter} onFilter={this.handleFilter} />
+        <StylistsApplicationsList filter={this.state.filter} />
+      </Container>
     );
   }
 }
 
-StylistsApplications.defaultProps = {
-  applications: [],
-};
-
-StylistApplications.propTypes = {
-  applications: PropTypes.array,
-};
-
-export default withTracker(() => {
-  Meteor.subscribe('stylists.applications');
-
-  return {
-    applications: StylistApplications.find(
-      {},
-      {
-        transform: (application) => {
-          const profile = Profiles.findOne({ owner: application.userId });
-          const services = Services.find({ _id: { $in: application.services } });
-
-          return {
-            ...application,
-            email: profile.email,
-            name: `${profile.name.first} ${profile.name.last}`,
-            services: services.map(service => service.name),
-          };
-        },
-      },
-    ).fetch(),
-  };
-})(StylistsApplications);
+export default StylistsApplications;
