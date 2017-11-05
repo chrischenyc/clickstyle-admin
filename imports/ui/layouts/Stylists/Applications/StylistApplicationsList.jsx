@@ -72,7 +72,7 @@ export default withTracker((props) => {
     {
       transform: (application) => {
         const profile = Profiles.findOne({ owner: application.userId });
-        const services = Services.find({ _id: { $in: application.services } });
+        const services = Services.find({ _id: { $in: application.services } }).fetch();
 
         return {
           ...application,
