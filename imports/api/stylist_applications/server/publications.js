@@ -7,8 +7,14 @@ import StylistApplications from '../stylist_applications';
 import Profiles from '../../profiles/profiles';
 import Services from '../../services/services';
 
-Meteor.publishComposite('stylists.applications', function stylistsApplications(filter) {
+Meteor.publishComposite('stylists.applications', function stylistsApplications(
+  filter,
+  page = 0,
+  limit,
+) {
   check(filter, String);
+  check(page, Number);
+  check(limit, Number);
 
   if (['all', 'pending', 'approved'].indexOf(filter) === -1) {
     return null;
@@ -30,6 +36,8 @@ Meteor.publishComposite('stylists.applications', function stylistsApplications(f
       return StylistApplications.find(selector, {
         sort: { createdAt: -1 },
         fields: { address: 0, qualificationUrl: 0, referenceUrl: 0 },
+        limit,
+        skip: page * limit,
       });
     },
     children: [
