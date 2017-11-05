@@ -59,15 +59,7 @@ class App extends Component {
               )}
             />
 
-            <SecureRoute
-              exact
-              path="/stylists/applications/:id"
-              component={() => (
-                <SideMenuContainer>
-                  <StylistApplication />
-                </SideMenuContainer>
-              )}
-            />
+            <SecureRoute exact path="/stylists/applications/:id" component={StylistApplication} />
 
             <Route exact path="/login" component={Login} />
 

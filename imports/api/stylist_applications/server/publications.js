@@ -57,3 +57,29 @@ Meteor.publishComposite('stylist.applications', function stylistApplications(
     ],
   };
 });
+
+Meteor.publishComposite('stylist.application', function stylistApplication(_id) {
+  check(_id, String);
+
+  if (!Roles.userIsInRole(this.userId, Meteor.settings.public.roles.admin)) {
+    return null;
+  }
+
+  return {
+    find() {
+      return StylistApplications.find({ _id });
+    },
+    children: [
+      {
+        find(application) {
+          return Profiles.find({ owner: application.userId });
+        },
+      },
+      {
+        find(application) {
+          return Services.find({ _id: { $in: application.services } }, { fields: { name: 1 } });
+        },
+      },
+    ],
+  };
+});
