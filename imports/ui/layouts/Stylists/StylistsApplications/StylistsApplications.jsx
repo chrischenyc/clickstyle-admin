@@ -27,7 +27,7 @@ class StylistsApplications extends Component {
   render() {
     return (
       <Container>
-        <Header as="h2">Stylists Applications</Header>
+        <Header as="h2">Stylists Applications - {this.state.filter} </Header>
 
         <StylistsApplicationsFilters filter={this.state.filter} onFilter={this.handleFilter} />
 
