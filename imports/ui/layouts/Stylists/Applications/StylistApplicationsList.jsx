@@ -65,7 +65,7 @@ StylistApplicationsList.propTypes = {
 };
 
 export default withTracker((props) => {
-  Meteor.subscribe('stylists.applications', props.filter, props.page, props.limit);
+  Meteor.subscribe('stylist.applications', props.filter, props.page, props.limit);
 
   const applications = StylistApplications.find(
     {},

@@ -7,7 +7,7 @@ import StylistApplications from '../stylist_applications';
 import Profiles from '../../profiles/profiles';
 import Services from '../../services/services';
 
-Meteor.publishComposite('stylists.applications', function stylistsApplications(
+Meteor.publishComposite('stylist.applications', function stylistApplications(
   filter,
   page = 0,
   limit,
