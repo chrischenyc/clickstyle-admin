@@ -80,6 +80,11 @@ Meteor.publishComposite('stylist.application', function stylistApplication(_id) 
           return Services.find({ _id: { $in: application.services } }, { fields: { name: 1 } });
         },
       },
+      {
+        find(application) {
+          return Meteor.users.find({ _id: application.approvedBy }, { fields: { profile: 1 } });
+        },
+      },
     ],
   };
 });

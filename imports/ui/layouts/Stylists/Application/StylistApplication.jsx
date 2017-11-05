@@ -68,11 +68,13 @@ export default withTracker((props) => {
       transform: (doc) => {
         const profile = Profiles.findOne({ owner: doc.userId });
         const services = Services.find({ _id: { $in: doc.services } }).fetch();
+        const approvedByUser = Meteor.users.findOne({ _id: doc.approvedBy });
 
         return {
           ...doc,
           profile,
           services,
+          approvedByUser,
         };
       },
     },

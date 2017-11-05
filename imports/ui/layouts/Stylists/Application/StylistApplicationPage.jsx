@@ -26,6 +26,7 @@ const StylistApplicationPage = (props) => {
     approved,
     approvedAt,
     approvedBy,
+    approvedByUser,
   } = props.application;
   const photoOriginURL = profile.photo && profile.photo.origin ? profile.photo.origin : null;
   const photoURL = photoOriginURL || Meteor.settings.public.image.defaultProfilePhoto;
@@ -86,8 +87,9 @@ const StylistApplicationPage = (props) => {
       {approved ? (
         <Message info>
           <p>
-            Application was approved by <Link to={`/users/${approvedBy}`}>
-              {approvedBy}
+            Application was approved by{' '}
+            <Link to={`/users/${approvedBy}`}>
+              {approvedByUser.profile.name.first}
             </Link>&nbsp;on&nbsp;
             {formatDateTime(approvedAt)}.
           </p>
