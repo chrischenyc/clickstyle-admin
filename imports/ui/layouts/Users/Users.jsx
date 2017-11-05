@@ -2,19 +2,19 @@ import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
 import { Container, Header } from 'semantic-ui-react';
 
-import StylistApplicationsFilters from './StylistApplicationsFilters';
-import StylistApplicationsList from './StylistApplicationsList';
-import Pagination from '../../../components/Pagination';
-import SideMenuContainer from '../../../components/SideMenuContainer';
+import UsersFilters from './UsersFilters';
+import UsersList from './UsersList';
+import Pagination from '../../components/Pagination';
+import SideMenuContainer from '../../components/SideMenuContainer';
 
-class StylistApplications extends Component {
+class Users extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      filter: 'pending',
+      filter: 'customer',
       page: 0,
-      limit: 25,
+      limit: 50,
       hasMore: false,
     };
 
@@ -29,11 +29,11 @@ class StylistApplications extends Component {
     return (
       <SideMenuContainer>
         <Container>
-          <Header as="h2">Stylists Applications - {this.state.filter} </Header>
+          <Header as="h2">Users Management - {this.state.filter} </Header>
 
-          <StylistApplicationsFilters filter={this.state.filter} onFilter={this.handleFilter} />
+          <UsersFilters filter={this.state.filter} onFilter={this.handleFilter} />
 
-          <StylistApplicationsList
+          <UsersList
             filter={this.state.filter}
             page={this.state.page}
             limit={this.state.limit}
@@ -62,4 +62,4 @@ class StylistApplications extends Component {
   }
 }
 
-export default StylistApplications;
+export default Users;

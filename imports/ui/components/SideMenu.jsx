@@ -8,8 +8,11 @@ const SideMenu = () => (
     <Menu.Item>
       <Menu.Header>Admin</Menu.Header>
       <Menu.Menu>
-        <Menu.Item as={NavLink} to="/">
+        <Menu.Item as={NavLink} to="/dashboard">
           Dashboard
+        </Menu.Item>
+        <Menu.Item as={NavLink} to="/users">
+          Users management
         </Menu.Item>
       </Menu.Menu>
     </Menu.Item>

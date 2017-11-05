@@ -15,6 +15,8 @@ import Login from '../layouts/Login/Login';
 import DashboardPage from '../layouts/DashboardPage';
 import StylistApplications from '../layouts/Stylists/Applications/StylistApplications';
 import StylistApplication from '../layouts/Stylists/Application/StylistApplication';
+import Users from '../layouts/Users/Users';
+import User from '../layouts/Users/User/User';
 
 class App extends Component {
   // after web App is refreshed, try to fetch Meteor user data then update redux states
@@ -39,26 +41,13 @@ class App extends Component {
           <Header />
 
           <Switch>
-            <SecureRoute
-              exact
-              path="/"
-              component={() => (
-                <SideMenuContainer>
-                  <DashboardPage />
-                </SideMenuContainer>
-              )}
-            />
+            <SecureRoute exact path="/" component={DashboardPage} />
+            <SecureRoute exact path="/dashboard" component={DashboardPage} />
 
-            <SecureRoute
-              exact
-              path="/stylists/applications"
-              component={() => (
-                <SideMenuContainer>
-                  <StylistApplications />
-                </SideMenuContainer>
-              )}
-            />
+            <SecureRoute exact path="/users" component={Users} />
+            <SecureRoute exact path="/users/:id" component={User} />
 
+            <SecureRoute exact path="/stylists/applications" component={StylistApplications} />
             <SecureRoute exact path="/stylists/applications/:id" component={StylistApplication} />
 
             <Route exact path="/login" component={Login} />
