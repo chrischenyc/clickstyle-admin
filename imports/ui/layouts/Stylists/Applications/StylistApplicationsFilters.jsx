@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-const StylistsApplicationsFilters = props => (
+const StylistApplicationsFilters = props => (
   <Button.Group>
     <Button
       active={props.filter === 'pending'}
@@ -31,9 +31,9 @@ const StylistsApplicationsFilters = props => (
   </Button.Group>
 );
 
-StylistsApplicationsFilters.propTypes = {
+StylistApplicationsFilters.propTypes = {
   filter: PropTypes.string.isRequired,
   onFilter: PropTypes.func.isRequired,
 };
 
-export default StylistsApplicationsFilters;
+export default StylistApplicationsFilters;

@@ -3,13 +3,14 @@ import { withTracker } from 'meteor/react-meteor-data';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 import { formatDateTime } from '../../../../modules/format-date';
 import StylistApplications from '../../../../api/stylist_applications/stylist_applications';
 import Profiles from '../../../../api/profiles/profiles';
 import Services from '../../../../api/services/services';
 
-class StylistsApplicationsList extends Component {
+class StylistApplicationsList extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.applications.length !== this.props.applications.length) {
       this.props.onDataLoaded(nextProps.applications.length === this.props.limit);
@@ -32,18 +33,17 @@ class StylistsApplicationsList extends Component {
 
         <Table.Body>
           {this.props.applications.map(application => (
-            <Table.Row
-              key={application._id}
-              onClick={() => {
-                console.log(application);
-              }}
-            >
+            <Table.Row key={application._id}>
               <Table.Cell>{formatDateTime(application.createdAt)}</Table.Cell>
               <Table.Cell>{application.name}</Table.Cell>
               <Table.Cell>{application.mobile}</Table.Cell>
               <Table.Cell>{application.email}</Table.Cell>
               <Table.Cell>{application.services.join(', ')}</Table.Cell>
-              <Table.Cell>{application.approved ? 'approved' : 'pending'}</Table.Cell>
+              <Table.Cell>
+                <Link to={`/stylists/applications/${application._id}`}>
+                  {application.approved ? 'approved' : 'pending'}
+                </Link>{' '}
+              </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
@@ -52,11 +52,11 @@ class StylistsApplicationsList extends Component {
   }
 }
 
-StylistsApplicationsList.defaultProps = {
+StylistApplicationsList.defaultProps = {
   applications: [],
 };
 
-StylistsApplicationsList.propTypes = {
+StylistApplicationsList.propTypes = {
   applications: PropTypes.array,
   filter: PropTypes.string.isRequired,
   page: PropTypes.number.isRequired,
@@ -87,4 +87,4 @@ export default withTracker((props) => {
   return {
     applications,
   };
-})(StylistsApplicationsList);
+})(StylistApplicationsList);

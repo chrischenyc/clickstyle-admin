@@ -13,7 +13,8 @@ import SideMenuContainer from '../components/SideMenuContainer';
 
 import Login from '../layouts/Login/Login';
 import DashboardPage from '../layouts/DashboardPage';
-import StylistsApplications from '../layouts/Stylists/StylistsApplications/StylistsApplications';
+import StylistApplications from '../layouts/Stylists/Applications/StylistApplications';
+import StylistApplication from '../layouts/Stylists/Application/StylistApplication';
 
 class App extends Component {
   // after web App is refreshed, try to fetch Meteor user data then update redux states
@@ -53,7 +54,17 @@ class App extends Component {
               path="/stylists/applications"
               component={() => (
                 <SideMenuContainer>
-                  <StylistsApplications />
+                  <StylistApplications />
+                </SideMenuContainer>
+              )}
+            />
+
+            <SecureRoute
+              exact
+              path="/stylists/applications/:id"
+              component={() => (
+                <SideMenuContainer>
+                  <StylistApplication />
                 </SideMenuContainer>
               )}
             />

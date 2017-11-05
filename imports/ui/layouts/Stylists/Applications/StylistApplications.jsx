@@ -2,11 +2,11 @@ import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
 import { Container, Header } from 'semantic-ui-react';
 
-import StylistsApplicationsFilters from './StylistsApplicationsFilters';
-import StylistsApplicationsList from './StylistsApplicationsList';
+import StylistApplicationsFilters from './StylistApplicationsFilters';
+import StylistApplicationsList from './StylistApplicationsList';
 import Pagination from '../../../components/Pagination';
 
-class StylistsApplications extends Component {
+class StylistApplications extends Component {
   constructor(props) {
     super(props);
 
@@ -29,9 +29,9 @@ class StylistsApplications extends Component {
       <Container>
         <Header as="h2">Stylists Applications - {this.state.filter} </Header>
 
-        <StylistsApplicationsFilters filter={this.state.filter} onFilter={this.handleFilter} />
+        <StylistApplicationsFilters filter={this.state.filter} onFilter={this.handleFilter} />
 
-        <StylistsApplicationsList
+        <StylistApplicationsList
           filter={this.state.filter}
           page={this.state.page}
           limit={this.state.limit}
@@ -59,4 +59,4 @@ class StylistsApplications extends Component {
   }
 }
 
-export default StylistsApplications;
+export default StylistApplications;
