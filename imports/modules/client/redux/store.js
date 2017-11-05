@@ -1,10 +1,8 @@
 import { createStore, combineReducers } from 'redux';
 import user from './user';
-import profile from './profile';
 
 const reducer = combineReducers({
   user,
-  profile,
 });
 
 /* eslint-disable no-underscore-dangle */

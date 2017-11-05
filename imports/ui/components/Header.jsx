@@ -13,7 +13,7 @@ const Header = props => (
       </Menu.Item>
       {props.authenticated ? (
         <Menu.Menu position="right">
-          <Dropdown text={props.firstName || 'Account'} className="item">
+          <Dropdown text="Account" className="item">
             <Dropdown.Menu>
               <Dropdown.Item as={Link} to="/" text="Dashboard" />
               <Dropdown.Item
@@ -36,18 +36,12 @@ const Header = props => (
   </Responsive>
 );
 
-Header.defaultProps = {
-  firstName: null,
-};
-
 Header.propTypes = {
   authenticated: PropTypes.bool.isRequired,
-  firstName: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
   authenticated: state.user.authenticated,
-  firstName: state.profile.name && state.profile.name.first,
 });
 
 export default connect(mapStateToProps)(Header);

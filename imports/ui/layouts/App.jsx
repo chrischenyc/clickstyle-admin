@@ -5,9 +5,7 @@ import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Profiles from '../../api/profiles/profiles';
 import { userSignedIn, userSignedOut } from '../../modules/client/redux/user';
-import { fetchProfile } from '../../modules/client/redux/profile';
 
 import SecureRoute from '../components/SecureRoute';
 import Header from '../components/Header';
@@ -30,12 +28,6 @@ class App extends Component {
           this.props.userSignedOut();
         }
       }
-
-      // get user profile
-      const handle = Meteor.subscribe('profiles.owner');
-      const fetching = !handle.ready();
-      const profile = Profiles.findOne({});
-      this.props.fetchProfile(fetching, profile);
     });
   }
 
@@ -79,11 +71,9 @@ class App extends Component {
 App.propTypes = {
   userSignedIn: PropTypes.func.isRequired,
   userSignedOut: PropTypes.func.isRequired,
-  fetchProfile: PropTypes.func.isRequired,
 };
 
 export default connect(null, {
   userSignedIn,
   userSignedOut,
-  fetchProfile,
 })(App);
