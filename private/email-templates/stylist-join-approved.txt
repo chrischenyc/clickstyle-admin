@@ -1,0 +1,14 @@
+Hey, {{firstName}}!
+
+Good new! You've become a stylist on {{applicationName}}!
+
+What's next? 
+TBD
+
+Why join as a stylist on {{applicationName}}? 
+TBD
+
+
+Cheers, 
+{{applicationName}} Team
+{{supportEmail}}

@@ -43,3 +43,21 @@ const sendEmail = ({
 // helpers
 const { applicationName, supportEmail } = Meteor.settings.public;
 const fromAddress = `${applicationName} <${supportEmail}>`;
+
+export const sendStylistJoinApprovedEmail = (userId) => {
+  const profile = Profiles.findOne({ owner: userId });
+
+  sendEmail({
+    to: profile.email,
+    from: fromAddress,
+    subject: `Congrats! You are now a stylist on ${applicationName}`,
+    template: 'stylist-join-approved',
+    templateVars: {
+      applicationName,
+      firstName: profile.name.first,
+      supportEmail,
+    },
+  }).catch((error) => {
+    throw new Meteor.Error('500', `${error}`);
+  });
+};

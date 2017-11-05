@@ -1,42 +1,32 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
+import { Roles } from 'meteor/alanning:roles';
 import rateLimit from '../../../modules/server/rate-limit';
 import StylistApplications from '../stylist_applications';
-import { sendStylistJoinConfirmEmail } from '../../../modules/server/send-email';
+import { sendStylistJoinApprovedEmail } from '../../../modules/server/send-email';
 
 Meteor.methods({
-  'stylists.join': function stylistsJoin(data) {
-    if (!this.userId) {
+  'stylist.application.approve': function stylistApplicationApprove(data) {
+    check(data, Object);
+    const { applicationId, userId } = data;
+    check(applicationId, String);
+    check(userId, String);
+
+    if (!Roles.userIsInRole(this.userId, Meteor.settings.public.roles.admin)) {
       throw new Meteor.Error(403, 'unauthorized');
     }
 
-    check(data, Object);
-    const {
-      mobile, address, services, qualificationUrl, referenceUrl,
-    } = data;
-
     try {
-      check(mobile, String);
-      check(address, String);
-      check(services, Array);
-      if (qualificationUrl) {
-        check(qualificationUrl, String);
-      }
-      check(referenceUrl, String);
-
-      StylistApplications.insert(
+      StylistApplications.update(
+        { _id: applicationId },
         {
-          userId: this.userId,
-          mobile,
-          address,
-          services,
-          qualificationUrl,
-          referenceUrl,
-          approved: false,
+          $set: { approved: true, approvedBy: this.userId, approvedAt: Date.now() },
         },
         (error) => {
           if (!error) {
-            sendStylistJoinConfirmEmail(this.userId);
+            Roles.addUsersToRoles(userId, [Meteor.settings.public.roles.stylist]);
+
+            sendStylistJoinApprovedEmail(userId);
           }
         },
       );
@@ -50,7 +40,7 @@ Meteor.methods({
 });
 
 rateLimit({
-  methods: ['stylists.join'],
+  methods: ['stylist.application.approve'],
   limit: 5,
   timeRange: 1000,
 });
