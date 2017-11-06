@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
 
 const SideMenu = () => (
-  <Menu secondary vertical color={Meteor.settings.public.semantic.color} stackable>
+  <Menu secondary vertical color={Meteor.settings.public.semantic.color} stackable size="massive">
     <Menu.Item>
       <Menu.Header>Admin</Menu.Header>
       <Menu.Menu>
