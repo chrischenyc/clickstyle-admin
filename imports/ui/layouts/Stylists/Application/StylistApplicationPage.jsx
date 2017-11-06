@@ -29,13 +29,13 @@ const StylistApplicationPage = (props) => {
     approvedBy,
     approvedByUser,
   } = props.application;
-  const photoOriginURL = profile.photo && profile.photo.origin ? profile.photo.origin : null;
-  const photoURL = photoOriginURL || Meteor.settings.public.image.defaultProfilePhoto;
+
+  const photoURL = profile.photo || Meteor.settings.public.image.defaultProfilePhoto;
 
   return (
     <Container>
       <Segment>
-        <Image src={ScaledImageURL(photoURL, 'medium')} size="small" />
+        <Image src={ScaledImageURL(photoURL, 'medium')} size="medium" />
         <Header as="h1">{`${profile.name.first} ${profile.name.last}`}</Header>
         <div>
           Email:&nbsp;
