@@ -22,14 +22,11 @@ Meteor.publishComposite('users', function users(filter, page = 0, limit) {
     find() {
       const selector = {};
       if (filter === 'customer') {
-        selector.roles = [Meteor.settings.public.roles.customer];
+        selector.roles = Meteor.settings.public.roles.customer;
       } else if (filter === 'stylist') {
-        selector.roles = [
-          Meteor.settings.public.roles.customer,
-          Meteor.settings.public.roles.stylist,
-        ];
+        selector.roles = Meteor.settings.public.roles.stylist;
       } else if (filter === 'admin') {
-        selector.roles = { $all: [Meteor.settings.public.roles.admin] };
+        selector.roles = Meteor.settings.public.roles.admin;
       }
 
       return Meteor.users.find(selector, {

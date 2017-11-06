@@ -61,7 +61,7 @@ export default withTracker((props) => {
 
   const users = Meteor.users
     .find(
-      {},
+      { _id: { $exists: true } },
       {
         sort: { createdAt: 1 },
         transform: (user) => {
@@ -79,7 +79,8 @@ export default withTracker((props) => {
         },
       },
     )
-    .fetch();
+    .fetch()
+    .filter(user => user.name !== null && user.name !== undefined);
 
   return {
     users,
