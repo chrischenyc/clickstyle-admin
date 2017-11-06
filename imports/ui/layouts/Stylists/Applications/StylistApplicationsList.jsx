@@ -22,28 +22,28 @@ class StylistApplicationsList extends Component {
       <Table celled selectable>
         <Table.Header>
           <Table.Row>
+            <Table.HeaderCell>Status</Table.HeaderCell>
             <Table.HeaderCell>Date</Table.HeaderCell>
             <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Mobile</Table.HeaderCell>
             <Table.HeaderCell>Email</Table.HeaderCell>
             <Table.HeaderCell>Services</Table.HeaderCell>
-            <Table.HeaderCell>Status</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
           {this.props.applications.map(application => (
             <Table.Row key={application._id}>
+              <Table.Cell>
+                <Link to={`/stylists/applications/${application._id}`}>
+                  {application.approved ? 'approved' : 'pending'}
+                </Link>
+              </Table.Cell>
               <Table.Cell>{formatDateTime(application.createdAt)}</Table.Cell>
               <Table.Cell>{application.name}</Table.Cell>
               <Table.Cell>{application.mobile}</Table.Cell>
               <Table.Cell>{application.email}</Table.Cell>
               <Table.Cell>{application.services.join(', ')}</Table.Cell>
-              <Table.Cell>
-                <Link to={`/stylists/applications/${application._id}`}>
-                  {application.approved ? 'approved' : 'pending'}
-                </Link>{' '}
-              </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
