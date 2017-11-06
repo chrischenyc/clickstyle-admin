@@ -13,7 +13,6 @@ class UsersList extends Component {
     if (nextProps.users.length !== this.props.users.length) {
       this.props.onDataLoaded(nextProps.users.length === this.props.limit);
     }
-    console.log(nextProps.users);
   }
 
   render() {

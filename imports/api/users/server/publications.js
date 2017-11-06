@@ -22,9 +22,12 @@ Meteor.publishComposite('users', function users(filter, page = 0, limit) {
     find() {
       const selector = {};
       if (filter === 'customer') {
-        selector.roles = { $all: [Meteor.settings.public.roles.customer] };
+        selector.roles = [Meteor.settings.public.roles.customer];
       } else if (filter === 'stylist') {
-        selector.roles = { $all: [Meteor.settings.public.roles.stylist] };
+        selector.roles = [
+          Meteor.settings.public.roles.customer,
+          Meteor.settings.public.roles.stylist,
+        ];
       } else if (filter === 'admin') {
         selector.roles = { $all: [Meteor.settings.public.roles.admin] };
       }
@@ -54,37 +57,6 @@ Meteor.publishComposite('users', function users(filter, page = 0, limit) {
               },
             },
           );
-        },
-      },
-    ],
-  };
-});
-
-Meteor.publishComposite('user', function user(_id) {
-  check(_id, String);
-
-  if (!Roles.userIsInRole(this.userId, Meteor.settings.public.roles.admin)) {
-    return null;
-  }
-
-  return {
-    find() {
-      return StylistApplications.find({ _id });
-    },
-    children: [
-      {
-        find(application) {
-          return Profiles.find({ owner: application.userId });
-        },
-      },
-      {
-        find(application) {
-          return Services.find({ _id: { $in: application.services } }, { fields: { name: 1 } });
-        },
-      },
-      {
-        find(application) {
-          return Meteor.users.find({ _id: application.approvedBy }, { fields: { profile: 1 } });
         },
       },
     ],
