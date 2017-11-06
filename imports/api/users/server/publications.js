@@ -74,8 +74,6 @@ Meteor.publishComposite('users', function users(filter, page = 0, limit) {
 });
 
 Meteor.publishComposite('user', function user(_id) {
-  check(_id, String);
-
   if (
     !Roles.userIsInRole(this.userId, [
       Meteor.settings.public.roles.admin,
@@ -84,6 +82,8 @@ Meteor.publishComposite('user', function user(_id) {
   ) {
     return null;
   }
+
+  check(_id, String);
 
   return {
     find() {
@@ -102,7 +102,19 @@ Meteor.publishComposite('user', function user(_id) {
     children: [
       {
         find(doc) {
-          return Profiles.find({ owner: doc._id });
+          return Profiles.find(
+            { owner: doc._id },
+            {
+              fields: {
+                owner: 1,
+                email: 1,
+                name: 1,
+                mobile: 1,
+                about: 1,
+                photo: 1,
+              },
+            },
+          );
         },
       },
     ],
