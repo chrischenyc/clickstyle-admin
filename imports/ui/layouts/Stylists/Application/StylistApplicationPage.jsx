@@ -52,7 +52,7 @@ const StylistApplicationPage = (props) => {
         <Grid>
           <Grid.Row>
             <Grid.Column width="6">
-              <Image src={ScaledImageURL(photoURL, 'small')} fluid />
+              <Image src={ScaledImageURL(photoURL, 'medium')} fluid />
             </Grid.Column>
             <Grid.Column width="10">
               <div>

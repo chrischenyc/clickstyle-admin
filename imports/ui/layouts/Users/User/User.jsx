@@ -3,9 +3,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import StylistApplications from '../../../../api/stylist_applications/stylist_applications';
 import Profiles from '../../../../api/profiles/profiles';
-import Services from '../../../../api/services/services';
 import SideMenuContainer from '../../../components/SideMenuContainer';
 import UserPage from './UserPage';
 
@@ -23,6 +21,7 @@ class User extends Component {
   handleApprove() {
     this.setState({ loading: true });
 
+    /*
     Meteor.call(
       'stylist.application.approve',
       { applicationId: this.props.application._id, userId: this.props.application.userId },
@@ -34,13 +33,14 @@ class User extends Component {
         }
       },
     );
+    */
   }
 
   render() {
     return (
       <SideMenuContainer>
         <UserPage
-          application={this.props.application}
+          user={this.props.user}
           onApprove={this.handleApprove}
           loading={this.state.loading}
           error={this.state.error}
@@ -51,36 +51,32 @@ class User extends Component {
 }
 
 User.defaultProps = {
-  application: null,
+  user: null,
 };
 
 User.propTypes = {
   match: PropTypes.object.isRequired,
-  application: PropTypes.object,
+  user: PropTypes.object,
 };
 
 export default withTracker((props) => {
-  Meteor.subscribe('stylist.application', props.match.params.id);
+  Meteor.subscribe('user', props.match.params.id);
 
-  const application = StylistApplications.findOne(
-    {},
+  const user = Meteor.users.findOne(
+    { _id: props.match.params.id },
     {
       transform: (doc) => {
-        const profile = Profiles.findOne({ owner: doc.userId });
-        const services = Services.find({ _id: { $in: doc.services } }).fetch();
-        const approvedByUser = Meteor.users.findOne({ _id: doc.approvedBy });
+        const profile = Profiles.findOne({ owner: doc._id });
 
         return {
           ...doc,
           profile,
-          services,
-          approvedByUser,
         };
       },
     },
   );
 
   return {
-    application,
+    user: user && user.profile && user,
   };
 })(User);

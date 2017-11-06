@@ -59,3 +59,34 @@ Meteor.publishComposite('users', function users(filter, page = 0, limit) {
     ],
   };
 });
+
+Meteor.publishComposite('user', function user(_id) {
+  check(_id, String);
+
+  if (!Roles.userIsInRole(this.userId, Meteor.settings.public.roles.admin)) {
+    return null;
+  }
+
+  return {
+    find() {
+      return Meteor.users.find(
+        { _id },
+        {
+          fields: {
+            profile: 0,
+            emails: 0,
+            registered_emails: 0,
+            services: 0,
+          },
+        },
+      );
+    },
+    children: [
+      {
+        find(doc) {
+          return Profiles.find({ owner: doc._id });
+        },
+      },
+    ],
+  };
+});
