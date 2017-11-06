@@ -45,14 +45,6 @@ const NameSchema = new SimpleSchema({
   },
 });
 
-const PhotoSchema = new SimpleSchema({
-  origin: {
-    type: String,
-    optional: true,
-    regEx: SimpleSchema.RegEx.Url,
-  },
-});
-
 const AddressSchema = new SimpleSchema({
   raw: {
     type: String,
@@ -128,8 +120,9 @@ const ProfilesSchema = new SimpleSchema({
     max: 1000,
   },
   photo: {
-    type: PhotoSchema,
+    type: String,
     optional: true,
+    regEx: SimpleSchema.RegEx.Url,
   },
   products: {
     type: [ProductSchema],
