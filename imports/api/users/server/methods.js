@@ -1,15 +1,29 @@
 import { Meteor } from 'meteor/meteor';
-import { Accounts } from 'meteor/accounts-base';
+import { check } from 'meteor/check';
+import { Roles } from 'meteor/alanning:roles';
 import rateLimit from '../../../modules/server/rate-limit';
 
 Meteor.methods({
-  'users.sendVerificationEmail': function usersSendVerificationEmail() {
-    return Accounts.sendVerificationEmail(this.userId);
+  'users.grant.admin': function usersGrantAdmin(data) {
+    if (!Roles.userIsInRole(this.userId, Meteor.settings.public.roles.admin)) {
+      throw new Meteor.Error(403, 'unauthorized');
+    }
+
+    check(data, Object);
+    const { userId, grant } = data;
+    check(userId, String);
+    check(grant, Boolean);
+
+    if (grant) {
+      Roles.addUsersToRoles(userId, [Meteor.settings.public.roles.admin]);
+    } else {
+      Roles.removeUsersFromRoles(userId, [Meteor.settings.public.roles.admin]);
+    }
   },
 });
 
 rateLimit({
-  methods: ['users.sendVerificationEmail'],
+  methods: ['users.grant.admin'],
   limit: 5,
   timeRange: 1000,
 });

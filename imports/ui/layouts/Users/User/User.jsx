@@ -15,25 +15,19 @@ class User extends Component {
       error: '',
     };
 
-    this.handleApprove = this.handleApprove.bind(this);
+    this.handleGrantAdmin = this.handleGrantAdmin.bind(this);
   }
 
-  handleApprove() {
+  handleGrantAdmin(grant) {
     this.setState({ loading: true });
 
-    /*
-    Meteor.call(
-      'stylist.application.approve',
-      { applicationId: this.props.application._id, userId: this.props.application.userId },
-      (error) => {
-        this.setState({ loading: false });
+    Meteor.call('users.grant.admin', { userId: this.props.user._id, grant }, (error) => {
+      this.setState({ loading: false });
 
-        if (error) {
-          this.setState({ error: error.message });
-        }
-      },
-    );
-    */
+      if (error) {
+        this.setState({ error: error.message });
+      }
+    });
   }
 
   render() {
@@ -41,7 +35,7 @@ class User extends Component {
       <SideMenuContainer>
         <UserPage
           user={this.props.user}
-          onApprove={this.handleApprove}
+          onGrantAdmin={this.handleGrantAdmin}
           loading={this.state.loading}
           error={this.state.error}
         />

@@ -91,7 +91,9 @@ const UserPage = (props) => {
         <Button
           size="large"
           color={Meteor.settings.public.semantic.color}
-          onClick={props.onApprove}
+          onClick={() => {
+            props.onGrantAdmin(true);
+          }}
           loading={props.loading}
           disabled={props.loading}
         >
@@ -101,7 +103,9 @@ const UserPage = (props) => {
         <Button
           size="large"
           color="red"
-          onClick={props.onApprove}
+          onClick={() => {
+            props.onGrantAdmin(false);
+          }}
           loading={props.loading}
           disabled={props.loading}
         >
@@ -120,7 +124,7 @@ UserPage.defaultProps = {
 
 UserPage.propTypes = {
   user: PropTypes.object,
-  onApprove: PropTypes.func.isRequired,
+  onGrantAdmin: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   error: PropTypes.string.isRequired,
 };
