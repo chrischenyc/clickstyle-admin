@@ -7,11 +7,6 @@ import { sendStylistJoinApprovedEmail } from '../../../modules/server/send-email
 
 Meteor.methods({
   'stylist.application.approve': function stylistApplicationApprove(data) {
-    check(data, Object);
-    const { applicationId, userId } = data;
-    check(applicationId, String);
-    check(userId, String);
-
     if (
       !Roles.userIsInRole(Meteor.userId(), [
         Meteor.settings.public.roles.admin,
@@ -20,6 +15,11 @@ Meteor.methods({
     ) {
       throw new Meteor.Error(403, 'unauthorized');
     }
+
+    check(data, Object);
+    const { applicationId, userId } = data;
+    check(applicationId, String);
+    check(userId, String);
 
     try {
       StylistApplications.update(

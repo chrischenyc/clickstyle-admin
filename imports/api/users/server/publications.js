@@ -6,20 +6,20 @@ import { publishComposite } from 'meteor/reywood:publish-composite';
 import Profiles from '../../profiles/profiles';
 
 Meteor.publishComposite('users', function users(filter, page = 0, limit) {
-  check(filter, String);
-  check(page, Number);
-  check(limit, Number);
-
-  if (['all', 'customer', 'stylist', 'admin'].indexOf(filter) === -1) {
-    return null;
-  }
-
   if (
     !Roles.userIsInRole(this.userId, [
       Meteor.settings.public.roles.admin,
       Meteor.settings.public.roles.superAdmin,
     ])
   ) {
+    return null;
+  }
+
+  check(filter, String);
+  check(page, Number);
+  check(limit, Number);
+
+  if (['all', 'customer', 'stylist', 'admin'].indexOf(filter) === -1) {
     return null;
   }
 

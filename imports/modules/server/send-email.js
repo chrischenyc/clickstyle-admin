@@ -70,7 +70,7 @@ export const sendAdminAccessGrantEmail = (userId, grant, byUserId) => {
   sendEmail({
     to: profile.email,
     from: fromAddress,
-    subject: `Admin access ${grant}` ? 'granted' : 'revoked',
+    subject: `Admin access ${grant ? 'granted' : 'revoked'}`,
     template: 'admin-access-grant',
     templateVars: {
       applicationName,

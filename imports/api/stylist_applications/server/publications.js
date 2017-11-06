@@ -12,20 +12,20 @@ Meteor.publishComposite('stylist.applications', function stylistApplications(
   page = 0,
   limit,
 ) {
-  check(filter, String);
-  check(page, Number);
-  check(limit, Number);
-
-  if (['all', 'pending', 'approved'].indexOf(filter) === -1) {
-    return null;
-  }
-
   if (
     !Roles.userIsInRole(this.userId, [
       Meteor.settings.public.roles.admin,
       Meteor.settings.public.roles.superAdmin,
     ])
   ) {
+    return null;
+  }
+
+  check(filter, String);
+  check(page, Number);
+  check(limit, Number);
+
+  if (['all', 'pending', 'approved'].indexOf(filter) === -1) {
     return null;
   }
 
@@ -64,8 +64,6 @@ Meteor.publishComposite('stylist.applications', function stylistApplications(
 });
 
 Meteor.publishComposite('stylist.application', function stylistApplication(_id) {
-  check(_id, String);
-
   if (
     !Roles.userIsInRole(this.userId, [
       Meteor.settings.public.roles.admin,
@@ -74,6 +72,8 @@ Meteor.publishComposite('stylist.application', function stylistApplication(_id) 
   ) {
     return null;
   }
+
+  check(_id, String);
 
   return {
     find() {
