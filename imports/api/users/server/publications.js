@@ -30,7 +30,6 @@ Meteor.publishComposite('users', function users(filter, page = 0, limit) {
       }
 
       return Meteor.users.find(selector, {
-        sort: { createdAt: -1 },
         fields: {
           profile: 0,
           emails: 0,

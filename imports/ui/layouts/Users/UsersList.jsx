@@ -64,6 +64,7 @@ export default withTracker((props) => {
     .find(
       {},
       {
+        sort: { createdAt: 1 },
         transform: (user) => {
           const profile = Profiles.findOne({ owner: user._id });
           const name = profile && `${profile.name.first} ${profile.name.last}`;

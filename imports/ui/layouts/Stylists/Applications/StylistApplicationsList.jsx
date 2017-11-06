@@ -70,6 +70,7 @@ export default withTracker((props) => {
   const applications = StylistApplications.find(
     {},
     {
+      sort: { createdAt: -1 },
       transform: (application) => {
         const profile = Profiles.findOne({ owner: application.userId });
         const services = Services.find({ _id: { $in: application.services } }).fetch();
