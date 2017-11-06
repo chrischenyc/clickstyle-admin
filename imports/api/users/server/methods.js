@@ -7,7 +7,12 @@ import { sendAdminAccessGrantEmail } from '../../../modules/server/send-email';
 
 Meteor.methods({
   'users.grant.admin': function usersGrantAdmin(data) {
-    if (!Roles.userIsInRole(this.userId, Meteor.settings.public.roles.admin)) {
+    if (
+      !Roles.userIsInRole(this.userId, [
+        Meteor.settings.public.roles.admin,
+        Meteor.settings.public.roles.superAdmin,
+      ])
+    ) {
       throw new Meteor.Error(403, 'unauthorized');
     }
 

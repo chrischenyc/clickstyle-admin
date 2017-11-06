@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Roles } from 'meteor/alanning:roles';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -55,7 +56,12 @@ class Login extends Component {
             errors: {},
           });
 
-          if (Meteor.user().roles.indexOf(Meteor.settings.public.roles.admin) >= 0) {
+          if (
+            Roles.userIsInRole(Meteor.userId(), [
+              Meteor.settings.public.roles.admin,
+              Meteor.settings.public.roles.superAdmin,
+            ])
+          ) {
             this.props.userSignedIn(Meteor.user());
             this.props.history.push('/dashboard');
           } else {

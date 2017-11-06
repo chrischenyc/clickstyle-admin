@@ -12,6 +12,7 @@ if (!adminUser) {
     email: seedAdminEmail,
     password: 'NSuyU4QQ',
     profile: {
+      email: seedAdminEmail,
       name: {
         first: 'Admin',
         last: 'Stylesquad',
@@ -19,10 +20,7 @@ if (!adminUser) {
     },
   });
 
-  Roles.addUsersToRoles(userId, [
-    Meteor.settings.public.roles.customer,
-    Meteor.settings.public.roles.admin,
-  ]);
+  Roles.addUsersToRoles(userId, [Meteor.settings.public.roles.superAdmin]);
 
   Profiles.insert({
     owner: userId,

@@ -12,7 +12,12 @@ Meteor.methods({
     check(applicationId, String);
     check(userId, String);
 
-    if (!Roles.userIsInRole(this.userId, Meteor.settings.public.roles.admin)) {
+    if (
+      !Roles.userIsInRole(Meteor.userId(), [
+        Meteor.settings.public.roles.admin,
+        Meteor.settings.public.roles.superAdmin,
+      ])
+    ) {
       throw new Meteor.Error(403, 'unauthorized');
     }
 

@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
+import { Roles } from 'meteor/alanning:roles';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import {
   Container,
   Grid,
@@ -87,7 +87,7 @@ const UserPage = (props) => {
         )}
       </Segment>
 
-      {props.user.roles.indexOf(Meteor.settings.public.roles.admin) === -1 ? (
+      {!Roles.userIsInRole(props.user._id, [Meteor.settings.public.roles.admin]) ? (
         <Button
           size="large"
           color={Meteor.settings.public.semantic.color}

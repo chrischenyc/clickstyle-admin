@@ -14,13 +14,26 @@ Meteor.publishComposite('users', function users(filter, page = 0, limit) {
     return null;
   }
 
-  if (!Roles.userIsInRole(this.userId, Meteor.settings.public.roles.admin)) {
+  if (
+    !Roles.userIsInRole(this.userId, [
+      Meteor.settings.public.roles.admin,
+      Meteor.settings.public.roles.superAdmin,
+    ])
+  ) {
     return null;
   }
 
   return {
     find() {
-      const selector = {};
+      const selector = {
+        roles: {
+          $in: [
+            Meteor.settings.public.roles.customer,
+            Meteor.settings.public.roles.stylist,
+            Meteor.settings.public.roles.admin,
+          ],
+        },
+      };
       if (filter === 'customer') {
         selector.roles = Meteor.settings.public.roles.customer;
       } else if (filter === 'stylist') {
@@ -63,7 +76,12 @@ Meteor.publishComposite('users', function users(filter, page = 0, limit) {
 Meteor.publishComposite('user', function user(_id) {
   check(_id, String);
 
-  if (!Roles.userIsInRole(this.userId, Meteor.settings.public.roles.admin)) {
+  if (
+    !Roles.userIsInRole(this.userId, [
+      Meteor.settings.public.roles.admin,
+      Meteor.settings.public.roles.superAdmin,
+    ])
+  ) {
     return null;
   }
 
