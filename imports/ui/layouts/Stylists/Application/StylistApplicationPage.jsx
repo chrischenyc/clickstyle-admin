@@ -1,7 +1,18 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Header, Image, Segment, List, Message, Button } from 'semantic-ui-react';
+import {
+  Container,
+  Grid,
+  Header,
+  Image,
+  Segment,
+  List,
+  Message,
+  Button,
+  Divider,
+  Icon,
+} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
@@ -28,46 +39,65 @@ const StylistApplicationPage = (props) => {
     approvedAt,
     approvedBy,
     approvedByUser,
+    createdAt,
   } = props.application;
 
   const photoURL = profile.photo || Meteor.settings.public.image.defaultProfilePhoto;
 
   return (
     <Container>
-      <Segment>
-        <Image src={ScaledImageURL(photoURL, 'medium')} size="medium" />
-        <Header as="h1">{`${profile.name.first} ${profile.name.last}`}</Header>
-        <div>
-          Email:&nbsp;
-          <a href={`mailto:${profile.email}`}>{profile.email}</a>
-        </div>
-        <div>
-          Mobile:&nbsp;
-          {mobile}
-        </div>
-        <div>
-          Address:&nbsp;
-          <a href={`https://maps.google.com/?q=${address}`} target="_blank">
-            {address}
-          </a>
-        </div>
-        <div>
-          Reference:&nbsp;
-          <a href={referenceUrl} target="_blank">
-            {referenceUrl}
-          </a>
-        </div>
-        <div>
-          Qualification:&nbsp;
-          <a href={qualificationUrl} target="_blank">
-            {qualificationUrl}
-          </a>
-        </div>
-        <div>
-          About:&nbsp;
-          {profile.about}
-        </div>
+      <Header as="h1">Stylist Join Application</Header>
 
+      <Segment>
+        <Grid>
+          <Grid.Row>
+            <Grid.Column width="6">
+              <Image src={ScaledImageURL(photoURL, 'small')} fluid />
+            </Grid.Column>
+            <Grid.Column width="10">
+              <div>
+                Applied on:&nbsp;
+                {formatDateTime(createdAt)}
+              </div>
+              <div>
+                Name:&nbsp;
+                {`${profile.name.first} ${profile.name.last}`}
+              </div>
+              <div>
+                Email:&nbsp;
+                <a href={`mailto:${profile.email}`}>{profile.email}</a>
+              </div>
+              <div>
+                Mobile:&nbsp;
+                {mobile}
+              </div>
+              <div>
+                Address:&nbsp;
+                <a href={`https://maps.google.com/?q=${address}`} target="_blank">
+                  {address}
+                </a>
+              </div>
+              <div>
+                Reference:&nbsp;
+                <a href={referenceUrl} target="_blank">
+                  {referenceUrl}
+                </a>
+              </div>
+              <div>
+                Qualification:&nbsp;
+                <a href={qualificationUrl} target="_blank">
+                  <Icon name="file outline" />
+                </a>
+              </div>
+              <div>
+                About:&nbsp;
+                {profile.about}
+              </div>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+
+        <Divider />
         <Header as="h3">Services</Header>
         <List>
           {services.map(service => <List.Item key={service._id}>{service.name}</List.Item>)}
@@ -75,6 +105,7 @@ const StylistApplicationPage = (props) => {
 
         {profile.products && (
           <div>
+            <Divider />
             <Header as="h3">Products used</Header>
             <List>
               {profile.products.map(product => (
