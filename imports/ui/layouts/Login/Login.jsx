@@ -57,7 +57,7 @@ class Login extends Component {
 
           if (Meteor.user().roles.indexOf(Meteor.settings.public.roles.admin) >= 0) {
             this.props.userSignedIn(Meteor.user());
-            this.props.history.push('/');
+            this.props.history.push('/dashboard');
           } else {
             Meteor.logout();
           }
