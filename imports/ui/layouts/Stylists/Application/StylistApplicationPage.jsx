@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import { formatDateTime } from '../../../../modules/format-date';
+import ScaledImageURL from '../../../../modules/scaled-image-url';
 
 const StylistApplicationPage = (props) => {
   if (!props.application) {
@@ -34,7 +35,7 @@ const StylistApplicationPage = (props) => {
   return (
     <Container>
       <Segment>
-        <Image src={photoURL} size="small" />
+        <Image src={ScaledImageURL(photoURL, 'medium')} size="small" />
         <Header as="h1">{`${profile.name.first} ${profile.name.last}`}</Header>
         <div>
           Email:&nbsp;
