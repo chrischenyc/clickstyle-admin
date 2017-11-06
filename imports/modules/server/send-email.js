@@ -61,3 +61,26 @@ export const sendStylistJoinApprovedEmail = (userId) => {
     throw new Meteor.Error('500', `${error}`);
   });
 };
+
+export const sendAdminAccessGrantEmail = (userId, grant, byUserId) => {
+  const profile = Profiles.findOne({ owner: userId }, { fields: { email: 1 } });
+
+  const byProfile = Profiles.findOne({ owner: byUserId }, { fields: { email: 1 } });
+
+  sendEmail({
+    to: profile.email,
+    from: fromAddress,
+    subject: 'Admin access',
+    template: 'admin-access-grant',
+    templateVars: {
+      applicationName,
+      supportEmail,
+      grant: grant ? 'granted' : 'revoked',
+      accountEmail: profile.email,
+      byEmail: byProfile.email,
+      changedOn: formatDateTime(Date.now(0)),
+    },
+  }).catch((error) => {
+    throw new Meteor.Error('500', `${error}`);
+  });
+};

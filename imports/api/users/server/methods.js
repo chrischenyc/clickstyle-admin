@@ -1,7 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
+
 import rateLimit from '../../../modules/server/rate-limit';
+import { sendAdminAccessGrantEmail } from '../../../modules/server/send-email';
 
 Meteor.methods({
   'users.grant.admin': function usersGrantAdmin(data) {
@@ -19,6 +21,8 @@ Meteor.methods({
     } else {
       Roles.removeUsersFromRoles(userId, [Meteor.settings.public.roles.admin]);
     }
+
+    sendAdminAccessGrantEmail(userId, grant, this.userId);
   },
 });
 
