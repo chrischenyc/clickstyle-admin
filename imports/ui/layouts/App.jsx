@@ -9,7 +9,6 @@ import { userSignedIn, userSignedOut } from '../../modules/client/redux/user';
 
 import SecureRoute from '../components/SecureRoute';
 import Header from '../components/Header';
-import SideMenuContainer from '../components/SideMenuContainer';
 
 import Login from '../layouts/Login/Login';
 import DashboardPage from '../layouts/DashboardPage';
