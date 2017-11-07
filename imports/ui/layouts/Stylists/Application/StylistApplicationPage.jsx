@@ -37,7 +37,6 @@ const StylistApplicationPage = (props) => {
     approved,
     approvedAt,
     approvedBy,
-    approvedByUser,
     createdAt,
   } = props.application;
 
@@ -85,10 +84,9 @@ const StylistApplicationPage = (props) => {
       {approved ? (
         <Message info>
           <p>
-            Application was approved by{' '}
-            <Link to={`/users/${approvedBy}`}>
-              {approvedByUser.profile.name.first}
-            </Link>&nbsp;on&nbsp;
+            Application was approved by admin user (<Link to={`/users/${approvedBy}`}>
+              {approvedBy}
+            </Link>)&nbsp;on&nbsp;
             {formatDateTime(approvedAt)}.
           </p>
         </Message>
