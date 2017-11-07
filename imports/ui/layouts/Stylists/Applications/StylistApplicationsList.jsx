@@ -33,26 +33,22 @@ class StylistApplicationsList extends Component {
 
         <Table.Body>
           {this.props.ready &&
-            this.props.applications.map((application) => {
-              console.log(application);
-
-              return (
-                <Table.Row key={application._id}>
-                  <Table.Cell>
-                    <Link to={`/stylists/applications/${application._id}`}>
-                      {application.approved ? 'approved' : 'pending'}
-                    </Link>
-                  </Table.Cell>
-                  <Table.Cell>{formatDateTime(application.createdAt)}</Table.Cell>
-                  <Table.Cell>
-                    <Link to={`/users/${application.userId}`}>{application.userId}</Link>
-                  </Table.Cell>
-                  <Table.Cell>{application.name}</Table.Cell>
-                  <Table.Cell>{application.mobile}</Table.Cell>
-                  <Table.Cell>{application.email}</Table.Cell>
-                </Table.Row>
-              );
-            })}
+            this.props.applications.map(application => (
+              <Table.Row key={application._id}>
+                <Table.Cell>
+                  <Link to={`/stylists/applications/${application._id}`}>
+                    {application.approved ? 'approved' : 'pending'}
+                  </Link>
+                </Table.Cell>
+                <Table.Cell>{formatDateTime(application.createdAt)}</Table.Cell>
+                <Table.Cell>
+                  <Link to={`/users/${application.userId}`}>{application.userId}</Link>
+                </Table.Cell>
+                <Table.Cell>{application.name}</Table.Cell>
+                <Table.Cell>{application.mobile}</Table.Cell>
+                <Table.Cell>{application.email}</Table.Cell>
+              </Table.Row>
+              ))}
         </Table.Body>
       </Table>
     );

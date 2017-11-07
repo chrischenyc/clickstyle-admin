@@ -37,6 +37,13 @@ const StylistApplicationsSchema = new SimpleSchema({
   userId: {
     type: String,
   },
+  name: {
+    type: String,
+  },
+  email: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Email,
+  },
   mobile: {
     type: String,
     regEx: SimpleSchema.RegEx.Phone,

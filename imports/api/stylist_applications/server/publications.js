@@ -40,6 +40,8 @@ Meteor.publish('stylist.applications', function stylistApplications(filter, page
       createdAt: 1,
       mobile: 1,
       userId: 1,
+      name: 1,
+      email: 1,
     },
   });
 });
