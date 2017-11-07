@@ -7,8 +7,6 @@ import { Link } from 'react-router-dom';
 
 import { formatDateTime } from '../../../../modules/format-date';
 import StylistApplications from '../../../../api/stylist_applications/stylist_applications';
-import Profiles from '../../../../api/profiles/profiles';
-import Services from '../../../../api/services/services';
 
 class StylistApplicationsList extends Component {
   componentWillReceiveProps(nextProps) {

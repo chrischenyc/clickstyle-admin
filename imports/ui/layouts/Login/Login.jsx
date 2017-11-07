@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import { userSignedIn } from '../../../modules/client/redux/user';
+import { userSignedIn, userSignedOut } from '../../../modules/client/redux/user';
 import { validateUserLogin } from '../../../modules/validate';
 import LoginPage from './LoginPage';
 
@@ -66,6 +66,7 @@ class Login extends Component {
             this.props.history.push('/dashboard');
           } else {
             Meteor.logout();
+            this.props.userSignedOut();
           }
         }
       });
@@ -86,6 +87,7 @@ class Login extends Component {
 
 Login.propTypes = {
   userSignedIn: PropTypes.func.isRequired,
+  userSignedOut: PropTypes.func.isRequired,
 };
 
-export default connect(null, { userSignedIn })(Login);
+export default connect(null, { userSignedIn, userSignedOut })(Login);
