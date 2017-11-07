@@ -32,6 +32,16 @@ StylistApplications.attachBehaviour('timestampable', {
   updatedBy: false,
 });
 
+const ServiceSchema = new SimpleSchema({
+  // required fields
+  _id: {
+    type: String,
+  },
+  name: {
+    type: String,
+  },
+});
+
 const StylistApplicationsSchema = new SimpleSchema({
   // required fields
   userId: {
@@ -54,7 +64,7 @@ const StylistApplicationsSchema = new SimpleSchema({
     max: 200,
   },
   services: {
-    type: [String],
+    type: [ServiceSchema],
   },
   qualificationUrl: {
     type: String,

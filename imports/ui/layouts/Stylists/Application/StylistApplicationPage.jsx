@@ -3,9 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {
   Container,
-  Grid,
   Header,
-  Image,
   Segment,
   List,
   Message,
@@ -17,7 +15,6 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import { formatDateTime } from '../../../../modules/format-date';
-import ScaledImageURL from '../../../../modules/scaled-image-url';
 
 const StylistApplicationPage = (props) => {
   if (!props.application) {
@@ -29,7 +26,9 @@ const StylistApplicationPage = (props) => {
   }
 
   const {
-    profile,
+    userId,
+    name,
+    email,
     mobile,
     address,
     services,
@@ -42,78 +41,45 @@ const StylistApplicationPage = (props) => {
     createdAt,
   } = props.application;
 
-  const photoURL = profile.photo || Meteor.settings.public.image.defaultProfilePhoto;
-
   return (
     <Container>
       <Header as="h1">Stylist Join Application</Header>
 
       <Segment>
-        <Grid>
-          <Grid.Row>
-            <Grid.Column width="6">
-              <Image src={ScaledImageURL(photoURL, 'medium')} fluid />
-            </Grid.Column>
-            <Grid.Column width="10">
-              <div>
-                Applied on:&nbsp;
-                {formatDateTime(createdAt)}
-              </div>
-              <div>
-                Name:&nbsp;
-                {`${profile.name.first} ${profile.name.last}`}
-              </div>
-              <div>
-                Email:&nbsp;
-                <a href={`mailto:${profile.email}`}>{profile.email}</a>
-              </div>
-              <div>
-                Mobile:&nbsp;
-                {mobile}
-              </div>
-              <div>
-                Address:&nbsp;
-                <a href={`https://maps.google.com/?q=${address}`} target="_blank">
-                  {address}
-                </a>
-              </div>
-              <div>
-                Reference:&nbsp;
-                <a href={referenceUrl} target="_blank">
-                  {referenceUrl}
-                </a>
-              </div>
-              <div>
-                Qualification:&nbsp;
-                <a href={qualificationUrl} target="_blank">
-                  <Icon name="file outline" />
-                </a>
-              </div>
-              <div>
-                About:&nbsp;
-                {profile.about}
-              </div>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+        <div>Applied on:&nbsp;{formatDateTime(createdAt)}</div>
+        <div>
+          Name:&nbsp;<Link to={`/users/${userId}`}>{name}</Link>
+        </div>
+        <div>
+          Email:&nbsp;<a href={`mailto:${email}`}>{email}</a>
+        </div>
+        <div>Mobile:&nbsp;{mobile}</div>
+        <div>
+          Address:&nbsp;
+          <a href={`https://maps.google.com/?q=${address}`} target="_blank">
+            {address}
+          </a>
+        </div>
+        <div>
+          Reference:&nbsp;
+          <a href={referenceUrl} target="_blank">
+            {referenceUrl}
+          </a>
+        </div>
+        {qualificationUrl && (
+          <div>
+            Qualification:&nbsp;
+            <a href={qualificationUrl} target="_blank">
+              <Icon name="file outline" />&nbsp;open
+            </a>
+          </div>
+        )}
 
         <Divider />
         <Header as="h3">Services</Header>
         <List>
           {services.map(service => <List.Item key={service._id}>{service.name}</List.Item>)}
         </List>
-
-        {profile.products && (
-          <div>
-            <Divider />
-            <Header as="h3">Products used</Header>
-            <List>
-              {profile.products.map(product => (
-                <List.Item key={product.productId}>{product.name}</List.Item>
-              ))}
-            </List>
-          </div>
-        )}
       </Segment>
 
       {approved ? (

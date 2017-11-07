@@ -4,8 +4,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import StylistApplications from '../../../../api/stylist_applications/stylist_applications';
-import Profiles from '../../../../api/profiles/profiles';
-import Services from '../../../../api/services/services';
 import SideMenuContainer from '../../../components/SideMenuContainer';
 import StylistApplicationPage from './StylistApplicationPage';
 
@@ -39,48 +37,37 @@ class StylistApplication extends Component {
   render() {
     return (
       <SideMenuContainer>
-        <StylistApplicationPage
-          application={this.props.application}
-          onApprove={this.handleApprove}
-          loading={this.state.loading}
-          error={this.state.error}
-        />
+        {this.props.ready ? (
+          <StylistApplicationPage
+            application={this.props.application}
+            onApprove={this.handleApprove}
+            loading={this.state.loading}
+            error={this.state.error}
+          />
+        ) : (
+          <p>loading...</p>
+        )}
       </SideMenuContainer>
     );
   }
 }
 
 StylistApplication.defaultProps = {
+  ready: false,
   application: null,
 };
 
 StylistApplication.propTypes = {
   match: PropTypes.object.isRequired,
+  ready: PropTypes.bool,
   application: PropTypes.object,
 };
 
 export default withTracker((props) => {
-  Meteor.subscribe('stylist.application', props.match.params.id);
-
-  const application = StylistApplications.findOne(
-    {},
-    {
-      transform: (doc) => {
-        const profile = Profiles.findOne({ owner: doc.userId });
-        const services = Services.find({ _id: { $in: doc.services } }).fetch();
-        const approvedByUser = Meteor.users.findOne({ _id: doc.approvedBy });
-
-        return {
-          ...doc,
-          profile,
-          services,
-          approvedByUser,
-        };
-      },
-    },
-  );
+  const handle = Meteor.subscribe('stylist.application', props.match.params.id);
 
   return {
-    application,
+    ready: handle.ready(),
+    application: StylistApplications.findOne({ _id: props.match.params.id }),
   };
 })(StylistApplication);
