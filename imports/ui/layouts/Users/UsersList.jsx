@@ -6,7 +6,6 @@ import { Table } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 import { formatDateTime } from '../../../modules/format-date';
-import Profiles from '../../../api/profiles/profiles';
 
 class UsersList extends Component {
   componentWillReceiveProps(nextProps) {
@@ -20,24 +19,34 @@ class UsersList extends Component {
       <Table celled selectable>
         <Table.Header>
           <Table.Row>
+            <Table.HeaderCell>ID</Table.HeaderCell>
             <Table.HeaderCell>Name</Table.HeaderCell>
-            <Table.HeaderCell>Mobile</Table.HeaderCell>
             <Table.HeaderCell>Email</Table.HeaderCell>
             <Table.HeaderCell>Create Date</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
-          {this.props.users.map(user => (
-            <Table.Row key={user._id}>
-              <Table.Cell>
-                <Link to={`/users/${user._id}`}>{user.name}</Link>
-              </Table.Cell>
-              <Table.Cell>{user.mobile}</Table.Cell>
-              <Table.Cell>{user.email}</Table.Cell>
-              <Table.Cell>{formatDateTime(user.createdAt)}</Table.Cell>
-            </Table.Row>
-          ))}
+          {this.props.ready &&
+            this.props.users.map(user => (
+              <Table.Row key={user._id}>
+                <Table.Cell>
+                  <Link to={`/users/${user._id}`}>{user._id}</Link>
+                </Table.Cell>
+
+                <Table.Cell>{`${user.profile.name.first} ${user.profile.name.last}`}</Table.Cell>
+
+                <Table.Cell>
+                  {user.emails.map(email => (
+                    <div key={email.address}>
+                      {email.address} ({email.verified ? 'verified' : 'unverified'})
+                    </div>
+                  ))}
+                </Table.Cell>
+
+                <Table.Cell>{formatDateTime(user.createdAt)}</Table.Cell>
+              </Table.Row>
+            ))}
         </Table.Body>
       </Table>
     );
@@ -45,10 +54,12 @@ class UsersList extends Component {
 }
 
 UsersList.defaultProps = {
+  ready: false,
   users: [],
 };
 
 UsersList.propTypes = {
+  ready: PropTypes.bool,
   users: PropTypes.array,
   filter: PropTypes.string.isRequired,
   page: PropTypes.number.isRequired,
@@ -57,32 +68,33 @@ UsersList.propTypes = {
 };
 
 export default withTracker((props) => {
-  Meteor.subscribe('users', props.filter, props.page, props.limit);
+  const handle = Meteor.subscribe('users', props.filter, props.page, props.limit);
+
+  const selector = {
+    roles: {
+      $in: [
+        Meteor.settings.public.roles.customer,
+        Meteor.settings.public.roles.stylist,
+        Meteor.settings.public.roles.admin,
+      ],
+    },
+  };
+  if (props.filter === 'customer') {
+    selector.roles = Meteor.settings.public.roles.customer;
+  } else if (props.filter === 'stylist') {
+    selector.roles = Meteor.settings.public.roles.stylist;
+  } else if (props.filter === 'admin') {
+    selector.roles = Meteor.settings.public.roles.admin;
+  }
 
   const users = Meteor.users
-    .find(
-      { _id: { $exists: true } },
-      {
-        sort: { createdAt: 1 },
-        transform: (user) => {
-          const profile = Profiles.findOne({ owner: user._id });
-          const name = profile && `${profile.name.first} ${profile.name.last}`;
-          const mobile = profile && profile.mobile;
-          const email = profile && profile.email;
-
-          return {
-            ...user,
-            name,
-            mobile,
-            email,
-          };
-        },
-      },
-    )
-    .fetch()
-    .filter(user => user.name !== null && user.name !== undefined);
+    .find(selector, {
+      sort: { createdAt: 1 },
+    })
+    .fetch();
 
   return {
+    ready: handle.ready(),
     users,
   };
 })(UsersList);

@@ -5,7 +5,7 @@ import { publishComposite } from 'meteor/reywood:publish-composite';
 
 import Profiles from '../../profiles/profiles';
 
-Meteor.publishComposite('users', function users(filter, page = 0, limit) {
+Meteor.publish('users', function users(filter, page, limit) {
   if (
     !Roles.userIsInRole(this.userId, [
       Meteor.settings.public.roles.admin,
@@ -23,54 +23,34 @@ Meteor.publishComposite('users', function users(filter, page = 0, limit) {
     return null;
   }
 
-  return {
-    find() {
-      const selector = {
-        roles: {
-          $in: [
-            Meteor.settings.public.roles.customer,
-            Meteor.settings.public.roles.stylist,
-            Meteor.settings.public.roles.admin,
-          ],
-        },
-      };
-      if (filter === 'customer') {
-        selector.roles = Meteor.settings.public.roles.customer;
-      } else if (filter === 'stylist') {
-        selector.roles = Meteor.settings.public.roles.stylist;
-      } else if (filter === 'admin') {
-        selector.roles = Meteor.settings.public.roles.admin;
-      }
-
-      return Meteor.users.find(selector, {
-        fields: {
-          profile: 0,
-          emails: 0,
-          services: 0,
-          registered_emails: 0,
-        },
-        limit,
-        skip: page * limit,
-      });
+  // config query based on filter
+  const selector = {
+    roles: {
+      $in: [
+        Meteor.settings.public.roles.customer,
+        Meteor.settings.public.roles.stylist,
+        Meteor.settings.public.roles.admin,
+      ],
     },
-    children: [
-      {
-        find(user) {
-          return Profiles.find(
-            { owner: user._id },
-            {
-              fields: {
-                owner: 1,
-                email: 1,
-                name: 1,
-                mobile: 1,
-              },
-            },
-          );
-        },
-      },
-    ],
   };
+  if (filter === 'customer') {
+    selector.roles = Meteor.settings.public.roles.customer;
+  } else if (filter === 'stylist') {
+    selector.roles = Meteor.settings.public.roles.stylist;
+  } else if (filter === 'admin') {
+    selector.roles = Meteor.settings.public.roles.admin;
+  }
+
+  return Meteor.users.find(selector, {
+    limit,
+    skip: page * limit,
+    fields: {
+      createdAt: 1,
+      emails: 1,
+      profile: 1,
+      roles: 1,
+    },
+  });
 });
 
 Meteor.publishComposite('user', function user(_id) {
