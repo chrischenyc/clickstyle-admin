@@ -39,7 +39,6 @@ Meteor.publishComposite('stylist.applications', function stylistApplications(
       }
 
       return StylistApplications.find(selector, {
-        sort: { createdAt: -1 },
         fields: { address: 0, qualificationUrl: 0, referenceUrl: 0 },
         limit,
         skip: page * limit,
