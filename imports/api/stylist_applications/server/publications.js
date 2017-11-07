@@ -7,11 +7,7 @@ import StylistApplications from '../stylist_applications';
 import Profiles from '../../profiles/profiles';
 import Services from '../../services/services';
 
-Meteor.publishComposite('stylist.applications', function stylistApplications(
-  filter,
-  page = 0,
-  limit,
-) {
+Meteor.publish('stylist.applications', function stylistApplications(filter, page, limit) {
   if (
     !Roles.userIsInRole(this.userId, [
       Meteor.settings.public.roles.admin,
@@ -29,37 +25,23 @@ Meteor.publishComposite('stylist.applications', function stylistApplications(
     return null;
   }
 
-  return {
-    find() {
-      const selector = {};
-      if (filter === 'pending') {
-        selector.approved = false;
-      } else if (filter === 'approved') {
-        selector.approved = true;
-      }
+  const selector = {};
+  if (filter === 'pending') {
+    selector.approved = false;
+  } else if (filter === 'approved') {
+    selector.approved = true;
+  }
 
-      return StylistApplications.find(selector, {
-        fields: { address: 0, qualificationUrl: 0, referenceUrl: 0 },
-        limit,
-        skip: page * limit,
-      });
+  return StylistApplications.find(selector, {
+    limit,
+    skip: page * limit,
+    fields: {
+      approved: 1,
+      createdAt: 1,
+      mobile: 1,
+      userId: 1,
     },
-    children: [
-      {
-        find(application) {
-          return Profiles.find(
-            { owner: application.userId },
-            { fields: { owner: 1, email: 1, name: 1 } },
-          );
-        },
-      },
-      {
-        find(application) {
-          return Services.find({ _id: { $in: application.services } }, { fields: { name: 1 } });
-        },
-      },
-    ],
-  };
+  });
 });
 
 Meteor.publishComposite('stylist.application', function stylistApplication(_id) {

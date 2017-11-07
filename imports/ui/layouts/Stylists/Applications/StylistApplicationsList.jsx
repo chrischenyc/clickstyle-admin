@@ -24,28 +24,35 @@ class StylistApplicationsList extends Component {
           <Table.Row>
             <Table.HeaderCell>Status</Table.HeaderCell>
             <Table.HeaderCell>Date</Table.HeaderCell>
+            <Table.HeaderCell>User</Table.HeaderCell>
             <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Mobile</Table.HeaderCell>
             <Table.HeaderCell>Email</Table.HeaderCell>
-            <Table.HeaderCell>Services</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
-          {this.props.applications.map(application => (
-            <Table.Row key={application._id}>
-              <Table.Cell>
-                <Link to={`/stylists/applications/${application._id}`}>
-                  {application.approved ? 'approved' : 'pending'}
-                </Link>
-              </Table.Cell>
-              <Table.Cell>{formatDateTime(application.createdAt)}</Table.Cell>
-              <Table.Cell>{application.name}</Table.Cell>
-              <Table.Cell>{application.mobile}</Table.Cell>
-              <Table.Cell>{application.email}</Table.Cell>
-              <Table.Cell>{application.services.join(', ')}</Table.Cell>
-            </Table.Row>
-          ))}
+          {this.props.ready &&
+            this.props.applications.map((application) => {
+              console.log(application);
+
+              return (
+                <Table.Row key={application._id}>
+                  <Table.Cell>
+                    <Link to={`/stylists/applications/${application._id}`}>
+                      {application.approved ? 'approved' : 'pending'}
+                    </Link>
+                  </Table.Cell>
+                  <Table.Cell>{formatDateTime(application.createdAt)}</Table.Cell>
+                  <Table.Cell>
+                    <Link to={`/users/${application.userId}`}>{application.userId}</Link>
+                  </Table.Cell>
+                  <Table.Cell>{application.name}</Table.Cell>
+                  <Table.Cell>{application.mobile}</Table.Cell>
+                  <Table.Cell>{application.email}</Table.Cell>
+                </Table.Row>
+              );
+            })}
         </Table.Body>
       </Table>
     );
@@ -53,10 +60,12 @@ class StylistApplicationsList extends Component {
 }
 
 StylistApplicationsList.defaultProps = {
+  ready: false,
   applications: [],
 };
 
 StylistApplicationsList.propTypes = {
+  ready: PropTypes.bool,
   applications: PropTypes.array,
   filter: PropTypes.string.isRequired,
   page: PropTypes.number.isRequired,
@@ -65,27 +74,15 @@ StylistApplicationsList.propTypes = {
 };
 
 export default withTracker((props) => {
-  Meteor.subscribe('stylist.applications', props.filter, props.page, props.limit);
-
-  const applications = StylistApplications.find(
-    {},
-    {
-      sort: { createdAt: -1 },
-      transform: (application) => {
-        const profile = Profiles.findOne({ owner: application.userId });
-        const services = Services.find({ _id: { $in: application.services } }).fetch();
-
-        return {
-          ...application,
-          email: profile.email,
-          name: `${profile.name.first} ${profile.name.last}`,
-          services: services.map(service => service.name),
-        };
-      },
-    },
-  ).fetch();
+  const handle = Meteor.subscribe('stylist.applications', props.filter, props.page, props.limit);
 
   return {
-    applications,
+    ready: handle.ready(),
+    applications: StylistApplications.find(
+      {},
+      {
+        sort: { createdAt: -1 },
+      },
+    ).fetch(),
   };
 })(StylistApplicationsList);
