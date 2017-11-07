@@ -3,6 +3,7 @@ import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import rateLimit from '../../../modules/server/rate-limit';
 import StylistApplications from '../stylist_applications';
+import Profiles from '../../profiles/profiles';
 import { sendStylistJoinApprovedEmail } from '../../../modules/server/send-email';
 
 Meteor.methods({
@@ -31,6 +32,22 @@ Meteor.methods({
           if (!error) {
             Roles.addUsersToRoles(userId, [Meteor.settings.public.roles.stylist]);
 
+            // after approve, copy application data to profile
+            const application = StylistApplications.findOne({ _id: applicationId });
+            const {
+              services, qualificationUrl, referenceUrl, mobile, address,
+            } = application;
+
+            Profiles.update(
+              { owner: userId },
+              {
+                $set: {
+                  mobile,
+                  address: { raw: address },
+                  stylist: { services, qualificationUrl, referenceUrl },
+                },
+              },
+            );
             sendStylistJoinApprovedEmail(userId);
           }
         },
