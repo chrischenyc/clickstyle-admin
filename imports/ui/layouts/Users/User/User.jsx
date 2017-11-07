@@ -60,24 +60,23 @@ User.propTypes = {
 };
 
 export default withTracker((props) => {
-  const handle = Meteor.subscribe('user', props.match.params.id);
-
-  const user = Meteor.users.findOne(
-    { _id: props.match.params.id },
-    {
-      transform: (doc) => {
-        const profile = Profiles.findOne({ owner: doc._id });
-
-        return {
-          ...doc,
-          profile,
-        };
-      },
-    },
-  );
+  const userHandle = Meteor.subscribe('user', props.match.params.id);
+  const profileHandle = Meteor.subscribe('profile', props.match.params.id);
 
   return {
-    ready: handle.ready(),
-    user,
+    ready: userHandle.ready() && profileHandle.ready(),
+    user: Meteor.users.findOne(
+      { _id: props.match.params.id },
+      {
+        transform: (user) => {
+          const profile = Profiles.findOne({ owner: props.match.params.id });
+
+          return {
+            ...user,
+            profile,
+          };
+        },
+      },
+    ),
   };
 })(User);

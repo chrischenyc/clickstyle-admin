@@ -1,9 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
-import { publishComposite } from 'meteor/reywood:publish-composite';
-
-import Profiles from '../../profiles/profiles';
 
 Meteor.publish('users', function users(filter, page, limit) {
   if (
@@ -53,7 +50,7 @@ Meteor.publish('users', function users(filter, page, limit) {
   });
 });
 
-Meteor.publishComposite('user', function user(_id) {
+Meteor.publish('user', function user(_id) {
   if (
     !Roles.userIsInRole(this.userId, [
       Meteor.settings.public.roles.admin,
@@ -65,37 +62,13 @@ Meteor.publishComposite('user', function user(_id) {
 
   check(_id, String);
 
-  return {
-    find() {
-      return Meteor.users.find(
-        { _id },
-        {
-          fields: {
-            createdAt: 1,
-            roles: 1,
-          },
-        },
-      );
-    },
-    children: [
-      {
-        find(doc) {
-          return Profiles.find(
-            { owner: doc._id },
-            {
-              fields: {
-                owner: 1,
-                email: 1,
-                name: 1,
-                mobile: 1,
-                about: 1,
-                photo: 1,
-                products: 1,
-              },
-            },
-          );
-        },
+  return Meteor.users.find(
+    { _id },
+    {
+      fields: {
+        createdAt: 1,
+        roles: 1,
       },
-    ],
-  };
+    },
+  );
 });
