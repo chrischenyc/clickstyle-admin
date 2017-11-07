@@ -13,23 +13,6 @@
     },
     "sourceType": "module"
   },
-  "settings": {
-    "import/core-modules": [
-      "meteor/meteor",
-      "meteor/tracker",
-      "meteor/check",
-      "meteor/email",
-      "meteor/mongo",
-      "meteor/service-configuration",
-      "meteor/accounts-base",
-      "meteor/ddp-rate-limiter",
-      "meteor/react-meteor-data",
-      "meteor/aldeed:simple-schema",
-      "meteor/alanning:roles",
-      "meteor/splendido:accounts-meld",
-      "meteor/edgee:slingshot"
-    ]
-  },
   "rules": {
     "no-const-assign": "warn",
     "no-this-before-super": "warn",
