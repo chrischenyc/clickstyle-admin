@@ -33,28 +33,34 @@ class User extends Component {
   render() {
     return (
       <SideMenuContainer>
-        <UserPage
-          user={this.props.user}
-          onGrantAdmin={this.handleGrantAdmin}
-          loading={this.state.loading}
-          error={this.state.error}
-        />
+        {this.props.ready ? (
+          <UserPage
+            user={this.props.user}
+            onGrantAdmin={this.handleGrantAdmin}
+            loading={this.state.loading}
+            error={this.state.error}
+          />
+        ) : (
+          <p>loading...</p>
+        )}
       </SideMenuContainer>
     );
   }
 }
 
 User.defaultProps = {
+  ready: false,
   user: null,
 };
 
 User.propTypes = {
   match: PropTypes.object.isRequired,
+  ready: PropTypes.bool,
   user: PropTypes.object,
 };
 
 export default withTracker((props) => {
-  Meteor.subscribe('user', props.match.params.id);
+  const handle = Meteor.subscribe('user', props.match.params.id);
 
   const user = Meteor.users.findOne(
     { _id: props.match.params.id },
@@ -71,6 +77,7 @@ export default withTracker((props) => {
   );
 
   return {
-    user: user && user.profile && user,
+    ready: handle.ready(),
+    user,
   };
 })(User);

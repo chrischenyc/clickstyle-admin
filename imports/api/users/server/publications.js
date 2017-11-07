@@ -71,10 +71,8 @@ Meteor.publishComposite('user', function user(_id) {
         { _id },
         {
           fields: {
-            profile: 0,
-            emails: 0,
-            registered_emails: 0,
-            services: 0,
+            createdAt: 1,
+            roles: 1,
           },
         },
       );
@@ -92,6 +90,7 @@ Meteor.publishComposite('user', function user(_id) {
                 mobile: 1,
                 about: 1,
                 photo: 1,
+                products: 1,
               },
             },
           );
