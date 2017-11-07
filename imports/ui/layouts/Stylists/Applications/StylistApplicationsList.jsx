@@ -25,7 +25,6 @@ class StylistApplicationsList extends Component {
             <Table.HeaderCell>Status</Table.HeaderCell>
             <Table.HeaderCell>Date</Table.HeaderCell>
             <Table.HeaderCell>User</Table.HeaderCell>
-            <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Mobile</Table.HeaderCell>
             <Table.HeaderCell>Email</Table.HeaderCell>
           </Table.Row>
@@ -42,13 +41,12 @@ class StylistApplicationsList extends Component {
                 </Table.Cell>
                 <Table.Cell>{formatDateTime(application.createdAt)}</Table.Cell>
                 <Table.Cell>
-                  <Link to={`/users/${application.userId}`}>{application.userId}</Link>
+                  <Link to={`/users/${application.userId}`}>{application.name}</Link>
                 </Table.Cell>
-                <Table.Cell>{application.name}</Table.Cell>
                 <Table.Cell>{application.mobile}</Table.Cell>
                 <Table.Cell>{application.email}</Table.Cell>
               </Table.Row>
-              ))}
+            ))}
         </Table.Body>
       </Table>
     );
