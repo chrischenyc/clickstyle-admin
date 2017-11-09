@@ -15,6 +15,7 @@ import {
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { Link } from 'react-router-dom';
 
 import { formatDateTime } from '../../../../modules/format-date';
 import ScaledImageURL from '../../../../modules/scaled-image-url';
@@ -112,6 +113,16 @@ const UserPage = (props) => {
           Revoke admin role
         </Button>
       )}
+
+      <Button
+        size="large"
+        color={Meteor.settings.public.semantic.color}
+        as="a"
+        target="_blank"
+        href={`${Meteor.settings.public.clientHost}/profiles/${profile._id}`}
+      >
+        View public profile
+      </Button>
 
       {!_.isEmpty(props.error) && <Message error>{props.error}</Message>}
     </Container>
