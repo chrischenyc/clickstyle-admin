@@ -87,30 +87,6 @@ const ProductSchema = new SimpleSchema({
   },
 });
 
-const ServiceSchema = new SimpleSchema({
-  // required fields
-  _id: {
-    type: String,
-  },
-  name: {
-    type: String,
-  },
-});
-
-const StylistSchema = new SimpleSchema({
-  services: {
-    type: [ServiceSchema],
-  },
-  qualificationUrl: {
-    type: String,
-    optional: true,
-  },
-  referenceUrl: {
-    type: String,
-    optional: true,
-  },
-});
-
 const ProfilesSchema = new SimpleSchema({
   // required fields
   owner: {
@@ -151,10 +127,6 @@ const ProfilesSchema = new SimpleSchema({
   products: {
     type: [ProductSchema],
     optional: true,
-  },
-  stylist: {
-    optional: true,
-    type: StylistSchema,
   },
 });
 

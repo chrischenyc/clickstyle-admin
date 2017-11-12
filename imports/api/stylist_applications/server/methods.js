@@ -1,9 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
+
 import rateLimit from '../../../modules/server/rate-limit';
 import StylistApplications from '../stylist_applications';
 import Profiles from '../../profiles/profiles';
+import Stylists from '../../stylists/stylists';
 import { sendStylistJoinApprovedEmail } from '../../../modules/server/send-email';
 
 Meteor.methods({
@@ -32,7 +34,8 @@ Meteor.methods({
           if (!error) {
             Roles.addUsersToRoles(userId, [Meteor.settings.public.roles.stylist]);
 
-            // after approve, copy application data to profile
+            // after approve, copy application data to user's profile
+            // then create a Stylists collection record
             const application = StylistApplications.findOne({ _id: applicationId });
             const {
               services, qualificationUrl, referenceUrl, mobile, address,
@@ -48,6 +51,14 @@ Meteor.methods({
                 },
               },
             );
+
+            Stylists.insert({
+              services,
+              qualificationUrl,
+              referenceUrl,
+              owner: userId,
+            });
+
             sendStylistJoinApprovedEmail(userId);
           }
         },
