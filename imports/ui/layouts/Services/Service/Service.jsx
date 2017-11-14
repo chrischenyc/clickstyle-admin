@@ -3,7 +3,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Profiles from '../../../../api/profiles/profiles';
+import Services from '../../../../api/services/services';
 import SideMenuContainer from '../../../components/SideMenuContainer';
 import ServicePage from './ServicePage';
 
@@ -14,20 +14,6 @@ class Service extends Component {
       loading: false,
       error: '',
     };
-
-    this.handleGrantAdmin = this.handleGrantAdmin.bind(this);
-  }
-
-  handleGrantAdmin(grant) {
-    this.setState({ loading: true });
-
-    Meteor.call('users.grant.admin', { userId: this.props.user._id, grant }, (error) => {
-      this.setState({ loading: false });
-
-      if (error) {
-        this.setState({ error: error.message });
-      }
-    });
   }
 
   render() {
@@ -35,8 +21,7 @@ class Service extends Component {
       <SideMenuContainer>
         {this.props.ready ? (
           <ServicePage
-            user={this.props.user}
-            onGrantAdmin={this.handleGrantAdmin}
+            service={this.props.service}
             loading={this.state.loading}
             error={this.state.error}
           />
@@ -50,32 +35,30 @@ class Service extends Component {
 
 Service.defaultProps = {
   ready: false,
-  user: null,
+  service: null,
 };
 
 Service.propTypes = {
   match: PropTypes.object.isRequired,
   ready: PropTypes.bool,
-  user: PropTypes.object,
+  service: PropTypes.object,
 };
 
 export default withTracker((props) => {
-  const userHandle = Meteor.subscribe('user', props.match.params.id);
-  const profileHandle = Meteor.subscribe('profile', props.match.params.id);
+  const serviceHandle = Meteor.subscribe('service', props.match.params.id);
 
   return {
-    ready: userHandle.ready() && profileHandle.ready(),
-    user: Meteor.users.findOne(
+    ready: serviceHandle.ready(),
+    service: Services.findOne(
       { _id: props.match.params.id },
       {
-        transform: (user) => {
-          const profile = Profiles.findOne({ owner: props.match.params.id });
-
-          return {
-            ...user,
-            profile,
-          };
-        },
+        // transform: (service) => {
+        //   const addons = Addons.findOne({ service: props.match.params.id });
+        //   return {
+        //     ...service,
+        //     addons,
+        //   };
+        // },
       },
     ),
   };
