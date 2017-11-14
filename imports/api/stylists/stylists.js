@@ -33,6 +33,9 @@ Stylists.attachBehaviour('timestampable', {
 });
 
 const AddonSchema = new SimpleSchema({
+  _id: {
+    type: String,
+  },
   name: {
     type: String,
   },
