@@ -12,7 +12,10 @@ const SideMenu = () => (
           Dashboard
         </Menu.Item>
         <Menu.Item as={NavLink} to="/users">
-          Users management
+          Users
+        </Menu.Item>
+        <Menu.Item as={NavLink} to="/services">
+          Services
         </Menu.Item>
       </Menu.Menu>
     </Menu.Item>
