@@ -16,7 +16,6 @@ const ServicesPage = ({ ready, services }) => (
       <Table celled selectable>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>ID</Table.HeaderCell>
             <Table.HeaderCell>Name</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -26,10 +25,8 @@ const ServicesPage = ({ ready, services }) => (
             services.map(service => (
               <Table.Row key={service._id}>
                 <Table.Cell>
-                  <Link to={`/services/${service._id}`}>{service._id}</Link>
+                  <Link to={`/services/${service._id}`}>{service.name}</Link>
                 </Table.Cell>
-
-                <Table.Cell>{service.name}</Table.Cell>
               </Table.Row>
             ))}
         </Table.Body>
@@ -53,6 +50,6 @@ export default withTracker(() => {
 
   return {
     ready: handle.ready(),
-    users: Services.find().fetch(),
+    services: Services.find().fetch(),
   };
 })(ServicesPage);
