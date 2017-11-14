@@ -31,3 +31,4 @@ react-meteor-data               # Meteor reactive data -> React props
 edgee:slingshot                 # file upload
 jimmiebtlr:slingshot-cloudinary # support uploading to cloudinary
 reywood:publish-composite
+webapp
