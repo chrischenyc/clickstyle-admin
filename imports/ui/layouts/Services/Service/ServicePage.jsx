@@ -1,29 +1,19 @@
-import { Meteor } from 'meteor/meteor';
-import { Roles } from 'meteor/alanning:roles';
 import React from 'react';
-import {
-  Container,
-  Grid,
-  Header,
-  Image,
-  Segment,
-  List,
-  Message,
-  Button,
-  Divider,
-  Label,
-} from 'semantic-ui-react';
+import { Container, Header, Message, Divider } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { Link } from 'react-router-dom';
 
-import { formatDateTime } from '../../../../modules/format-date';
+import AddonsList from './AddonsList';
 
 const ServicePage = props => (
   <Container>
-    <Segment>
-      <Header>{props.service.name}</Header>
-    </Segment>
+    <Header>{props.service.name}</Header>
+
+    <Divider horizontal>system add-ons</Divider>
+    <AddonsList addons={props.service.addons.filter(addon => addon.createdBy === 'system')} />
+
+    <Divider horizontal>user created add-ons</Divider>
+    <AddonsList addons={props.service.addons.filter(addon => addon.createdBy !== 'system')} />
 
     {!_.isEmpty(props.error) && <Message error>{props.error}</Message>}
   </Container>

@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Services from '../../../../api/services/services';
+import Addons from '../../../../api/addons/addons';
 import SideMenuContainer from '../../../components/SideMenuContainer';
 import ServicePage from './ServicePage';
 
@@ -46,19 +47,20 @@ Service.propTypes = {
 
 export default withTracker((props) => {
   const serviceHandle = Meteor.subscribe('service', props.match.params.id);
+  const addonsHandle = Meteor.subscribe('service.addons', props.match.params.id);
 
   return {
-    ready: serviceHandle.ready(),
+    ready: serviceHandle.ready() && addonsHandle.ready(),
     service: Services.findOne(
       { _id: props.match.params.id },
       {
-        // transform: (service) => {
-        //   const addons = Addons.findOne({ service: props.match.params.id });
-        //   return {
-        //     ...service,
-        //     addons,
-        //   };
-        // },
+        transform: (service) => {
+          const addons = Addons.find({ serviceId: props.match.params.id }).fetch();
+          return {
+            ...service,
+            addons,
+          };
+        },
       },
     ),
   };

@@ -7,3 +7,4 @@ import '../../api/stylist_applications/server/publications';
 import '../../api/profiles/server/publications';
 
 import '../../api/services/server/publication';
+import '../../api/addons/server/publications';

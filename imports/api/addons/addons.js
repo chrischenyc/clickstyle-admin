@@ -43,6 +43,9 @@ const AddonsSchema = new SimpleSchema({
   createdBy: {
     type: String, // either 'system' or Users._id
   },
+  public: {
+    type: Boolean, // system add-ons can be discovered by public, while user add-ons need approval
+  },
 });
 
 Addons.attachSchema(AddonsSchema);
