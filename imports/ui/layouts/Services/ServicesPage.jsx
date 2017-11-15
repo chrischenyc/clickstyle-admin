@@ -1,16 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Container, Header, Table, Button } from 'semantic-ui-react';
+import { Container, Header, Table, Button, Message } from 'semantic-ui-react';
+import _ from 'lodash';
 
 import SideMenuContainer from '../../components/SideMenuContainer';
 
 const ServicesPage = ({
-  ready, services, onRaiseDisplayOrder, onLowerDisplayOrder,
+  ready,
+  saving,
+  pristine,
+  error,
+  services,
+  onRaiseDisplayOrder,
+  onLowerDisplayOrder,
+  onSave,
 }) => (
   <SideMenuContainer>
     <Container>
+      <Button primary disabled={pristine} loading={saving} floated="right" onClick={onSave}>
+        Save
+      </Button>
       <Header as="h2">Services Management</Header>
+
+      {!_.isEmpty(error) && <Message error content={error} compact />}
 
       <Table celled selectable>
         <Table.Header>
@@ -55,9 +68,13 @@ const ServicesPage = ({
 
 ServicesPage.propTypes = {
   ready: PropTypes.bool.isRequired,
+  saving: PropTypes.bool.isRequired,
+  pristine: PropTypes.bool.isRequired,
+  error: PropTypes.string.isRequired,
   services: PropTypes.array.isRequired,
   onRaiseDisplayOrder: PropTypes.func.isRequired,
   onLowerDisplayOrder: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
 };
 
 export default ServicesPage;

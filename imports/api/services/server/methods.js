@@ -6,7 +6,7 @@ import rateLimit from '../../../modules/server/rate-limit';
 import Services from '../services';
 
 Meteor.methods({
-  'service.update.displayOrder': function serviceUpdateDisplayOrder(data) {
+  'services.update': function serviceUpdateDisplayOrder(services) {
     if (
       !Roles.userIsInRole(Meteor.userId(), [
         Meteor.settings.public.roles.admin,
@@ -16,20 +16,12 @@ Meteor.methods({
       throw new Meteor.Error(403, 'unauthorized');
     }
 
-    check(data, Object);
-    const { up, _id } = data;
-    check(up, Boolean);
-    check(_id, String);
+    check(services, Array);
 
     try {
-      const service = Services.findOne({ _id });
-      if (service) {
-        if (up) {
-          // find higher ordered service next to current one
-        } else {
-          // find lower ordered service next to current one
-        }
-      }
+      services.forEach((service) => {
+        Services.update({ _id: service._id }, { $set: { displayOrder: service.displayOrder } });
+      });
     } catch (exception) {
       /* eslint-disable no-console */
       console.error(exception);
@@ -40,7 +32,7 @@ Meteor.methods({
 });
 
 rateLimit({
-  methods: ['service.update.displayOrder'],
+  methods: ['services.update'],
   limit: 5,
   timeRange: 1000,
 });
