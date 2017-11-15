@@ -1,14 +1,13 @@
-import { Meteor } from 'meteor/meteor';
-import { withTracker } from 'meteor/react-meteor-data';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Container, Header, Table } from 'semantic-ui-react';
+import { Container, Header, Table, Button } from 'semantic-ui-react';
 
 import SideMenuContainer from '../../components/SideMenuContainer';
-import Services from '../../../api/services/services';
 
-const ServicesPage = ({ ready, services }) => (
+const ServicesPage = ({
+  ready, services, onRaiseDisplayOrder, onLowerDisplayOrder,
+}) => (
   <SideMenuContainer>
     <Container>
       <Header as="h2">Services Management</Header>
@@ -17,6 +16,7 @@ const ServicesPage = ({ ready, services }) => (
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Name</Table.HeaderCell>
+            <Table.HeaderCell>Display Order</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -27,6 +27,24 @@ const ServicesPage = ({ ready, services }) => (
                 <Table.Cell>
                   <Link to={`/services/${service._id}`}>{service.name}</Link>
                 </Table.Cell>
+                <Table.Cell>
+                  {service.displayOrder > 0 && (
+                    <Button
+                      icon="arrow up"
+                      onClick={() => {
+                        onRaiseDisplayOrder(service);
+                      }}
+                    />
+                  )}
+                  {service.displayOrder < services.length - 1 && (
+                    <Button
+                      icon="arrow down"
+                      onClick={() => {
+                        onLowerDisplayOrder(service);
+                      }}
+                    />
+                  )}
+                </Table.Cell>
               </Table.Row>
             ))}
         </Table.Body>
@@ -35,21 +53,11 @@ const ServicesPage = ({ ready, services }) => (
   </SideMenuContainer>
 );
 
-ServicesPage.defaultProps = {
-  ready: false,
-  services: [],
-};
-
 ServicesPage.propTypes = {
-  ready: PropTypes.bool,
-  services: PropTypes.array,
+  ready: PropTypes.bool.isRequired,
+  services: PropTypes.array.isRequired,
+  onRaiseDisplayOrder: PropTypes.func.isRequired,
+  onLowerDisplayOrder: PropTypes.func.isRequired,
 };
 
-export default withTracker(() => {
-  const handle = Meteor.subscribe('services');
-
-  return {
-    ready: handle.ready(),
-    services: Services.find().fetch(),
-  };
-})(ServicesPage);
+export default ServicesPage;

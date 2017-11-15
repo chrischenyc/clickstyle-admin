@@ -18,7 +18,7 @@ import StylistApplications from '../layouts/Stylists/Applications/StylistApplica
 import StylistApplication from '../layouts/Stylists/Application/StylistApplication';
 import Users from '../layouts/Users/Users';
 import User from '../layouts/Users/User/User';
-import ServicesPage from '../layouts/Services/ServicesPage';
+import Services from '../layouts/Services/Services';
 import Service from '../layouts/Services/Service/Service';
 
 class App extends Component {
@@ -53,7 +53,7 @@ class App extends Component {
               <SecureRoute exact path="/users" component={Users} />
               <SecureRoute exact path="/users/:id" component={User} />
 
-              <SecureRoute exact path="/services" component={ServicesPage} />
+              <SecureRoute exact path="/services" component={Services} />
               <SecureRoute exact path="/services/:id" component={Service} />
 
               <SecureRoute exact path="/stylists/applications" component={StylistApplications} />
