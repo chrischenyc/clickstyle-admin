@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import ServicesPage from './ServicesPage';
 import Services from '../../../api/services/services';
@@ -32,15 +33,16 @@ class ServicesContainer extends Component {
     const selectedIndex = services.indexOf(service);
     if (selectedIndex > 0) {
       const higherService = services[selectedIndex - 1];
+      const newServices = [
+        ...services.slice(0, selectedIndex - 1),
+        { ...service, displayOrder: service.displayOrder - 1 },
+        { ...higherService, displayOrder: higherService.displayOrder + 1 },
+        ...services.slice(selectedIndex + 1),
+      ];
 
       this.setState({
-        pristine: false,
-        services: [
-          ...services.slice(0, selectedIndex - 1),
-          { ...service, displayOrder: service.displayOrder - 1 },
-          { ...higherService, displayOrder: higherService.displayOrder + 1 },
-          ...services.slice(selectedIndex + 1),
-        ],
+        pristine: _.isEqual(this.props.services, newServices),
+        services: newServices,
       });
     }
   }
@@ -51,15 +53,16 @@ class ServicesContainer extends Component {
     const selectedIndex = services.indexOf(service);
     if (selectedIndex < services.length - 1) {
       const lowerService = services[selectedIndex + 1];
+      const newServices = [
+        ...services.slice(0, selectedIndex),
+        { ...lowerService, displayOrder: lowerService.displayOrder - 1 },
+        { ...service, displayOrder: service.displayOrder + 1 },
+        ...services.slice(selectedIndex + 2),
+      ];
 
       this.setState({
-        pristine: false,
-        services: [
-          ...services.slice(0, selectedIndex),
-          { ...lowerService, displayOrder: lowerService.displayOrder - 1 },
-          { ...service, displayOrder: service.displayOrder + 1 },
-          ...services.slice(selectedIndex + 2),
-        ],
+        pristine: _.isEqual(this.props.services, newServices),
+        services: newServices,
       });
     }
   }
