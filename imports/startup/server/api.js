@@ -10,3 +10,4 @@ import '../../api/services/server/publication';
 import '../../api/services/server/methods';
 
 import '../../api/addons/server/publications';
+import '../../api/addons/server/methods';

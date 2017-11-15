@@ -13,8 +13,19 @@ class Service extends Component {
     super(props);
     this.state = {
       loading: false,
+      saving: false,
       error: '',
     };
+
+    this.handlePublishAddon = this.handlePublishAddon.bind(this);
+  }
+
+  handlePublishAddon(addon, publish) {
+    this.setState({ saving: true });
+
+    Meteor.call('addon.publish', { _id: addon._id, publish }, () => {
+      this.setState({ saving: false });
+    });
   }
 
   render() {
@@ -24,7 +35,9 @@ class Service extends Component {
           <ServicePage
             service={this.props.service}
             loading={this.state.loading}
+            saving={this.state.saving}
             error={this.state.error}
+            onAddonPublish={this.handlePublishAddon}
           />
         ) : (
           <p>loading...</p>
@@ -55,6 +68,7 @@ export default withTracker((props) => {
       { _id: props.match.params.id },
       {
         transform: (service) => {
+          console.log('transform');
           const addons = Addons.find({ serviceId: props.match.params.id }).fetch();
           return {
             ...service,

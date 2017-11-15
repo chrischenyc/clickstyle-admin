@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { formatDateTime } from '../../../../modules/format-date';
 
-const AddonsList = ({ addons }) => (
+const AddonsList = ({ addons, onAddonPublish, saving }) => (
   <Table celled selectable>
     <Table.Header>
       <Table.Row>
@@ -33,10 +33,30 @@ const AddonsList = ({ addons }) => (
 
           <Table.Cell>
             {addon.createdBy !== 'system' &&
-              !addon.public && <Button primary>make visible to public</Button>}
+              !addon.public && (
+                <Button
+                  primary
+                  onClick={() => {
+                    onAddonPublish(addon, true);
+                  }}
+                  disabled={saving}
+                >
+                  make visible to public
+                </Button>
+              )}
 
             {addon.createdBy !== 'system' &&
-              addon.public && <Button primary>hide from public</Button>}
+              addon.public && (
+                <Button
+                  primary
+                  onClick={() => {
+                    onAddonPublish(addon, false);
+                  }}
+                  disabled={saving}
+                >
+                  hide from public
+                </Button>
+              )}
           </Table.Cell>
         </Table.Row>
       ))}
@@ -47,7 +67,7 @@ const AddonsList = ({ addons }) => (
 AddonsList.propTypes = {
   addons: PropTypes.array.isRequired,
   onAddonPublish: PropTypes.func.isRequired,
-  onAddonUnpublish: PropTypes.func.isRequired,
+  saving: PropTypes.bool.isRequired,
 };
 
 export default AddonsList;
