@@ -93,7 +93,7 @@ const StylistApplicationPage = (props) => {
       ) : (
         <Button
           size="large"
-          color={Meteor.settings.public.semantic.color}
+          primary
           onClick={props.onApprove}
           loading={props.loading}
           disabled={props.loading}

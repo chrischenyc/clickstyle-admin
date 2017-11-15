@@ -37,7 +37,7 @@ const LoginPage = ({
               errors={errors}
             />
 
-            <Button color={Meteor.settings.public.semantic.color} fluid type="submit">
+            <Button primary fluid type="submit">
               Login
             </Button>
 

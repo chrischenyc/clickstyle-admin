@@ -91,7 +91,7 @@ const UserPage = (props) => {
       {!Roles.userIsInRole(props.user._id, [Meteor.settings.public.roles.admin]) ? (
         <Button
           size="large"
-          color={Meteor.settings.public.semantic.color}
+          primary
           onClick={() => {
             props.onGrantAdmin(true);
           }}
@@ -116,7 +116,7 @@ const UserPage = (props) => {
 
       <Button
         size="large"
-        color={Meteor.settings.public.semantic.color}
+        primary
         as="a"
         target="_blank"
         href={`${Meteor.settings.public.clientHost}/profiles/${profile._id}`}
