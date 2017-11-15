@@ -1,11 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { Tracker } from 'meteor/tracker';
-import { withTracker } from 'meteor/react-meteor-data';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
 
 import { userSignedIn, userSignedOut } from '../../modules/client/redux/user';
 
@@ -42,10 +40,7 @@ class App extends Component {
       <Router>
         <div>
           <Header />
-
-          {this.props.loggingIn ? (
-            ''
-          ) : (
+          <div style={{ marginTop: '51px', paddingTop: '64px' }}>
             <Switch>
               <SecureRoute exact path="/" component={DashboardPage} />
               <SecureRoute exact path="/dashboard" component={DashboardPage} />
@@ -61,9 +56,9 @@ class App extends Component {
 
               <Route exact path="/login" component={Login} />
 
-              <Route component={() => <p className="below-fixed-menu">404 not found</p>} />
+              <Route component={() => <p>404 not found</p>} />
             </Switch>
-          )}
+          </div>
         </div>
       </Router>
     );
@@ -73,15 +68,9 @@ class App extends Component {
 App.propTypes = {
   userSignedIn: PropTypes.func.isRequired,
   userSignedOut: PropTypes.func.isRequired,
-  loggingIn: PropTypes.bool.isRequired,
 };
 
-export default compose(
-  connect(null, {
-    userSignedIn,
-    userSignedOut,
-  }),
-  withTracker(() => ({
-    loggingIn: Meteor.loggingIn(),
-  })),
-)(App);
+export default connect(null, {
+  userSignedIn,
+  userSignedOut,
+})(App);

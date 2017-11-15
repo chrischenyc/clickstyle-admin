@@ -1,5 +1,3 @@
-import { Meteor } from 'meteor/meteor';
-import { Roles } from 'meteor/alanning:roles';
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -11,38 +9,20 @@ import { connect } from 'react-redux';
 // the component takes in two special props 'loggingIn' and 'authenticated' which are
 // passed to the component via <App /> component.
 
-const SecureRoute = ({
-  authenticated, userId, component, ...rest
-}) => {
+const SecureRoute = ({ authenticated, component, ...rest }) => {
   if (authenticated) {
-    if (
-      userId &&
-      Roles.userIsInRole(userId, [
-        Meteor.settings.public.roles.admin,
-        Meteor.settings.public.roles.superAdmin,
-      ])
-    ) {
-      return <Route component={component} {...rest} />;
-    }
-
-    return '';
+    return <Route component={component} {...rest} />;
   }
 
   return <Redirect to="/login" />;
 };
 
-SecureRoute.defaultProps = {
-  userId: null,
-};
-
 SecureRoute.propTypes = {
   authenticated: PropTypes.bool.isRequired,
   component: PropTypes.func.isRequired,
-  userId: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
   authenticated: state.user.authenticated,
-  userId: state.user.id,
 });
 export default connect(mapStateToProps)(SecureRoute);

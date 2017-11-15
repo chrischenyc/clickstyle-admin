@@ -10,7 +10,7 @@ import FormInputField from '../../components/FormInputField';
 const LoginPage = ({
   onSubmit, onChange, loading, errors,
 }) => (
-  <Grid textAlign="center" verticalAlign="middle" className="below-fixed-menu">
+  <Grid textAlign="center" verticalAlign="middle">
     <Grid.Row style={{ maxWidth: 450 }}>
       <Grid.Column>
         <Segment attached>

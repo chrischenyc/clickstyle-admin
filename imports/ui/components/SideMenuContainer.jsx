@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import SideMenu from './SideMenu';
 
 const SideMenuContainer = props => (
-  <Grid stackable className="below-fixed-menu">
+  <Grid stackable>
     <Grid.Row>
       <Grid.Column width="1">
         <SideMenu />
