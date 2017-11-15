@@ -33,10 +33,12 @@ Services.attachBehaviour('timestampable', {
 });
 
 const ServicesSchema = new SimpleSchema({
-  // required fields
   name: {
     type: String,
     unique: true,
+  },
+  displayOrder: {
+    type: Number,
   },
 });
 
