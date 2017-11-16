@@ -42,7 +42,7 @@ class Service extends Component {
       <SideMenuContainer>
         {this.props.ready ? (
           <ServicePage
-            service={this.props.service}
+            service={{ ...this.props.service, addons: this.props.addons }}
             loading={this.state.loading}
             saving={this.state.saving}
             error={this.state.error}
@@ -60,12 +60,14 @@ class Service extends Component {
 Service.defaultProps = {
   ready: false,
   service: null,
+  addons: [],
 };
 
 Service.propTypes = {
   match: PropTypes.object.isRequired,
   ready: PropTypes.bool,
   service: PropTypes.object,
+  addons: PropTypes.array,
 };
 
 export default withTracker((props) => {
@@ -74,18 +76,7 @@ export default withTracker((props) => {
 
   return {
     ready: serviceHandle.ready() && addonsHandle.ready(),
-    service: Services.findOne(
-      { _id: props.match.params.id },
-      {
-        transform: (service) => {
-          console.log('transform');
-          const addons = Addons.find({ serviceId: props.match.params.id }).fetch();
-          return {
-            ...service,
-            addons,
-          };
-        },
-      },
-    ),
+    service: Services.findOne({ _id: props.match.params.id }),
+    addons: Addons.find({ serviceId: props.match.params.id }).fetch(),
   };
 })(Service);
