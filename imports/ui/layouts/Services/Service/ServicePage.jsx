@@ -13,6 +13,7 @@ const ServicePage = props => (
     <AddonsList
       addons={props.service.addons.filter(addon => addon.createdBy === 'system')}
       onAddonPublish={props.onAddonPublish}
+      onAddonRemove={props.onAddonRemove}
       saving={props.saving}
     />
 
@@ -20,6 +21,7 @@ const ServicePage = props => (
     <AddonsList
       addons={props.service.addons.filter(addon => addon.createdBy !== 'system')}
       onAddonPublish={props.onAddonPublish}
+      onAddonRemove={props.onAddonRemove}
       saving={props.saving}
     />
 
@@ -33,6 +35,7 @@ ServicePage.propTypes = {
   saving: PropTypes.bool.isRequired,
   error: PropTypes.string.isRequired,
   onAddonPublish: PropTypes.func.isRequired,
+  onAddonRemove: PropTypes.func.isRequired,
 };
 
 export default ServicePage;

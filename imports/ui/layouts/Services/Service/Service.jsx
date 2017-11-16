@@ -18,12 +18,21 @@ class Service extends Component {
     };
 
     this.handlePublishAddon = this.handlePublishAddon.bind(this);
+    this.handleRemoveAddon = this.handleRemoveAddon.bind(this);
   }
 
   handlePublishAddon(addon, publish) {
     this.setState({ saving: true });
 
     Meteor.call('addon.publish', { _id: addon._id, publish }, () => {
+      this.setState({ saving: false });
+    });
+  }
+
+  handleRemoveAddon(addon) {
+    this.setState({ saving: true });
+
+    Meteor.call('addon.remove', { _id: addon._id }, () => {
       this.setState({ saving: false });
     });
   }
@@ -38,6 +47,7 @@ class Service extends Component {
             saving={this.state.saving}
             error={this.state.error}
             onAddonPublish={this.handlePublishAddon}
+            onAddonRemove={this.handleRemoveAddon}
           />
         ) : (
           <p>loading...</p>

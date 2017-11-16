@@ -30,10 +30,33 @@ Meteor.methods({
       throw new Meteor.Error('500');
     }
   },
+  'addon.remove': function removeAddon(data) {
+    if (
+      !Roles.userIsInRole(Meteor.userId(), [
+        Meteor.settings.public.roles.admin,
+        Meteor.settings.public.roles.superAdmin,
+      ])
+    ) {
+      throw new Meteor.Error(403, 'unauthorized');
+    }
+
+    check(data, Object);
+    const { _id } = data;
+    check(_id, String);
+
+    try {
+      Addons.remove({ _id });
+    } catch (exception) {
+      /* eslint-disable no-console */
+      console.error(exception);
+      /* eslint-enable no-console */
+      throw new Meteor.Error('500');
+    }
+  },
 });
 
 rateLimit({
-  methods: ['services.update'],
+  methods: ['addon.publish', 'addon.remove'],
   limit: 5,
   timeRange: 1000,
 });
