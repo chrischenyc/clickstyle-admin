@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
+import log from 'winston';
 
 import rateLimit from '../../../modules/server/rate-limit';
 import StylistApplications from '../stylist_applications';
@@ -60,6 +61,12 @@ Meteor.methods({
             });
 
             sendStylistJoinApprovedEmail(userId);
+
+            log.info(
+              'Meteor.methods: stylist.application.approve',
+              `userId: ${this.userId}`,
+              `param: ${JSON.stringify(data)}`,
+            );
           }
         },
       );

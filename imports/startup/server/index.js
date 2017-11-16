@@ -1,6 +1,7 @@
 // import server startup through a single index entry point
 import { WebApp } from 'meteor/webapp';
 
+import './log';
 import './api';
 import './fixtures';
 import './email';

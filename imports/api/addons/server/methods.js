@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
+import log from 'winston';
 
 import rateLimit from '../../../modules/server/rate-limit';
 import Addons from '../addons';
@@ -23,6 +24,12 @@ Meteor.methods({
 
     try {
       Addons.update({ _id }, { $set: { public: publish } });
+
+      log.info(
+        'Meteor.methods: addon.publish',
+        `userId: ${this.userId}`,
+        `param: ${JSON.stringify(data)}`,
+      );
     } catch (exception) {
       /* eslint-disable no-console */
       console.error(exception);
@@ -46,6 +53,12 @@ Meteor.methods({
 
     try {
       Addons.remove({ _id });
+
+      log.info(
+        'Meteor.methods: addon.remove',
+        `userId: ${this.userId}`,
+        `param: ${JSON.stringify(data)}`,
+      );
     } catch (exception) {
       /* eslint-disable no-console */
       console.error(exception);

@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
+import log from 'winston';
 
 import rateLimit from '../../../modules/server/rate-limit';
 import { sendAdminAccessGrantEmail } from '../../../modules/server/send-email';
@@ -28,6 +29,12 @@ Meteor.methods({
     }
 
     sendAdminAccessGrantEmail(userId, grant, this.userId);
+
+    log.info(
+      'Meteor.methods: users.grant.admin',
+      `userId: ${this.userId}`,
+      `param: ${JSON.stringify(data)}`,
+    );
   },
 });
 
