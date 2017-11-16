@@ -69,15 +69,17 @@ class AddonsList extends Component {
                     </Button>
                   )}
 
-                <Button
-                  negative
-                  onClick={() => {
-                    this.setState({ openRemoveConfirm: true });
-                  }}
-                  disabled={saving}
-                >
-                  remove
-                </Button>
+                {!addon.public && (
+                  <Button
+                    negative
+                    onClick={() => {
+                      this.setState({ openRemoveConfirm: true });
+                    }}
+                    disabled={saving}
+                  >
+                    remove
+                  </Button>
+                )}
 
                 <Confirm
                   open={this.state.openRemoveConfirm}
