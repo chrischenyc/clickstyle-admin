@@ -26,7 +26,7 @@
     "react": "^16.1.1",
     "react-avatar-editor": "^10.3.0",
     "react-dom": "^16.1.1",
-    "react-geosuggest": "^2.6.0",
+    "react-geosuggest": "^2.5.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
