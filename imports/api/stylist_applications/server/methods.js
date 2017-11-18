@@ -53,11 +53,72 @@ Meteor.methods({
               },
             );
 
+            // default open/close hours
+            const openHours = [
+              {
+                day: 1,
+                open: true,
+                openAtHour: 9,
+                openAtMinute: 0,
+                closeAtHour: 17,
+                closeAtMinute: 0,
+              },
+              {
+                day: 2,
+                open: true,
+                openAtHour: 9,
+                openAtMinute: 0,
+                closeAtHour: 17,
+                closeAtMinute: 0,
+              },
+              {
+                day: 3,
+                open: true,
+                openAtHour: 9,
+                openAtMinute: 0,
+                closeAtHour: 17,
+                closeAtMinute: 0,
+              },
+              {
+                day: 4,
+                open: true,
+                openAtHour: 9,
+                openAtMinute: 0,
+                closeAtHour: 17,
+                closeAtMinute: 0,
+              },
+              {
+                day: 5,
+                open: true,
+                openAtHour: 9,
+                openAtMinute: 0,
+                closeAtHour: 17,
+                closeAtMinute: 0,
+              },
+              {
+                day: 6,
+                open: false,
+                openAtHour: 9,
+                openAtMinute: 0,
+                closeAtHour: 17,
+                closeAtMinute: 0,
+              },
+              {
+                day: 7,
+                open: false,
+                openAtHour: 9,
+                openAtMinute: 0,
+                closeAtHour: 17,
+                closeAtMinute: 0,
+              },
+            ];
+
             Stylists.insert({
               services,
               qualificationUrl,
               referenceUrl,
               owner: userId,
+              openHours,
             });
 
             sendStylistJoinApprovedEmail(userId);

@@ -65,9 +65,40 @@ const ServiceSchema = new SimpleSchema({
   },
 });
 
+const OpenHour = new SimpleSchema({
+  day: {
+    type: Number,
+    min: 1,
+    max: 7,
+  },
+  open: {
+    type: Boolean,
+  },
+  openAtHour: {
+    type: Number,
+    min: 0,
+    max: 23,
+  },
+  openAtMinute: {
+    type: Number,
+    min: 0,
+    max: 59,
+  },
+  closeAtHour: {
+    type: Number,
+    min: 0,
+    max: 23,
+  },
+  closeAtMinute: {
+    type: Number,
+    min: 0,
+    max: 59,
+  },
+});
+
 const StylistsSchema = new SimpleSchema({
   owner: {
-    type: String, // Meteor.users._id
+    type: String,
   },
   services: {
     type: [ServiceSchema],
@@ -79,6 +110,9 @@ const StylistsSchema = new SimpleSchema({
   referenceUrl: {
     type: String,
     optional: true,
+  },
+  openHours: {
+    type: [OpenHour],
   },
 });
 
