@@ -15,7 +15,6 @@ import {
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { Link } from 'react-router-dom';
 
 import { formatDateTime } from '../../../../modules/format-date';
 import ScaledImageURL from '../../../../modules/scaled-image-url';
@@ -29,7 +28,8 @@ const UserPage = (props) => {
     );
   }
 
-  const { profile, createdAt, roles } = props.user;
+  const { createdAt, roles } = props.user;
+  const { profile, stylist } = props;
   const photoURL = (profile && profile.photo) || Meteor.settings.public.image.defaultProfilePhoto;
 
   return (
@@ -77,8 +77,8 @@ const UserPage = (props) => {
 
         {profile.products && (
           <div>
-            <Divider />
-            <Header as="h3">Products used</Header>
+            <Divider horizontal>Products used</Divider>
+
             <List>
               {profile.products.map(product => (
                 <List.Item key={product.productId}>{product.name}</List.Item>
@@ -86,6 +86,20 @@ const UserPage = (props) => {
             </List>
           </div>
         )}
+
+        {stylist &&
+          stylist.services && (
+            <div>
+              <Divider horizontal>Stylist Services</Divider>
+            </div>
+          )}
+
+        {stylist &&
+          stylist.openHours && (
+            <div>
+              <Divider horizontal>Stylist Open Hours</Divider>
+            </div>
+          )}
       </Segment>
 
       {!Roles.userIsInRole(props.user._id, [Meteor.settings.public.roles.admin]) ? (
@@ -124,18 +138,47 @@ const UserPage = (props) => {
         View public profile
       </Button>
 
+      {stylist &&
+        stylist.public && (
+          <Button
+            size="large"
+            negative
+            onClick={() => {
+              props.onPublishStylist(false);
+            }}
+          >
+            Unpublish Stylist Profile
+          </Button>
+        )}
+
+      {stylist &&
+        !stylist.public && (
+          <Button
+            size="large"
+            primary
+            onClick={() => {
+              props.onPublishStylist(true);
+            }}
+          >
+            Publish Stylist Profile
+          </Button>
+        )}
+
       {!_.isEmpty(props.error) && <Message error>{props.error}</Message>}
     </Container>
   );
 };
 
 UserPage.defaultProps = {
-  user: null,
+  stylist: null,
 };
 
 UserPage.propTypes = {
-  user: PropTypes.object,
+  user: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
+  stylist: PropTypes.object,
   onGrantAdmin: PropTypes.func.isRequired,
+  onPublishStylist: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   error: PropTypes.string.isRequired,
 };
