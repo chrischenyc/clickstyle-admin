@@ -119,6 +119,7 @@ Meteor.methods({
               referenceUrl,
               owner: userId,
               openHours,
+              public: false,
             });
 
             sendStylistJoinApprovedEmail(userId);

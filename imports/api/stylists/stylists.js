@@ -114,6 +114,9 @@ const StylistsSchema = new SimpleSchema({
   openHours: {
     type: [OpenHour],
   },
+  public: {
+    type: Boolean, // non-public stylist cannot be discovered by customers
+  },
 });
 
 Stylists.attachSchema(StylistsSchema);
