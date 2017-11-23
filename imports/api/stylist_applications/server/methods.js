@@ -48,7 +48,6 @@ Meteor.methods({
                 $set: {
                   mobile,
                   address: { raw: address },
-                  stylist: { services, qualificationUrl, referenceUrl },
                 },
               },
             );
