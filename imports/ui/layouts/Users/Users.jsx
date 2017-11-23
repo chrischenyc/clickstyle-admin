@@ -14,7 +14,7 @@ class Users extends Component {
     this.state = {
       filter: 'customer',
       page: 0,
-      limit: 50,
+      limit: 25,
       hasMore: false,
     };
 

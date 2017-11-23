@@ -4,13 +4,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
 
 import { formatDateTime } from '../../../modules/format-date';
 
 class UsersList extends Component {
   componentWillReceiveProps(nextProps) {
-    if (nextProps.users.length !== this.props.users.length) {
-      this.props.onDataLoaded(nextProps.users.length === this.props.limit);
+    if (!_.isEqual(nextProps.users, this.props.users)) {
+      this.props.onDataLoaded(nextProps.users.length >= this.props.limit);
     }
   }
 

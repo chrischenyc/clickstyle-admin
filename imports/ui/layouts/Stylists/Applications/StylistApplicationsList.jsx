@@ -4,14 +4,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
 
 import { formatDateTime } from '../../../../modules/format-date';
 import StylistApplications from '../../../../api/stylist_applications/stylist_applications';
 
 class StylistApplicationsList extends Component {
   componentWillReceiveProps(nextProps) {
-    if (nextProps.applications.length !== this.props.applications.length) {
-      this.props.onDataLoaded(nextProps.applications.length === this.props.limit);
+    if (!_.isEqual(nextProps.applications, this.props.applications)) {
+      this.props.onDataLoaded(nextProps.applications.length >= this.props.limit);
     }
   }
 
