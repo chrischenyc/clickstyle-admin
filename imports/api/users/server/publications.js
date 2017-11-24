@@ -2,7 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 
-Meteor.publish('users', function users(filter, page, limit) {
+import usersFindSelector from '../../../modules/users-find-selector';
+
+Meteor.publish('users', function users(filter, search, page, limit) {
   if (
     !Roles.userIsInRole(this.userId, [
       Meteor.settings.public.roles.admin,
@@ -13,6 +15,7 @@ Meteor.publish('users', function users(filter, page, limit) {
   }
 
   check(filter, String);
+  check(search, String);
   check(page, Number);
   check(limit, Number);
 
@@ -21,22 +24,7 @@ Meteor.publish('users', function users(filter, page, limit) {
   }
 
   // config query based on filter
-  const selector = {
-    roles: {
-      $in: [
-        Meteor.settings.public.roles.customer,
-        Meteor.settings.public.roles.stylist,
-        Meteor.settings.public.roles.admin,
-      ],
-    },
-  };
-  if (filter === 'customer') {
-    selector.roles = Meteor.settings.public.roles.customer;
-  } else if (filter === 'stylist') {
-    selector.roles = Meteor.settings.public.roles.stylist;
-  } else if (filter === 'admin') {
-    selector.roles = Meteor.settings.public.roles.admin;
-  }
+  const selector = usersFindSelector(filter, search);
 
   return Meteor.users.find(selector, {
     limit,

@@ -6,6 +6,7 @@ import { Table } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
+import usersFindSelector from '../../../modules/users-find-selector';
 import { formatDateTime } from '../../../modules/format-date';
 
 class UsersList extends Component {
@@ -63,30 +64,16 @@ UsersList.propTypes = {
   ready: PropTypes.bool,
   users: PropTypes.array,
   filter: PropTypes.string.isRequired,
+  search: PropTypes.string.isRequired,
   page: PropTypes.number.isRequired,
   limit: PropTypes.number.isRequired,
   onDataLoaded: PropTypes.func.isRequired,
 };
 
 export default withTracker((props) => {
-  const handle = Meteor.subscribe('users', props.filter, props.page, props.limit);
+  const handle = Meteor.subscribe('users', props.filter, props.search, props.page, props.limit);
 
-  const selector = {
-    roles: {
-      $in: [
-        Meteor.settings.public.roles.customer,
-        Meteor.settings.public.roles.stylist,
-        Meteor.settings.public.roles.admin,
-      ],
-    },
-  };
-  if (props.filter === 'customer') {
-    selector.roles = Meteor.settings.public.roles.customer;
-  } else if (props.filter === 'stylist') {
-    selector.roles = Meteor.settings.public.roles.stylist;
-  } else if (props.filter === 'admin') {
-    selector.roles = Meteor.settings.public.roles.admin;
-  }
+  const selector = usersFindSelector(props.filter, props.search);
 
   const users = Meteor.users
     .find(selector, {
