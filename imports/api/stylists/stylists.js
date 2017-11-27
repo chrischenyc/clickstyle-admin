@@ -96,6 +96,35 @@ const OpenHour = new SimpleSchema({
   },
 });
 
+const SuburbSchema = new SimpleSchema({
+  _id: {
+    type: String,
+  },
+  name: {
+    type: String,
+  },
+  postcode: {
+    type: String,
+  },
+});
+
+const AreasSchema = new SimpleSchema({
+  suburb: {
+    type: SuburbSchema,
+  },
+  radius: {
+    type: Number,
+    decimal: true,
+  },
+  canTravel: {
+    type: Boolean,
+  },
+  availableSuburbs: {
+    type: [SuburbSchema],
+    optional: true,
+  },
+});
+
 const StylistsSchema = new SimpleSchema({
   owner: {
     type: String,
@@ -113,6 +142,10 @@ const StylistsSchema = new SimpleSchema({
   },
   openHours: {
     type: [OpenHour],
+  },
+  areas: {
+    type: AreasSchema,
+    optional: true,
   },
   public: {
     type: Boolean, // non-public stylist cannot be discovered by customers
