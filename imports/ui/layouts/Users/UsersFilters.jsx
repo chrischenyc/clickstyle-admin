@@ -44,7 +44,6 @@ const UsersFilters = props => (
     <Input
       placeholder="search for first name, last name, or email"
       input={{ size: '40' }}
-      value={props.search}
       onChange={(event) => {
         props.onSearch(event.target.value);
       }}
@@ -55,7 +54,6 @@ const UsersFilters = props => (
 UsersFilters.propTypes = {
   filter: PropTypes.string.isRequired,
   onFilter: PropTypes.func.isRequired,
-  search: PropTypes.string.isRequired,
   onSearch: PropTypes.func.isRequired,
 };
 

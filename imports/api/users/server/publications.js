@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 
-import usersFindSelector from '../../../modules/users-find-selector';
+import { usersFindSelector } from '../../../modules/publish-selectors';
 
 Meteor.publish('users', function users(filter, search, page, limit) {
   if (

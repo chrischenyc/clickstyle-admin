@@ -1,8 +1,7 @@
 import { Meteor } from 'meteor/meteor';
-import { Roles } from 'meteor/alanning:roles';
 import _ from 'lodash';
 
-const usersFindSelector = (filter, search) => {
+export const usersFindSelector = (filter, search) => {
   const roleSelector = {
     roles: {
       $in: [
@@ -32,4 +31,24 @@ const usersFindSelector = (filter, search) => {
   return selector;
 };
 
-export default usersFindSelector;
+export const suburbsFindSelector = (filter, search) => {
+  let selector = {};
+  if (filter === 'published') {
+    selector.published = true;
+  } else if (filter === 'active') {
+    selector.active = true;
+  } else if (filter === 'inactive') {
+    selector.active = false;
+  }
+
+  if (!_.isEmpty(search)) {
+    const nameSelector = { name: RegExp(`^${search}`, 'i') };
+    const postcodeSelector = { postcode: RegExp(`^${search}`, 'i') };
+
+    selector = _.isNumber(search)
+      ? { ...selector, ...postcodeSelector }
+      : { ...selector, ...nameSelector };
+  }
+
+  return selector;
+};

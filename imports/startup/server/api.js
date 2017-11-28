@@ -14,3 +14,6 @@ import '../../api/services/server/methods';
 
 import '../../api/addons/server/publications';
 import '../../api/addons/server/methods';
+
+import '../../api/suburbs/server/publications';
+import '../../api/suburbs/server/methods';

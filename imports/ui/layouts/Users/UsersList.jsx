@@ -6,7 +6,7 @@ import { Table } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
-import usersFindSelector from '../../../modules/users-find-selector';
+import { usersFindSelector } from '../../../modules/publish-selectors';
 import { formatDateTime } from '../../../modules/format-date';
 
 class UsersList extends Component {
