@@ -32,3 +32,4 @@ edgee:slingshot                 # file upload
 jimmiebtlr:slingshot-cloudinary # support uploading to cloudinary
 webapp
 wylio:winston-papertrail
+percolate:synced-cron

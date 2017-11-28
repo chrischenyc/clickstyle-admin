@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const SuburbsFilters = props => (
   <div>
     <div style={{ marginBottom: '0.5rem' }}>
-      <List bulleted>
+      <List>
         <List.Item>
           Published - when a suburb has at least one servicing stylist, we publish this suburb to
           customer searching.
