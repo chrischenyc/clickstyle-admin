@@ -22,7 +22,7 @@ Meteor.methods({
     check(userId, String);
     check(publish, Boolean);
 
-    Stylists.update({ owner: userId }, { $set: { public: publish } });
+    Stylists.update({ owner: userId }, { $set: { published: publish } });
 
     log.info(
       'Meteor.methods: stylist.publish',

@@ -149,6 +149,10 @@ const StylistsSchema = new SimpleSchema({
   },
   public: {
     type: Boolean, // non-public stylist cannot be discovered by customers
+    optional: true,
+  },
+  published: {
+    type: Boolean, // only published stylist can be discovered by customers
   },
 });
 

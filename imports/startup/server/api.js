@@ -17,3 +17,10 @@ import '../../api/addons/server/methods';
 
 import '../../api/suburbs/server/publications';
 import '../../api/suburbs/server/methods';
+
+// temp fix
+import Addons from '../../api/addons/addons';
+import Stylists from '../../api/stylists/stylists';
+
+Addons.update({}, { $rename: { public: 'published' } }, { multi: true });
+Stylists.update({}, { $rename: { public: 'published' } }, { multi: true });

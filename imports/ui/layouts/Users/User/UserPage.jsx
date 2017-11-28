@@ -139,7 +139,7 @@ const UserPage = (props) => {
       </Button>
 
       {stylist &&
-        stylist.public && (
+        stylist.published && (
           <Button
             size="large"
             negative
@@ -147,12 +147,12 @@ const UserPage = (props) => {
               props.onPublishStylist(false);
             }}
           >
-            Unpublish Stylist Profile
+            Un-publish Stylist Profile
           </Button>
         )}
 
       {stylist &&
-        !stylist.public && (
+        !stylist.published && (
           <Button
             size="large"
             primary

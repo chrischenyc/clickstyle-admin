@@ -23,7 +23,7 @@ Meteor.methods({
     check(publish, Boolean);
 
     try {
-      Addons.update({ _id }, { $set: { public: publish } });
+      Addons.update({ _id }, { $set: { published: publish } });
 
       log.info(
         'Meteor.methods: addon.publish',

@@ -44,7 +44,7 @@ class AddonsList extends Component {
 
               <Table.Cell>
                 {addon.createdBy !== 'system' &&
-                  !addon.public && (
+                  !addon.published && (
                     <Button
                       primary
                       onClick={() => {
@@ -57,7 +57,7 @@ class AddonsList extends Component {
                   )}
 
                 {addon.createdBy !== 'system' &&
-                  addon.public && (
+                  addon.published && (
                     <Button
                       primary
                       onClick={() => {
@@ -69,7 +69,7 @@ class AddonsList extends Component {
                     </Button>
                   )}
 
-                {!addon.public && (
+                {!addon.published && (
                   <Button
                     negative
                     onClick={() => {
