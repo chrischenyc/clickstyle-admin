@@ -21,6 +21,7 @@ class Suburbs extends Component {
 
     this.handleFilter = this.handleFilter.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleActivateSuburb = this.handleActivateSuburb.bind(this);
   }
 
   handleFilter(filter) {
@@ -29,6 +30,10 @@ class Suburbs extends Component {
 
   handleSearch(search) {
     this.setState({ search });
+  }
+
+  handleActivateSuburb(suburb, active) {
+    Meteor.call('suburb.activate', { _id: suburb._id, active });
   }
 
   render() {
@@ -51,6 +56,7 @@ class Suburbs extends Component {
             onDataLoaded={(hasMore) => {
               this.setState({ hasMore });
             }}
+            onActivateSuburb={this.handleActivateSuburb}
           />
 
           <Pagination

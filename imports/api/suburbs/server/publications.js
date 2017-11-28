@@ -27,10 +27,9 @@ Meteor.publish('suburbs', function users(filter, search, page, limit) {
   // config query based on filter
   const selector = suburbsFindSelector(filter, search);
 
-  console.log(selector);
-
   return Suburbs.find(selector, {
     limit,
     skip: page * limit,
+    sort: { postcode: 1 },
   });
 });

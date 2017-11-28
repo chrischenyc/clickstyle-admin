@@ -2,12 +2,13 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import _ from 'lodash';
+import log from 'winston';
 
 import rateLimit from '../../../modules/server/rate-limit';
 import Suburbs from '../suburbs';
 
 Meteor.methods({
-  'suburbs.search.all': function searchStylists(keyword) {
+  'suburb.activate': function activateSuburb(data) {
     if (
       !Roles.userIsInRole(Meteor.userId(), [
         Meteor.settings.public.roles.admin,
@@ -17,18 +18,19 @@ Meteor.methods({
       throw new Meteor.Error(403, 'unauthorized');
     }
 
-    check(keyword, String);
+    check(data, Object);
+    const { _id, active } = data;
+    check(_id, String);
+    check(active, Boolean);
 
     try {
-      const nameSelector = { active: true, name: RegExp(`^${keyword}`, 'i') };
-      const postcodeSelector = { active: true, postcode: RegExp(`^${keyword}`, 'i') };
+      Suburbs.update({ _id }, { $set: { active } });
 
-      return Suburbs.find(_.isNumber(keyword) ? postcodeSelector : nameSelector, {
-        fields: {
-          name: 1,
-          postcode: 1,
-        },
-      }).fetch();
+      log.info(
+        'Meteor.methods: suburb.activate',
+        `userId: ${this.userId}`,
+        `param: ${JSON.stringify(data)}`,
+      );
     } catch (exception) {
       /* eslint-disable no-console */
       console.error(exception);

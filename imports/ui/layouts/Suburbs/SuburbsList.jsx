@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Table } from 'semantic-ui-react';
+import { Table, Checkbox } from 'semantic-ui-react';
 import _ from 'lodash';
 
 import { suburbsFindSelector } from '../../../modules/publish-selectors';
@@ -40,7 +40,17 @@ class SuburbsList extends Component {
 
                 <Table.Cell>{suburb.published ? 'YES' : 'NO'}</Table.Cell>
 
-                <Table.Cell>{suburb.active ? 'YES' : 'NO'}</Table.Cell>
+                <Table.Cell>
+                  &nbsp;<Checkbox
+                    toggle
+                    disabled={suburb.published}
+                    checked={suburb.active}
+                    label={suburb.active ? 'YES' : 'NO'}
+                    onChange={(event, { checked }) => {
+                      this.props.onActivateSuburb(suburb, checked);
+                    }}
+                  />
+                </Table.Cell>
               </Table.Row>
             ))}
         </Table.Body>
@@ -62,14 +72,17 @@ SuburbsList.propTypes = {
   page: PropTypes.number.isRequired,
   limit: PropTypes.number.isRequired,
   onDataLoaded: PropTypes.func.isRequired,
+  onActivateSuburb: PropTypes.func.isRequired,
 };
 
+// the reason we don't lift this data querying code to parent component
+// is because withTracker use props not state
 export default withTracker((props) => {
   const handle = Meteor.subscribe('suburbs', props.filter, props.search, props.page, props.limit);
 
   const selector = suburbsFindSelector(props.filter, props.search);
 
-  const suburbs = Suburbs.find(selector).fetch();
+  const suburbs = Suburbs.find(selector, { sort: { postcode: 1 } }).fetch();
 
   return {
     ready: handle.ready(),
