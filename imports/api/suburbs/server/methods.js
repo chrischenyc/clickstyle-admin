@@ -67,7 +67,7 @@ Meteor.methods({
       servicingSuburbIds = _.flatMapDeep(servicingSuburbIds);
       servicingSuburbIds = _.uniq(servicingSuburbIds);
 
-      log.verbose(`servicingSuburbIds: ${servicingSuburbIds}`);
+      console.log(`servicingSuburbIds: ${servicingSuburbIds}`);
 
       Suburbs.update(
         { _id: { $in: servicingSuburbIds }, active: true, published: false },
@@ -91,7 +91,7 @@ Meteor.methods({
 });
 
 rateLimit({
-  methods: ['suburb.activate'],
+  methods: ['suburb.activate', 'suburbs.refresh.published'],
   limit: 5,
   timeRange: 1000,
 });
