@@ -44,6 +44,7 @@ Meteor.methods({
 Meteor.methods({
   'suburbs.refresh.published': function refreshPublishedSuburbs(data) {
     if (
+      Meteor.isClient &&
       !Roles.userIsInRole(Meteor.userId(), [
         Meteor.settings.public.roles.admin,
         Meteor.settings.public.roles.superAdmin,
@@ -66,8 +67,6 @@ Meteor.methods({
 
       servicingSuburbIds = _.flatMapDeep(servicingSuburbIds);
       servicingSuburbIds = _.uniq(servicingSuburbIds);
-
-      console.log(`servicingSuburbIds: ${servicingSuburbIds}`);
 
       Suburbs.update(
         { _id: { $in: servicingSuburbIds }, active: true, published: false },

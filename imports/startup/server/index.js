@@ -8,5 +8,6 @@ import './email';
 import '../slingshot-restrictions';
 import './slingshot-directives';
 import './cloudinary';
+import './cron';
 
 WebApp.addHtmlAttributeHook(() => ({ lang: 'en' }));
