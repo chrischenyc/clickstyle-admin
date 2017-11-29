@@ -63,7 +63,7 @@ Meteor.methods({
       )
         .fetch()
         .filter(stylist => stylist.areas && stylist.areas.availableSuburbs)
-        .map(stylist => stylist.areas.availableSuburbs.map(suburb => suburb._id));
+        .map(stylist => stylist.areas.availableSuburbs);
 
       servicingSuburbIds = _.flatMapDeep(servicingSuburbIds);
       servicingSuburbIds = _.uniq(servicingSuburbIds);

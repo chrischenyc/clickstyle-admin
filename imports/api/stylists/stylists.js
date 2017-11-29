@@ -120,7 +120,7 @@ const AreasSchema = new SimpleSchema({
     type: Boolean,
   },
   availableSuburbs: {
-    type: [SuburbSchema],
+    type: [String],
     optional: true,
   },
 });
