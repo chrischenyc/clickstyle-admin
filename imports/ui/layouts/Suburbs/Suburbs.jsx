@@ -40,11 +40,7 @@ class Suburbs extends Component {
 
   handleRefreshPublished() {
     this.setState({ loading: true });
-    Meteor.call('suburbs.refresh.published', {}, (error) => {
-      if (error) {
-        console.log('error', error);
-      }
-
+    Meteor.call('suburbs.refresh.published', {}, () => {
       this.setState({ loading: false });
     });
   }
@@ -61,8 +57,8 @@ class Suburbs extends Component {
                 Refresh published suburbs
               </Button>
               <p>
-                This operation is database compute-intensive, please refrain from using it during
-                working hours
+                This operation might be compute-intensive, please refrain from using it during
+                working hours. The auto refresh is scheduled to run every 15 minutes.
               </p>
             </div>
           )}
