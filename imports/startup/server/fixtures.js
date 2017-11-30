@@ -5,8 +5,8 @@ import { Roles } from 'meteor/alanning:roles';
 import Profiles from '../../api/profiles/profiles';
 // seed admin user
 
-const seedAdminEmail = 'admin@stylesquad.com';
-const adminUser = Accounts.findUserByEmail('admin@stylesquad.com');
+const seedAdminEmail = 'admin@stylesquad.com.au';
+const adminUser = Accounts.findUserByEmail(seedAdminEmail);
 if (!adminUser) {
   const userId = Accounts.createUser({
     email: seedAdminEmail,
