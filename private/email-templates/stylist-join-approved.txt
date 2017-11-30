@@ -1,14 +1,30 @@
-Hey, {{firstName}}!
+Hi {{firstName}},
 
-Good new! You've become a stylist on {{applicationName}}!
+Woohoo!! Congratulations your stylist application with {{appName}} has been approved and now
+you can start making them monayyyy! This is a beginning of a great journey for us together and
+we are here with you on every step of the way because together we a Team.
 
-What's next? 
-TBD
+Here’s a quick guide on what to do next.
 
-Why join as a stylist on {{applicationName}}? 
-TBD
+1. Profile:​ Log in to your account and setup your profile in full. Having every detail filled in
+will give you the best exposure and help attract more clients.
+2. Service​ ​&​ ​Price​ ​List:​ Fill in the services, prices, description of the service you provide
+and mobile service location you will be covering.
+3. Calendar:​ Set you your availability so clients can make bookings.
+Note: Please keep the calendar as update to date as possible to avoid double bookings
+or potentially missing out on bookings.
 
+Further help can be found on the help page {{helpUrl}} which also has FAQ’s. Feel free
+to contact us if you have any queries or suggestions (we are always open to new ideas,
+thoughts, comments and just about anything, please don’t hesitate whatever it is)
 
-Cheers, 
-{{applicationName}} Team
-{{supportEmail}}
+Get​ ​Started​ {{homeUrl}}
+
+Warm Regards
+{{appName}} Family
+
+Fun fact:
+The fastest growing nail is on the middle finger
+
+{{{txtFooter}}}
+

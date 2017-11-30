@@ -40,9 +40,46 @@ const sendEmail = ({
   throw new Error("Please pass an HTML string, text, or template name to compile for your message's body.");
 };
 
-// helpers
-const { applicationName, supportEmail } = Meteor.settings.public;
-const fromAddress = `${applicationName} <${supportEmail}>`;
+// retrieve constants from Meteor settings files
+const {
+  appName,
+  homeUrl,
+  helpUrl,
+  contactUrl,
+  searchUrl,
+  joinUrl,
+  privacyUrl,
+  termsUrl,
+  supportEmail,
+  facebookUrl,
+  twitterUrl,
+  instagramUrl,
+} = Meteor.settings.public;
+
+export const fromAddress = `${appName} <${supportEmail}>`;
+
+// standard vars most email templates use
+const commonTemplateVars = {
+  appName,
+  homeUrl: Meteor.absoluteUrl(homeUrl),
+  helpUrl: Meteor.absoluteUrl(helpUrl),
+  contactUrl: Meteor.absoluteUrl(contactUrl),
+  searchUrl: Meteor.absoluteUrl(searchUrl),
+  joinUrl: Meteor.absoluteUrl(joinUrl),
+  privacyUrl: Meteor.absoluteUrl(privacyUrl),
+  termsUrl: Meteor.absoluteUrl(termsUrl),
+  supportEmail,
+  facebookUrl,
+  twitterUrl,
+  instagramUrl,
+};
+
+// add shared footers
+export const templateVars = {
+  ...commonTemplateVars,
+  txtFooter: templateToText(getPrivateFile('email-templates/footer.txt'), commonTemplateVars),
+  htmlFooter: templateToHTML(getPrivateFile('email-templates/footer.html'), commonTemplateVars),
+};
 
 export const sendStylistJoinApprovedEmail = (userId) => {
   const profile = Profiles.findOne({ owner: userId });
@@ -50,12 +87,11 @@ export const sendStylistJoinApprovedEmail = (userId) => {
   sendEmail({
     to: profile.email,
     from: fromAddress,
-    subject: `Congrats! You are now a stylist on ${applicationName}`,
+    subject: `Congrats! You are now a stylist on ${appName}`,
     template: 'stylist-join-approved',
     templateVars: {
-      applicationName,
       firstName: profile.name.first,
-      supportEmail,
+      ...templateVars,
     },
   }).catch((error) => {
     throw new Meteor.Error('500', `${error}`);
@@ -64,7 +100,6 @@ export const sendStylistJoinApprovedEmail = (userId) => {
 
 export const sendAdminAccessGrantEmail = (userId, grant, byUserId) => {
   const profile = Profiles.findOne({ owner: userId }, { fields: { email: 1 } });
-
   const byProfile = Profiles.findOne({ owner: byUserId }, { fields: { email: 1 } });
 
   sendEmail({
@@ -73,12 +108,11 @@ export const sendAdminAccessGrantEmail = (userId, grant, byUserId) => {
     subject: `Admin access ${grant ? 'granted' : 'revoked'}`,
     template: 'admin-access-grant',
     templateVars: {
-      applicationName,
-      supportEmail,
       grant: grant ? 'granted' : 'revoked',
       accountEmail: profile.email,
       byEmail: byProfile.email,
       changedOn: formatDateTime(Date.now(0)),
+      ...templateVars,
     },
   }).catch((error) => {
     throw new Meteor.Error('500', `${error}`);

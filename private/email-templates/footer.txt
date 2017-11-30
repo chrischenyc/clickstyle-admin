@@ -1,0 +1,12 @@
+
+Facebook: {{facebookUrl}}
+Twitter: {{twitterUrl}}
+Instagram: {{instagramUrl}}
+Find a stylist: searchUrl
+Become a stylist: joinUrl
+Email: {{supportEmail}}
+
+&copy; {{appName}} 2017. All right reserved.
+Privacy: privacyUrl
+Terms: termsUrl
+

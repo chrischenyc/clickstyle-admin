@@ -9,7 +9,7 @@ const Header = props => (
   <Responsive as={Menu} fixed="top" inverted borderless stackable size="massive">
     <Container fluid style={{ paddingLeft: '1rem', paddingRight: '1rem' }}>
       <Menu.Item as={Link} to="/">
-        {Meteor.settings.public.applicationName}
+        {Meteor.settings.public.appName}
       </Menu.Item>
 
       <Menu.Menu position="right">
