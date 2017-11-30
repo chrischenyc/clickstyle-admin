@@ -59,6 +59,10 @@ const ServiceSchema = new SimpleSchema({
     type: Number,
     optional: true,
   },
+  basePriceDescription: {
+    type: String,
+    optional: true,
+  },
   addons: {
     type: [AddonSchema],
     optional: true,
