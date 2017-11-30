@@ -10,7 +10,7 @@ SyncedCron.add({
   name: 'Refresh Suburbs.published status based on current Stylists data',
   schedule(parser) {
     // parser is a later.parse object
-    return parser.text('every 15 minutes');
+    return parser.text('every 4 hours');
   },
   job() {
     Meteor.call('suburbs.refresh.published', {}, (error) => {
