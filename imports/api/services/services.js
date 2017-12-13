@@ -40,6 +40,10 @@ const ServicesSchema = new SimpleSchema({
   displayOrder: {
     type: Number,
   },
+  photo: {
+    type: String,
+    optional: true,
+  },
 });
 
 Services.attachSchema(ServicesSchema);

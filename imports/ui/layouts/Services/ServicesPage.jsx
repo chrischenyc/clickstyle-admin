@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Container, Header, Table, Button, Message } from 'semantic-ui-react';
+import { Container, Header, Table, Button, Message, Image } from 'semantic-ui-react';
 import _ from 'lodash';
 
+import scaledImageURL from '../../../modules/scaled-image-url';
 import SideMenuContainer from '../../components/SideMenuContainer';
 
 const ServicesPage = ({
@@ -30,6 +31,7 @@ const ServicesPage = ({
           <Table.Row>
             <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Display Order</Table.HeaderCell>
+            <Table.HeaderCell>Photo</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -57,6 +59,12 @@ const ServicesPage = ({
                       }}
                     />
                   )}
+                </Table.Cell>
+                <Table.Cell>
+                  {service.photo && (
+                    <Image src={scaledImageURL(service.photo, 'small')} size="tiny" />
+                  )}
+                  {!service.photo && 'no photo'}
                 </Table.Cell>
               </Table.Row>
             ))}
