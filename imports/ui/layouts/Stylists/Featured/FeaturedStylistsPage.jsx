@@ -93,7 +93,7 @@ const FeaturedStylistsPage = ({
             <Table.Cell colSpan="4">
               <Search
                 name="stylistName"
-                placeholder="search stylist name ..."
+                placeholder="stylist name, email"
                 style={{ display: 'inline', marginRight: '1rem' }}
                 loading={searchingStylists}
                 onResultSelect={(e, { result }) => {
