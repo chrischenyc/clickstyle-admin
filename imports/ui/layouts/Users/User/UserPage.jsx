@@ -91,6 +91,12 @@ const UserPage = (props) => {
           stylist.services && (
             <div>
               <Divider horizontal>Stylist Services</Divider>
+
+              <List>
+                {stylist.services.map(service => (
+                  <List.Item key={service._id}>{service.name}</List.Item>
+                ))}
+              </List>
             </div>
           )}
 
@@ -98,6 +104,16 @@ const UserPage = (props) => {
           stylist.openHours && (
             <div>
               <Divider horizontal>Stylist Open Hours</Divider>
+
+              <List>
+                {stylist.openHours.map(openHour => (
+                  <List.Item key={openHour.day}>
+                    {`${openHour.day}: ${openHour.openAtHour}:${openHour.openAtMinute} - ${
+                      openHour.closeAtHour
+                    }:${openHour.closeAtMinute}`}
+                  </List.Item>
+                ))}
+              </List>
             </div>
           )}
       </Segment>
