@@ -33,6 +33,26 @@ const FeaturedStylistsPage = ({
 
       {!_.isEmpty(error) && <Message error content={error} compact />}
 
+      <Search
+        name="stylistName"
+        placeholder="stylist name, email"
+        style={{ display: 'inline', marginRight: '1rem' }}
+        loading={searchingStylists}
+        onResultSelect={(e, { result }) => {
+          onSelectStylist(result);
+        }}
+        onSearchChange={(e, data) => {
+          onChange({ target: data });
+        }}
+        results={matchedStylists}
+        showNoResults={false}
+        value={stylistName}
+      />
+
+      <Button primary disabled={!selectedStylist} onClick={onFeatureSelectedStylist}>
+        Feature on home page
+      </Button>
+
       <Table celled>
         <Table.Header>
           <Table.Row>
@@ -88,30 +108,6 @@ const FeaturedStylistsPage = ({
               </Table.Cell>
             </Table.Row>
           ))}
-
-          <Table.Row>
-            <Table.Cell colSpan="4">
-              <Search
-                name="stylistName"
-                placeholder="stylist name, email"
-                style={{ display: 'inline', marginRight: '1rem' }}
-                loading={searchingStylists}
-                onResultSelect={(e, { result }) => {
-                  onSelectStylist(result);
-                }}
-                onSearchChange={(e, data) => {
-                  onChange({ target: data });
-                }}
-                results={matchedStylists}
-                showNoResults={false}
-                value={stylistName}
-              />
-
-              <Button primary disabled={!selectedStylist} onClick={onFeatureSelectedStylist}>
-                Feature on home page
-              </Button>
-            </Table.Cell>
-          </Table.Row>
         </Table.Body>
       </Table>
     </Container>

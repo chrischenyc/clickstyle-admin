@@ -57,8 +57,9 @@ Meteor.methods({
       ).fetch();
 
       // query Profiles
+      const stylistOwnerIds = stylists.map(stylist => stylist.owner);
       const profiles = Profiles.find(
-        { owner: { $in: userIds } },
+        { owner: { $in: stylistOwnerIds } },
         {
           fields: {
             owner: 1,
