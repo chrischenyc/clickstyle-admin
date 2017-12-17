@@ -9,7 +9,7 @@
     "dev":
       "MONGO_URL=mongodb://localhost:27017/stylesquad  meteor -s settings-development.json --port 4000",
     "start": "meteor run",
-    "cloc": "cloc imports client server public private --exclude-ext=json"
+    "cloc": "cloc imports client server private --exclude-ext=json"
   },
   "dependencies": {
     "@navjobs/upload": "^3.1.1",

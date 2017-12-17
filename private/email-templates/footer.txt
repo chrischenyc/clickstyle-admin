@@ -9,4 +9,5 @@ Email: {{supportEmail}}
 &copy; {{appName}} 2017. All right reserved.
 Privacy: privacyUrl
 Terms: termsUrl
+Contact: contactUrl
 
