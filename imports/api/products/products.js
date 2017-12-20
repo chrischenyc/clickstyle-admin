@@ -1,6 +1,6 @@
 // definition of the Profiles collection
 import { Mongo } from 'meteor/mongo';
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import SimpleSchema from 'simpl-schema';
 
 const Products = new Mongo.Collection('products');
 

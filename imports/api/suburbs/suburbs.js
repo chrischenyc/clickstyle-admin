@@ -1,6 +1,6 @@
 // definition of the Profiles collection
 import { Mongo } from 'meteor/mongo';
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import SimpleSchema from 'simpl-schema';
 
 const Suburbs = new Mongo.Collection('suburbs');
 
@@ -44,11 +44,9 @@ const SuburbsSchema = new SimpleSchema({
   },
   lat: {
     type: Number,
-    decimal: true,
   },
   lon: {
     type: Number,
-    decimal: true,
   },
   published: {
     type: Boolean, // true if the suburb can be searched by customer

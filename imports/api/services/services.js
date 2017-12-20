@@ -1,6 +1,6 @@
 // definition of the Services stylist can provide
 import { Mongo } from 'meteor/mongo';
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import SimpleSchema from 'simpl-schema';
 
 const Services = new Mongo.Collection('services');
 
@@ -38,7 +38,7 @@ const ServicesSchema = new SimpleSchema({
     unique: true,
   },
   displayOrder: {
-    type: Number,
+    type: SimpleSchema.Integer,
   },
   photo: {
     type: String,

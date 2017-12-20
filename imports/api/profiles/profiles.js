@@ -1,6 +1,6 @@
 // definition of the Profiles collection
 import { Mongo } from 'meteor/mongo';
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import SimpleSchema from 'simpl-schema';
 
 const Profiles = new Mongo.Collection('profiles');
 
@@ -125,9 +125,10 @@ const ProfilesSchema = new SimpleSchema({
     regEx: SimpleSchema.RegEx.Url,
   },
   products: {
-    type: [ProductSchema],
+    type: Array,
     optional: true,
   },
+  'products.$': ProductSchema,
 });
 
 Profiles.attachSchema(ProfilesSchema);

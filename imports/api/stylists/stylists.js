@@ -1,6 +1,6 @@
 // definition of the Profiles collection
 import { Mongo } from 'meteor/mongo';
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import SimpleSchema from 'simpl-schema';
 
 const Stylists = new Mongo.Collection('stylists');
 
@@ -64,14 +64,15 @@ const ServiceSchema = new SimpleSchema({
     optional: true,
   },
   addons: {
-    type: [AddonSchema],
+    type: Array,
     optional: true,
   },
+  'addons.$': AddonSchema,
 });
 
 const OpenHour = new SimpleSchema({
   day: {
-    type: Number,
+    type: SimpleSchema.Integer,
     min: 1,
     max: 7,
   },
@@ -79,22 +80,22 @@ const OpenHour = new SimpleSchema({
     type: Boolean,
   },
   openAtHour: {
-    type: Number,
+    type: SimpleSchema.Integer,
     min: 0,
     max: 23,
   },
   openAtMinute: {
-    type: Number,
+    type: SimpleSchema.Integer,
     min: 0,
     max: 59,
   },
   closeAtHour: {
-    type: Number,
+    type: SimpleSchema.Integer,
     min: 0,
     max: 23,
   },
   closeAtMinute: {
-    type: Number,
+    type: SimpleSchema.Integer,
     min: 0,
     max: 59,
   },
@@ -117,25 +118,24 @@ const AreasSchema = new SimpleSchema({
     type: SuburbSchema,
   },
   radius: {
-    type: Number,
-    decimal: true,
+    type: SimpleSchema.Integer,
   },
   canTravel: {
     type: Boolean,
   },
   availableSuburbs: {
-    type: [String],
+    type: Array,
     optional: true,
   },
+  'availableSuburbs.$': String,
 });
 
 const StylistsSchema = new SimpleSchema({
   owner: {
     type: String,
   },
-  services: {
-    type: [ServiceSchema],
-  },
+  services: Array,
+  'services.$': ServiceSchema,
   qualificationUrl: {
     type: String,
     optional: true,
@@ -144,9 +144,8 @@ const StylistsSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
-  openHours: {
-    type: [OpenHour],
-  },
+  openHours: Array,
+  'openHours.$': OpenHour,
   areas: {
     type: AreasSchema,
     optional: true,

@@ -1,6 +1,6 @@
 // definition of the Profiles collection
 import { Mongo } from 'meteor/mongo';
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import SimpleSchema from 'simpl-schema';
 
 const Featured = new Mongo.Collection('featured');
 
@@ -32,14 +32,13 @@ const FeaturedStylistSchema = new SimpleSchema({
     type: String,
   },
   displayOrder: {
-    type: Number,
+    type: SimpleSchema.Integer,
   },
 });
 
 const FeaturedSchema = new SimpleSchema({
-  homeFeaturedStylists: {
-    type: [FeaturedStylistSchema],
-  },
+  homeFeaturedStylists: Array,
+  'homeFeaturedStylists.$': FeaturedStylistSchema,
 });
 
 Featured.attachSchema(FeaturedSchema);

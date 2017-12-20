@@ -4,10 +4,11 @@
   "description": "stylesquad.com.au admin app",
   "private": true,
   "author": "Chris Chen",
-  "contributors": ["Chris Chen <chrischen79@gmail.com>"],
+  "contributors": [
+    "Chris Chen <chrischen79@gmail.com>"
+  ],
   "scripts": {
-    "dev":
-      "MONGO_URL=mongodb://localhost:27017/stylesquad  meteor -s settings-development.json --port 4000",
+    "dev": "MONGO_URL=mongodb://localhost:27017/stylesquad  meteor -s settings-development.json --port 4000",
     "start": "meteor run",
     "cloc": "cloc imports client server private --exclude-ext=json"
   },
@@ -31,6 +32,7 @@
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
     "semantic-ui-react": "^0.76.0",
+    "simpl-schema": "^1.2.2",
     "validator": "^9.0.0",
     "winston": "^2.4.0"
   },

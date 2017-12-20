@@ -1,6 +1,6 @@
 // definition of the StylistApplications collection
 import { Mongo } from 'meteor/mongo';
-import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import SimpleSchema from 'simpl-schema';
 
 const StylistApplications = new Mongo.Collection('stylists_applications');
 
@@ -64,8 +64,9 @@ const StylistApplicationsSchema = new SimpleSchema({
     max: 200,
   },
   services: {
-    type: [ServiceSchema],
+    type: Array,
   },
+  'services.$': ServiceSchema,
   qualificationUrl: {
     type: String,
     optional: true,
