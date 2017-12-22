@@ -149,7 +149,7 @@ const UserPage = (props) => {
         primary
         as="a"
         target="_blank"
-        href={`${Meteor.settings.public.clientHost}/profiles/${profile._id}`}
+        href={`${Meteor.settings.public.clientHost}/users/show/${profile.owner}`}
       >
         View public profile
       </Button>
