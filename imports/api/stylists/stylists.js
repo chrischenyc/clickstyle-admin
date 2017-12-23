@@ -130,10 +130,24 @@ const AreasSchema = new SimpleSchema({
   'availableSuburbs.$': String,
 });
 
+const NameSchema = new SimpleSchema({
+  first: {
+    type: String,
+    optional: true,
+    max: 50,
+  },
+  last: {
+    type: String,
+    optional: true,
+    max: 50,
+  },
+});
+
 const StylistsSchema = new SimpleSchema({
   owner: {
     type: String,
   },
+  name: NameSchema, // normalised data from Profiles
   services: Array,
   'services.$': ServiceSchema,
   qualificationUrl: {
