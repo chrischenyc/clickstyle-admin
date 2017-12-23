@@ -129,6 +129,8 @@ const ProfilesSchema = new SimpleSchema({
     optional: true,
   },
   'products.$': ProductSchema,
+  favouredStylists: Array,
+  'favouredStylists.$': String,
 });
 
 Profiles.attachSchema(ProfilesSchema);
