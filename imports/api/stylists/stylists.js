@@ -143,11 +143,43 @@ const NameSchema = new SimpleSchema({
   },
 });
 
+const AddressSchema = new SimpleSchema({
+  raw: {
+    type: String,
+    optional: true,
+    max: 200,
+  },
+  state: {
+    type: String,
+    optional: true,
+    max: 3, // TODO: enhance regex
+  },
+  postcode: {
+    type: String,
+    optional: true,
+    regEx: /^[0-9]{4}$/, // TODO: enhance regex
+  },
+  suburb: {
+    type: String,
+    optional: true,
+    max: 50,
+  },
+  address1: {
+    type: String,
+    optional: true,
+    max: 100,
+  },
+  address2: {
+    type: String,
+    optional: true,
+    max: 100,
+  },
+});
+
 const StylistsSchema = new SimpleSchema({
   owner: {
     type: String,
   },
-  name: NameSchema, // normalised data from Profiles
   services: Array,
   'services.$': ServiceSchema,
   qualificationUrl: {
@@ -167,7 +199,20 @@ const StylistsSchema = new SimpleSchema({
   published: {
     type: Boolean, // only published stylist can be discovered by customers
   },
-  favourites: SimpleSchema.Integer,
+  favourites: Array,
+  'favourites.$': String,
+  // ------------------------------
+  // normalised data from Profiles
+  name: NameSchema,
+  photo: {
+    type: String,
+    optional: true,
+    regEx: SimpleSchema.RegEx.Url,
+  },
+  address: {
+    type: AddressSchema,
+    optional: true,
+  },
 });
 
 Stylists.attachSchema(StylistsSchema);
