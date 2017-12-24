@@ -124,12 +124,17 @@ const ProfilesSchema = new SimpleSchema({
     optional: true,
     regEx: SimpleSchema.RegEx.Url,
   },
+
   products: {
     type: Array,
     optional: true,
   },
   'products.$': ProductSchema,
-  favouredStylists: Array,
+
+  favouredStylists: {
+    type: Array,
+    optional: true,
+  },
   'favouredStylists.$': String,
 });
 
