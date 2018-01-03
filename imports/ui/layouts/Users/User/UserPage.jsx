@@ -108,9 +108,7 @@ const UserPage = (props) => {
               <List>
                 {stylist.openHours.map(openHour => (
                   <List.Item key={openHour.day}>
-                    {`${openHour.day}: ${openHour.openAtHour}:${openHour.openAtMinute} - ${
-                      openHour.closeAtHour
-                    }:${openHour.closeAtMinute}`}
+                    {`${openHour.day}: ${openHour.openAt} - ${openHour.closeAt}`}
                   </List.Item>
                 ))}
               </List>
