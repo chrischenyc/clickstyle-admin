@@ -191,6 +191,11 @@ const ReviewSchema = new SimpleSchema({
   },
 });
 
+const PortfolioPhotoSchema = new SimpleSchema({
+  url: String,
+  displayOrder: SimpleSchema.Integer,
+});
+
 const StylistsSchema = new SimpleSchema({
   owner: {
     type: String,
@@ -223,6 +228,9 @@ const StylistsSchema = new SimpleSchema({
     type: Number,
     optional: true,
   },
+
+  portfolioPhotos: Array,
+  'portfolioPhotos.$': PortfolioPhotoSchema,
   // ------------------------------
   // normalised data from Profiles
   name: NameSchema,
