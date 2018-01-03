@@ -79,26 +79,8 @@ const OpenHour = new SimpleSchema({
   open: {
     type: Boolean,
   },
-  openAtHour: {
-    type: SimpleSchema.Integer,
-    min: 0,
-    max: 23,
-  },
-  openAtMinute: {
-    type: SimpleSchema.Integer,
-    min: 0,
-    max: 59,
-  },
-  closeAtHour: {
-    type: SimpleSchema.Integer,
-    min: 0,
-    max: 23,
-  },
-  closeAtMinute: {
-    type: SimpleSchema.Integer,
-    min: 0,
-    max: 59,
-  },
+  openAt: String,
+  closeAt: String,
 });
 
 const SuburbSchema = new SimpleSchema({
