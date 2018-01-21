@@ -70,6 +70,7 @@ const ServiceSchema = new SimpleSchema({
   'addons.$': AddonSchema,
 });
 
+// recurring weekday-based open-close hour data model
 const OpenHour = new SimpleSchema({
   day: {
     type: SimpleSchema.Integer,
@@ -182,8 +183,10 @@ const StylistsSchema = new SimpleSchema({
   owner: {
     type: String,
   },
+
   services: Array,
   'services.$': ServiceSchema,
+
   qualificationUrl: {
     type: String,
     optional: true,
@@ -192,8 +195,15 @@ const StylistsSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
+
   openHours: Array,
   'openHours.$': OpenHour,
+
+  // each stands for a 15-min time slot that has been booked or is unavailable
+  // there's a system cron job to auto-update this info for each stylist
+  occupiedTimeSlots: Array,
+  'occupiedTimeSlots.$': SimpleSchema.Integer, // format YYMMDDHHmm
+
   areas: {
     type: AreasSchema,
     optional: true,
@@ -201,11 +211,13 @@ const StylistsSchema = new SimpleSchema({
   published: {
     type: Boolean, // only published stylist can be discovered by customers
   },
+
   favourites: Array,
   'favourites.$': String,
 
   reviews: Array,
   'reviews.$': ReviewSchema,
+
   averageRating: {
     type: Number,
     optional: true,
@@ -213,6 +225,7 @@ const StylistsSchema = new SimpleSchema({
 
   portfolioPhotos: Array,
   'portfolioPhotos.$': PortfolioPhotoSchema,
+
   // ------------------------------
   // normalised data from Profiles
   name: NameSchema,
