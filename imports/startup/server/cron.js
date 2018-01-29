@@ -22,4 +22,19 @@ SyncedCron.add({
   },
 });
 
+SyncedCron.add({
+  name: 'Refresh Stylists.occupiedTimeSlots for 90 days from now',
+  schedule(parser) {
+    return parser.text('every 1 minute');
+  },
+  job() {
+    Meteor.call('stylist.occupiedTimeSlots.refresh', { days: 90 }, (error) => {
+      if (error) {
+        log.error('stylist.occupiedTimeSlots.refresh', error);
+      }
+    });
+    log.info('cron job - stylist.occupiedTimeSlots.refresh');
+  },
+});
+
 SyncedCron.start();

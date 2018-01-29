@@ -179,6 +179,16 @@ const PortfolioPhotoSchema = new SimpleSchema({
   displayOrder: SimpleSchema.Integer,
 });
 
+const TimeSlotSchema = new SimpleSchema({
+  from: SimpleSchema.Integer,
+  to: SimpleSchema.Integer,
+  state: String,
+  bookingId: {
+    type: String,
+    optional: true,
+  },
+});
+
 const StylistsSchema = new SimpleSchema({
   owner: {
     type: String,
@@ -202,7 +212,7 @@ const StylistsSchema = new SimpleSchema({
   // each stands for a 15-min time slot that has been booked or is unavailable
   // there's a system cron job to auto-update this info for each stylist
   occupiedTimeSlots: Array,
-  'occupiedTimeSlots.$': SimpleSchema.Integer, // format YYMMDDHHmm
+  'occupiedTimeSlots.$': TimeSlotSchema,
 
   areas: {
     type: AreasSchema,
