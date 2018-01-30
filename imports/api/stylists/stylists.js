@@ -182,7 +182,7 @@ const PortfolioPhotoSchema = new SimpleSchema({
 const TimeSlotSchema = new SimpleSchema({
   from: SimpleSchema.Integer,
   to: SimpleSchema.Integer,
-  state: String,
+  state: String, // booked | recurring | scheduled
   bookingId: {
     type: String,
     optional: true,
