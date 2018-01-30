@@ -2,73 +2,12 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import log from 'winston';
-import moment from 'moment';
-import _ from 'lodash';
 
 import rateLimit from '../../../modules/server/rate-limit';
 import Stylists from '../stylists';
 import Profiles from '../../profiles/profiles';
 import { usersFindSelector } from '../../../modules/publish-selectors';
-
-const updateStylistOccupiedTimeSlots = (stylist, days) => {
-  const { _id, occupiedTimeSlots, openHours } = stylist;
-
-  const today = moment();
-
-  // clean up existing recurring occupied time slots
-  let newOccupiedTimeSlots = _.isEmpty(occupiedTimeSlots)
-    ? []
-    : occupiedTimeSlots.filter(t => !(t.state === 'recurring'));
-
-  for (let index = 0; index < days; index += 1) {
-    const timeSlotsOfDay = [];
-
-    const day = today.add(moment.duration(index, 'd'));
-    const weekDay = day.weekday();
-    const openHour = openHours[weekDay];
-    const dateString = day.format('YYMMDD');
-
-    if (!openHour.open) {
-      // if closed, fill the day with a single occupied timeslot
-      timeSlotsOfDay.push({
-        from: parseInt(`${dateString}0000`, 10),
-        to: parseInt(`${dateString}2359`, 10),
-        state: 'recurring',
-      });
-    } else {
-      // else, fill the day with occupied timeslots before/after open/close time
-
-      const openAtHour = parseInt(openHour.openAt.split(':')[0], 10);
-      const openAtMinute = parseInt(openHour.openAt.split(':')[1], 10);
-      const closeAtHour = parseInt(openHour.closeAt.split(':')[0], 10);
-      const closeAtMinute = parseInt(openHour.closeAt.split(':')[1], 10);
-
-      if (!(openAtHour === 0 && openAtMinute === 0)) {
-        timeSlotsOfDay.push({
-          from: parseInt(`${dateString}0000`, 10),
-          to: parseInt(dateString + openHour.openAt.replace(':', ''), 10),
-          state: 'recurring',
-        });
-      }
-
-      if (!(closeAtHour === 23 && closeAtMinute === 59)) {
-        timeSlotsOfDay.push({
-          from: parseInt(dateString + openHour.closeAt.replace(':', ''), 10),
-          to: parseInt(`${dateString}2359`, 10),
-          state: 'recurring',
-        });
-      }
-    }
-
-    // merge day's timeslots back to master array
-    newOccupiedTimeSlots = [...newOccupiedTimeSlots, ...timeSlotsOfDay];
-  }
-
-  newOccupiedTimeSlots = _.uniq(newOccupiedTimeSlots);
-
-  // update record
-  Stylists.update({ _id }, { $set: { occupiedTimeSlots: newOccupiedTimeSlots } });
-};
+import updateStylistOccupiedTimeSlots from '../../../modules/server/update-stylist-occupied-timeslots';
 
 Meteor.methods({
   'stylist.publish': function publishStylist(data) {
