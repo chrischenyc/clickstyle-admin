@@ -6,8 +6,6 @@ import Stylists from '../../api/stylists/stylists';
 const updateStylistOccupiedTimeSlots = (stylist, days) => {
   const { _id, occupiedTimeSlots, openHours } = stylist;
 
-  const today = moment();
-
   // clean up existing recurring occupied time slots
   let newOccupiedTimeSlots = _.isEmpty(occupiedTimeSlots)
     ? []
@@ -16,9 +14,13 @@ const updateStylistOccupiedTimeSlots = (stylist, days) => {
   for (let index = 0; index < days; index += 1) {
     const timeSlotsOfDay = [];
 
-    const day = today.add(moment.duration(index, 'd'));
-    const weekDay = day.weekday();
+    const day = moment().add(index, 'd');
+    let weekDay = day.weekday();
+    if (weekDay === 0) {
+      weekDay = 7; // in our system Sunday is 7, in moment.js Sunday is 0
+    }
     const openHour = openHours.filter(o => o.day === weekDay)[0];
+
     const dateString = day.format('YYMMDD');
 
     if (!openHour.open) {
