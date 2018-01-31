@@ -35,6 +35,15 @@ const SideMenu = () => (
         </Menu.Item>
       </Menu.Menu>
     </Menu.Item>
+
+    <Menu.Item>
+      <Menu.Header>System</Menu.Header>
+      <Menu.Menu>
+        <Menu.Item as={NavLink} to="/cron">
+          Cron jobs
+        </Menu.Item>
+      </Menu.Menu>
+    </Menu.Item>
   </Menu>
 );
 

@@ -20,6 +20,7 @@ import Services from '../layouts/Services/Services';
 import Service from '../layouts/Services/Service/Service';
 import Suburbs from '../layouts/Suburbs/Suburbs';
 import FeaturedStylists from '../layouts/Stylists/Featured/FeaturedStylists';
+import Cron from '../layouts/System/Cron';
 
 class App extends Component {
   // after web App is refreshed, try to fetch Meteor user data then update redux states
@@ -59,6 +60,8 @@ class App extends Component {
               <SecureRoute exact path="/stylists/featured" component={FeaturedStylists} />
 
               <SecureRoute exact path="/suburbs" component={Suburbs} />
+
+              <SecureRoute exact path="/cron" component={Cron} />
 
               <Route exact path="/login" component={Login} />
 
