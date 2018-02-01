@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import StylistApplications from '../../../../api/stylist_applications/stylist_applications';
-import SideMenuContainer from '../../../components/SideMenuContainer';
 import StylistApplicationPage from './StylistApplicationPage';
 
 class StylistApplication extends Component {
@@ -35,19 +34,15 @@ class StylistApplication extends Component {
   }
 
   render() {
-    return (
-      <SideMenuContainer>
-        {this.props.ready ? (
-          <StylistApplicationPage
-            application={this.props.application}
-            onApprove={this.handleApprove}
-            loading={this.state.loading}
-            error={this.state.error}
-          />
-        ) : (
-          <p>loading...</p>
-        )}
-      </SideMenuContainer>
+    return this.props.ready ? (
+      <StylistApplicationPage
+        application={this.props.application}
+        onApprove={this.handleApprove}
+        loading={this.state.loading}
+        error={this.state.error}
+      />
+    ) : (
+      <p>loading...</p>
     );
   }
 }

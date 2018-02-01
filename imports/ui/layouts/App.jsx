@@ -9,6 +9,7 @@ import { userSignedIn, userSignedOut } from '../../modules/client/redux/user';
 
 import SecureRoute from '../components/SecureRoute';
 import Header from '../components/Header';
+import { withSideMenu } from '../components/HOC';
 
 import Login from '../layouts/Login/Login';
 import DashboardPage from '../layouts/DashboardPage';
@@ -45,23 +46,35 @@ class App extends Component {
           <Header />
           <div style={{ marginTop: '51px', paddingTop: '64px' }}>
             <Switch>
-              <SecureRoute exact path="/" component={DashboardPage} />
-              <SecureRoute exact path="/dashboard" component={DashboardPage} />
+              <SecureRoute exact path="/" component={withSideMenu(DashboardPage)} />
+              <SecureRoute exact path="/dashboard" component={withSideMenu(DashboardPage)} />
 
-              <SecureRoute exact path="/users" component={Users} />
-              <SecureRoute exact path="/users/:id" component={User} />
+              <SecureRoute exact path="/users" component={withSideMenu(Users)} />
+              <SecureRoute exact path="/users/:id" component={withSideMenu(User)} />
 
-              <SecureRoute exact path="/services" component={Services} />
-              <SecureRoute exact path="/services/:id" component={Service} />
+              <SecureRoute exact path="/services" component={withSideMenu(Services)} />
+              <SecureRoute exact path="/services/:id" component={withSideMenu(Service)} />
 
-              <SecureRoute exact path="/stylists/applications" component={StylistApplications} />
-              <SecureRoute exact path="/stylists/applications/:id" component={StylistApplication} />
+              <SecureRoute
+                exact
+                path="/stylists/applications"
+                component={withSideMenu(StylistApplications)}
+              />
+              <SecureRoute
+                exact
+                path="/stylists/applications/:id"
+                component={withSideMenu(StylistApplication)}
+              />
 
-              <SecureRoute exact path="/stylists/featured" component={FeaturedStylists} />
+              <SecureRoute
+                exact
+                path="/stylists/featured"
+                component={withSideMenu(FeaturedStylists)}
+              />
 
-              <SecureRoute exact path="/suburbs" component={Suburbs} />
+              <SecureRoute exact path="/suburbs" component={withSideMenu(Suburbs)} />
 
-              <SecureRoute exact path="/cron" component={Cron} />
+              <SecureRoute exact path="/cron" component={withSideMenu(Cron)} />
 
               <Route exact path="/login" component={Login} />
 

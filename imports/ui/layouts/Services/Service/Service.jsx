@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 
 import Services from '../../../../api/services/services';
 import Addons from '../../../../api/addons/addons';
-import SideMenuContainer from '../../../components/SideMenuContainer';
 import ServicePage from './ServicePage';
 
 class Service extends Component {
@@ -93,26 +92,22 @@ class Service extends Component {
   }
 
   render() {
-    return (
-      <SideMenuContainer>
-        {this.props.ready ? (
-          <ServicePage
-            service={{ ...this.props.service, addons: this.props.addons }}
-            saving={this.state.saving}
-            error={this.state.error}
-            onAddonPublish={this.handlePublishAddon}
-            onAddonRemove={this.handleRemoveAddon}
-            onPhotoSelected={this.handlePhotoSelected}
-            onPhotoUpload={this.handlePhotoUpload}
-            onPhotoRemove={this.handlePhotoRemove}
-            photoUploading={this.state.photoUploading}
-            photoPristine={this.state.photoPristine}
-            photoError={this.state.photoError}
-          />
-        ) : (
-          <p>loading...</p>
-        )}
-      </SideMenuContainer>
+    return this.props.ready ? (
+      <ServicePage
+        service={{ ...this.props.service, addons: this.props.addons }}
+        saving={this.state.saving}
+        error={this.state.error}
+        onAddonPublish={this.handlePublishAddon}
+        onAddonRemove={this.handleRemoveAddon}
+        onPhotoSelected={this.handlePhotoSelected}
+        onPhotoUpload={this.handlePhotoUpload}
+        onPhotoRemove={this.handlePhotoRemove}
+        photoUploading={this.state.photoUploading}
+        photoPristine={this.state.photoPristine}
+        photoError={this.state.photoError}
+      />
+    ) : (
+      <p>loading...</p>
     );
   }
 }

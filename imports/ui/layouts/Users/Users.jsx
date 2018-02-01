@@ -5,7 +5,6 @@ import { Container, Header } from 'semantic-ui-react';
 import UsersFilters from './UsersFilters';
 import UsersList from './UsersList';
 import Pagination from '../../components/Pagination';
-import SideMenuContainer from '../../components/SideMenuContainer';
 
 class Users extends Component {
   constructor(props) {
@@ -33,42 +32,40 @@ class Users extends Component {
 
   render() {
     return (
-      <SideMenuContainer>
-        <Container>
-          <Header as="h2">Users Management - {this.state.filter} </Header>
+      <Container>
+        <Header as="h2">Users Management - {this.state.filter} </Header>
 
-          <UsersFilters
-            filter={this.state.filter}
-            onFilter={this.handleFilter}
-            onSearch={this.handleSearch}
-          />
+        <UsersFilters
+          filter={this.state.filter}
+          onFilter={this.handleFilter}
+          onSearch={this.handleSearch}
+        />
 
-          <UsersList
-            filter={this.state.filter}
-            search={this.state.search}
-            page={this.state.page}
-            limit={this.state.limit}
-            onDataLoaded={(hasMore) => {
-              this.setState({ hasMore });
-            }}
-          />
+        <UsersList
+          filter={this.state.filter}
+          search={this.state.search}
+          page={this.state.page}
+          limit={this.state.limit}
+          onDataLoaded={(hasMore) => {
+            this.setState({ hasMore });
+          }}
+        />
 
-          <Pagination
-            page={this.state.page}
-            onPrev={() => {
-              this.setState({
-                page: Math.max(this.state.page - 1, 0),
-              });
-            }}
-            onNext={() => {
-              this.setState({
-                page: this.state.hasMore ? this.state.page + 1 : this.state.page,
-              });
-            }}
-            hasMore={this.state.hasMore}
-          />
-        </Container>
-      </SideMenuContainer>
+        <Pagination
+          page={this.state.page}
+          onPrev={() => {
+            this.setState({
+              page: Math.max(this.state.page - 1, 0),
+            });
+          }}
+          onNext={() => {
+            this.setState({
+              page: this.state.hasMore ? this.state.page + 1 : this.state.page,
+            });
+          }}
+          hasMore={this.state.hasMore}
+        />
+      </Container>
     );
   }
 }

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import Profiles from '../../../../api/profiles/profiles';
 import Stylists from '../../../../api/stylists/stylists';
-import SideMenuContainer from '../../../components/SideMenuContainer';
+
 import UserPage from './UserPage';
 
 class User extends Component {
@@ -45,22 +45,18 @@ class User extends Component {
   }
 
   render() {
-    return (
-      <SideMenuContainer>
-        {this.props.ready ? (
-          <UserPage
-            user={this.props.user}
-            profile={this.props.profile}
-            stylist={this.props.stylist}
-            onGrantAdmin={this.handleGrantAdmin}
-            onPublishStylist={this.handlePublishStylist}
-            loading={this.state.loading}
-            error={this.state.error}
-          />
-        ) : (
-          <p>loading...</p>
-        )}
-      </SideMenuContainer>
+    return this.props.ready ? (
+      <UserPage
+        user={this.props.user}
+        profile={this.props.profile}
+        stylist={this.props.stylist}
+        onGrantAdmin={this.handleGrantAdmin}
+        onPublishStylist={this.handlePublishStylist}
+        loading={this.state.loading}
+        error={this.state.error}
+      />
+    ) : (
+      <p>loading...</p>
     );
   }
 }

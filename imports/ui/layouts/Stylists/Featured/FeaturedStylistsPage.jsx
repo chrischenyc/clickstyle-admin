@@ -5,7 +5,6 @@ import { Container, Header, Table, Button, Message, Image, Search } from 'semant
 import _ from 'lodash';
 
 import scaledImageURL from '../../../../modules/scaled-image-url';
-import SideMenuContainer from '../../../components/SideMenuContainer';
 
 const FeaturedStylistsPage = ({
   saving,
@@ -24,94 +23,92 @@ const FeaturedStylistsPage = ({
   onFeatureSelectedStylist,
   onUnFeatureStylist,
 }) => (
-  <SideMenuContainer>
-    <Container>
-      <Button primary disabled={pristine} loading={saving} floated="right" onClick={onSave}>
-        Save
-      </Button>
-      <Header as="h2">Stylists featured on home page</Header>
+  <Container>
+    <Button primary disabled={pristine} loading={saving} floated="right" onClick={onSave}>
+      Save
+    </Button>
+    <Header as="h2">Stylists featured on home page</Header>
 
-      {!_.isEmpty(error) && <Message error content={error} compact />}
+    {!_.isEmpty(error) && <Message error content={error} compact />}
 
-      <Search
-        name="stylistName"
-        placeholder="stylist name, email"
-        style={{ display: 'inline', marginRight: '1rem' }}
-        loading={searchingStylists}
-        onResultSelect={(e, { result }) => {
-          onSelectStylist(result);
-        }}
-        onSearchChange={(e, data) => {
-          onChange({ target: data });
-        }}
-        results={matchedStylists}
-        showNoResults={false}
-        value={stylistName}
-      />
+    <Search
+      name="stylistName"
+      placeholder="stylist name, email"
+      style={{ display: 'inline', marginRight: '1rem' }}
+      loading={searchingStylists}
+      onResultSelect={(e, { result }) => {
+        onSelectStylist(result);
+      }}
+      onSearchChange={(e, data) => {
+        onChange({ target: data });
+      }}
+      results={matchedStylists}
+      showNoResults={false}
+      value={stylistName}
+    />
 
-      <Button primary disabled={!selectedStylist} onClick={onFeatureSelectedStylist}>
-        Feature on home page
-      </Button>
+    <Button primary disabled={!selectedStylist} onClick={onFeatureSelectedStylist}>
+      Feature on home page
+    </Button>
 
-      <Table celled>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell>Name</Table.HeaderCell>
-            <Table.HeaderCell>Display Order</Table.HeaderCell>
-            <Table.HeaderCell>Photo</Table.HeaderCell>
-            <Table.HeaderCell>Un-feature</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
+    <Table celled>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Name</Table.HeaderCell>
+          <Table.HeaderCell>Display Order</Table.HeaderCell>
+          <Table.HeaderCell>Photo</Table.HeaderCell>
+          <Table.HeaderCell>Un-feature</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
 
-        <Table.Body>
-          {stylists.map(stylist => (
-            <Table.Row key={stylist.owner}>
-              <Table.Cell>
-                <Link to={`/users/${stylist.owner}`}>
-                  {`${stylist.profile.name.first} ${stylist.profile.name.last}`}
-                </Link>
-              </Table.Cell>
-              <Table.Cell>
-                <span style={{ marginRight: '2rem' }}>{stylist.displayOrder}</span>
-                {stylist.displayOrder > 0 && (
-                  <Button
-                    icon="arrow up"
-                    onClick={() => {
-                      onRaiseDisplayOrder(stylist);
-                    }}
-                  />
-                )}
-                {stylist.displayOrder < stylists.length - 1 && (
-                  <Button
-                    icon="arrow down"
-                    onClick={() => {
-                      onLowerDisplayOrder(stylist);
-                    }}
-                  />
-                )}
-              </Table.Cell>
-              <Table.Cell>
-                {stylist.profile.photo && (
-                  <Image src={scaledImageURL(stylist.profile.photo, 'small')} size="tiny" />
-                )}
-                {!stylist.profile.photo && 'no photo'}
-              </Table.Cell>
-              <Table.Cell>
+      <Table.Body>
+        {stylists.map(stylist => (
+          <Table.Row key={stylist.owner}>
+            <Table.Cell>
+              <Link to={`/users/${stylist.owner}`}>
+                {`${stylist.profile.name.first} ${stylist.profile.name.last}`}
+              </Link>
+            </Table.Cell>
+            <Table.Cell>
+              <span style={{ marginRight: '2rem' }}>{stylist.displayOrder}</span>
+              {stylist.displayOrder > 0 && (
                 <Button
-                  negative
+                  icon="arrow up"
                   onClick={() => {
-                    onUnFeatureStylist(stylist.owner);
+                    onRaiseDisplayOrder(stylist);
                   }}
-                >
-                  un-feature
-                </Button>
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
-    </Container>
-  </SideMenuContainer>
+                />
+              )}
+              {stylist.displayOrder < stylists.length - 1 && (
+                <Button
+                  icon="arrow down"
+                  onClick={() => {
+                    onLowerDisplayOrder(stylist);
+                  }}
+                />
+              )}
+            </Table.Cell>
+            <Table.Cell>
+              {stylist.profile.photo && (
+                <Image src={scaledImageURL(stylist.profile.photo, 'small')} size="tiny" />
+              )}
+              {!stylist.profile.photo && 'no photo'}
+            </Table.Cell>
+            <Table.Cell>
+              <Button
+                negative
+                onClick={() => {
+                  onUnFeatureStylist(stylist.owner);
+                }}
+              >
+                un-feature
+              </Button>
+            </Table.Cell>
+          </Table.Row>
+        ))}
+      </Table.Body>
+    </Table>
+  </Container>
 );
 
 FeaturedStylistsPage.defaultProps = {
