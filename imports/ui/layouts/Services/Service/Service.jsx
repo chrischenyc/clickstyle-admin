@@ -17,13 +17,19 @@ class Service extends Component {
       photoUploading: false,
       photoPristine: true,
       photoError: '',
+      addons: props.addons ? [...props.addons] : [],
     };
 
     this.handlePublishAddon = this.handlePublishAddon.bind(this);
     this.handleRemoveAddon = this.handleRemoveAddon.bind(this);
+    this.handleChangeAddon = this.handleChangeAddon.bind(this);
     this.handlePhotoSelected = this.handlePhotoSelected.bind(this);
     this.handlePhotoRemove = this.handlePhotoRemove.bind(this);
     this.handlePhotoUpload = this.handlePhotoUpload.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ addons: nextProps.addons ? [...nextProps.addons] : [] });
   }
 
   handlePhotoSelected() {
@@ -91,14 +97,26 @@ class Service extends Component {
     });
   }
 
+  handleChangeAddon(addonChanged, event) {
+    this.setState({
+      addons: this.state.addons.map((addon) => {
+        if (addon._id === addonChanged._id) {
+          return { ...addon, [event.target.name]: event.target.value };
+        }
+        return addon;
+      }),
+    });
+  }
+
   render() {
     return this.props.ready ? (
       <ServicePage
-        service={{ ...this.props.service, addons: this.props.addons }}
+        service={{ ...this.props.service, addons: this.state.addons }}
         saving={this.state.saving}
         error={this.state.error}
         onAddonPublish={this.handlePublishAddon}
         onAddonRemove={this.handleRemoveAddon}
+        onAddonChange={this.handleChangeAddon}
         onPhotoSelected={this.handlePhotoSelected}
         onPhotoUpload={this.handlePhotoUpload}
         onPhotoRemove={this.handlePhotoRemove}

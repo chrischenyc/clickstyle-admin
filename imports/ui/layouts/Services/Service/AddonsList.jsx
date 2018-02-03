@@ -1,9 +1,11 @@
+import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table, Button, Confirm } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 import { formatDateTime } from '../../../../modules/format-date';
+import { NumberField } from '../../../components/FormInputField';
 
 class AddonsList extends Component {
   constructor(props) {
@@ -13,7 +15,7 @@ class AddonsList extends Component {
 
   render() {
     const {
-      addons, onAddonPublish, onAddonRemove, saving,
+      addons, onAddonPublish, onAddonRemove, onAddonChange, saving,
     } = this.props;
 
     return (
@@ -21,6 +23,7 @@ class AddonsList extends Component {
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Name</Table.HeaderCell>
+            <Table.HeaderCell>Duration</Table.HeaderCell>
             <Table.HeaderCell>Create Date</Table.HeaderCell>
             <Table.HeaderCell>Created by</Table.HeaderCell>
             <Table.HeaderCell>Manage</Table.HeaderCell>
@@ -31,6 +34,22 @@ class AddonsList extends Component {
           {addons.map(addon => (
             <Table.Row key={addon._id}>
               <Table.Cell>{addon.name}</Table.Cell>
+
+              <Table.Cell>
+                <NumberField
+                  name="duration"
+                  value={addon.duration}
+                  onChange={(event) => {
+                    onAddonChange(addon, event);
+                  }}
+                  onBlur={(event) => {
+                    Meteor.call('addon.update.duration', {
+                      _id: addon._id,
+                      duration: parseInt(event.target.value, 10),
+                    });
+                  }}
+                />
+              </Table.Cell>
 
               <Table.Cell>{formatDateTime(addon.createdAt)}</Table.Cell>
 
@@ -104,6 +123,7 @@ AddonsList.propTypes = {
   addons: PropTypes.array.isRequired,
   onAddonPublish: PropTypes.func.isRequired,
   onAddonRemove: PropTypes.func.isRequired,
+  onAddonChange: PropTypes.func.isRequired,
   saving: PropTypes.bool.isRequired,
 };
 

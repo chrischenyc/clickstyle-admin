@@ -26,6 +26,7 @@ const ServicePage = props => (
       addons={props.service.addons.filter(addon => addon.createdBy === 'system')}
       onAddonPublish={props.onAddonPublish}
       onAddonRemove={props.onAddonRemove}
+      onAddonChange={props.onAddonChange}
       saving={props.saving}
     />
 
@@ -34,6 +35,7 @@ const ServicePage = props => (
       addons={props.service.addons.filter(addon => addon.createdBy !== 'system')}
       onAddonPublish={props.onAddonPublish}
       onAddonRemove={props.onAddonRemove}
+      onAddonChange={props.onAddonChange}
       saving={props.saving}
     />
 
@@ -47,6 +49,7 @@ ServicePage.propTypes = {
   error: PropTypes.string.isRequired,
   onAddonPublish: PropTypes.func.isRequired,
   onAddonRemove: PropTypes.func.isRequired,
+  onAddonChange: PropTypes.func.isRequired,
   onPhotoSelected: PropTypes.func.isRequired,
   onPhotoUpload: PropTypes.func.isRequired,
   onPhotoRemove: PropTypes.func.isRequired,

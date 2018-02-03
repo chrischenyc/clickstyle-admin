@@ -66,10 +66,40 @@ Meteor.methods({
       throw new Meteor.Error('500');
     }
   },
+  'addon.update.duration': function updateAddonDuration(data) {
+    if (
+      !Roles.userIsInRole(Meteor.userId(), [
+        Meteor.settings.public.roles.admin,
+        Meteor.settings.public.roles.superAdmin,
+      ])
+    ) {
+      throw new Meteor.Error(403, 'unauthorized');
+    }
+
+    check(data, Object);
+    const { _id, duration } = data;
+    check(_id, String);
+    check(duration, Number);
+
+    try {
+      Addons.update({ _id }, { $set: { duration } });
+
+      log.info(
+        'Meteor.methods: addon.update.duration',
+        `userId: ${this.userId}`,
+        `param: ${JSON.stringify(data)}`,
+      );
+    } catch (exception) {
+      /* eslint-disable no-console */
+      console.error(exception);
+      /* eslint-enable no-console */
+      throw new Meteor.Error('500');
+    }
+  },
 });
 
 rateLimit({
-  methods: ['addon.publish', 'addon.remove'],
+  methods: ['addon.publish', 'addon.remove', 'addon.update.duration'],
   limit: 5,
   timeRange: 1000,
 });
