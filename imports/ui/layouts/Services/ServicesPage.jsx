@@ -70,8 +70,8 @@ const ServicesPage = ({
 
               <Table.Cell>
                 <NumberField
-                  name="baseDuration"
-                  value={service.baseDuration}
+                  name="duration"
+                  value={service.duration}
                   onChange={(event) => {
                     onServiceChange(service, event);
                   }}
