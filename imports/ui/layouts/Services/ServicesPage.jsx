@@ -5,6 +5,7 @@ import { Container, Header, Table, Button, Message, Image } from 'semantic-ui-re
 import _ from 'lodash';
 
 import scaledImageURL from '../../../modules/scaled-image-url';
+import { NumberField } from '../../components/FormInputField';
 
 const ServicesPage = ({
   ready,
@@ -14,6 +15,7 @@ const ServicesPage = ({
   services,
   onRaiseDisplayOrder,
   onLowerDisplayOrder,
+  onServiceChange,
   onSave,
 }) => (
   <Container>
@@ -30,6 +32,7 @@ const ServicesPage = ({
           <Table.HeaderCell>Name</Table.HeaderCell>
           <Table.HeaderCell>Display Order</Table.HeaderCell>
           <Table.HeaderCell>Photo</Table.HeaderCell>
+          <Table.HeaderCell>Duration (mins.)</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
 
@@ -64,6 +67,16 @@ const ServicesPage = ({
                 )}
                 {!service.photo && 'no photo'}
               </Table.Cell>
+
+              <Table.Cell>
+                <NumberField
+                  name="baseDuration"
+                  value={service.baseDuration}
+                  onChange={(event) => {
+                    onServiceChange(service, event);
+                  }}
+                />
+              </Table.Cell>
             </Table.Row>
           ))}
       </Table.Body>
@@ -80,6 +93,7 @@ ServicesPage.propTypes = {
   onRaiseDisplayOrder: PropTypes.func.isRequired,
   onLowerDisplayOrder: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
+  onServiceChange: PropTypes.func.isRequired,
 };
 
 export default ServicesPage;

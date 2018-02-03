@@ -20,6 +20,7 @@ class ServicesContainer extends Component {
 
     this.raiseDisplayOrder = this.raiseDisplayOrder.bind(this);
     this.lowerDisplayOrder = this.lowerDisplayOrder.bind(this);
+    this.handleServiceChange = this.handleServiceChange.bind(this);
     this.handleSave = this.handleSave.bind(this);
   }
 
@@ -67,6 +68,18 @@ class ServicesContainer extends Component {
     }
   }
 
+  handleServiceChange(serviceToChange, event) {
+    this.setState({
+      pristine: false,
+      services: this.state.services.map((service) => {
+        if (service._id === serviceToChange._id) {
+          return { ...service, [event.target.name]: event.target.value };
+        }
+        return service;
+      }),
+    });
+  }
+
   handleSave() {
     this.setState({ saving: true });
 
@@ -90,6 +103,7 @@ class ServicesContainer extends Component {
         onRaiseDisplayOrder={this.raiseDisplayOrder}
         onLowerDisplayOrder={this.lowerDisplayOrder}
         onSave={this.handleSave}
+        onServiceChange={this.handleServiceChange}
       />
     );
   }
