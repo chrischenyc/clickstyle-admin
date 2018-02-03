@@ -44,7 +44,6 @@ const ServicesSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
-  duration: SimpleSchema.Integer,
 });
 
 Services.attachSchema(ServicesSchema);

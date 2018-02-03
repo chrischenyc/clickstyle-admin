@@ -46,6 +46,7 @@ const AddonSchema = new SimpleSchema({
   price: {
     type: Number,
   },
+  duration: SimpleSchema.Integer,
 });
 
 const ServiceSchema = new SimpleSchema({
@@ -59,10 +60,11 @@ const ServiceSchema = new SimpleSchema({
     type: Number,
     optional: true,
   },
-  basePriceDescription: {
+  baseDescription: {
     type: String,
     optional: true,
   },
+  baseDuration: SimpleSchema.Integer,
   addons: {
     type: Array,
     optional: true,

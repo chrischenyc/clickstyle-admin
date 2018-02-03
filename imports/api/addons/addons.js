@@ -46,7 +46,6 @@ const AddonsSchema = new SimpleSchema({
   published: {
     type: Boolean, // system add-ons default to published,  while user add-ons need approval
   },
-  duration: SimpleSchema.Integer,
 });
 
 Addons.attachSchema(AddonsSchema);
