@@ -52,6 +52,7 @@ const UserContactsSchema = new SimpleSchema({
   },
   subject: String,
   message: String,
+  suggestStylist: Boolean,
 });
 
 UserContacts.attachSchema(UserContactsSchema);
