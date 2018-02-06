@@ -40,6 +40,7 @@ const UserContactsSchema = new SimpleSchema({
   },
   name: {
     type: String,
+    optional: true,
   },
   email: {
     type: String,
@@ -49,8 +50,12 @@ const UserContactsSchema = new SimpleSchema({
     type: String,
     regEx: SimpleSchema.RegEx.Phone,
     max: 20,
+    optional: true,
   },
-  subject: String,
+  subject: {
+    type: String,
+    optional: true,
+  },
   message: String,
   suggestStylist: Boolean,
 });
