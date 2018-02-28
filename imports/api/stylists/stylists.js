@@ -2,6 +2,8 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
+import ServiceSchema from './stylists-services-schema';
+
 const Stylists = new Mongo.Collection('stylists');
 
 Stylists.allow({
@@ -30,46 +32,6 @@ Stylists.deny({
 Stylists.attachBehaviour('timestampable', {
   createdBy: false,
   updatedBy: false,
-});
-
-const AddonSchema = new SimpleSchema({
-  _id: {
-    type: String,
-  },
-  name: {
-    type: String,
-  },
-  description: {
-    type: String,
-    optional: true,
-  },
-  price: {
-    type: Number,
-  },
-  duration: SimpleSchema.Integer,
-});
-
-const ServiceSchema = new SimpleSchema({
-  _id: {
-    type: String,
-  },
-  name: {
-    type: String,
-  },
-  basePrice: {
-    type: Number,
-    optional: true,
-  },
-  baseDescription: {
-    type: String,
-    optional: true,
-  },
-  baseDuration: SimpleSchema.Integer,
-  addons: {
-    type: Array,
-    optional: true,
-  },
-  'addons.$': AddonSchema,
 });
 
 // recurring weekday-based open-close hour data model
