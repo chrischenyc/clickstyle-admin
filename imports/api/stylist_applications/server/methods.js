@@ -7,7 +7,9 @@ import rateLimit from '../../../modules/server/rate-limit';
 import StylistApplications from '../stylist_applications';
 import Profiles from '../../profiles/profiles';
 import Stylists from '../../stylists/stylists';
+import Services from '../../services/services';
 import { sendStylistJoinApprovedEmail } from '../../../modules/server/send-email';
+import { calculateOccupiedTimeSlots } from '../../../modules/server/update-stylist-occupied-timeslots';
 
 Meteor.methods({
   'stylist.application.approve': function stylistApplicationApprove(data) {
@@ -98,13 +100,26 @@ Meteor.methods({
               },
             ];
 
+            // add baseDuration to service(s)
+            const updatedServices = services.map((service) => {
+              const { duration: baseDuration } = Services.findOne({ _id: service._id });
+              return { ...service, baseDuration };
+            });
+
+            const { name } = Profiles.findOne({ owner: userId });
+
             Stylists.insert({
-              services,
+              services: updatedServices,
               qualificationUrl,
               referenceUrl,
               owner: userId,
               openHours,
               published: false,
+              occupiedTimeSlots: calculateOccupiedTimeSlots([], openHours, 90),
+              favourites: [],
+              reviews: [],
+              portfolioPhotos: [],
+              name,
             });
 
             sendStylistJoinApprovedEmail(userId);

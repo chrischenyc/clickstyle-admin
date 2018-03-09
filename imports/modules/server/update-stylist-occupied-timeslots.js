@@ -3,9 +3,7 @@ import _ from 'lodash';
 
 import Stylists from '../../api/stylists/stylists';
 
-const updateStylistOccupiedTimeSlots = (stylist, days) => {
-  const { _id, occupiedTimeSlots, openHours } = stylist;
-
+export const calculateOccupiedTimeSlots = (occupiedTimeSlots, openHours, days) => {
   // clean up existing recurring occupied time slots
   let newOccupiedTimeSlots = _.isEmpty(occupiedTimeSlots)
     ? []
@@ -61,8 +59,15 @@ const updateStylistOccupiedTimeSlots = (stylist, days) => {
 
   newOccupiedTimeSlots = _.uniq(newOccupiedTimeSlots);
 
-  // update record
-  Stylists.update({ _id }, { $set: { occupiedTimeSlots: newOccupiedTimeSlots } });
+  return newOccupiedTimeSlots;
 };
 
-export default updateStylistOccupiedTimeSlots;
+export const updateStylistOccupiedTimeSlots = (stylist, days) => {
+  const { _id, occupiedTimeSlots, openHours } = stylist;
+
+  // update record
+  Stylists.update(
+    { _id },
+    { $set: { occupiedTimeSlots: calculateOccupiedTimeSlots(occupiedTimeSlots, openHours, days) } },
+  );
+};

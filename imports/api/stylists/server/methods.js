@@ -7,7 +7,7 @@ import rateLimit from '../../../modules/server/rate-limit';
 import Stylists from '../stylists';
 import Profiles from '../../profiles/profiles';
 import { usersFindSelector } from '../../../modules/publish-selectors';
-import updateStylistOccupiedTimeSlots from '../../../modules/server/update-stylist-occupied-timeslots';
+import { updateStylistOccupiedTimeSlots } from '../../../modules/server/update-stylist-occupied-timeslots';
 
 Meteor.methods({
   'stylist.publish': function publishStylist(data) {
