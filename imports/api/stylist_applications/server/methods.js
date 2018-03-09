@@ -106,7 +106,7 @@ Meteor.methods({
               return { ...service, baseDuration };
             });
 
-            const { name } = Profiles.findOne({ owner: userId });
+            const { name, photo } = Profiles.findOne({ owner: userId });
 
             Stylists.insert({
               services: updatedServices,
@@ -120,6 +120,8 @@ Meteor.methods({
               reviews: [],
               portfolioPhotos: [],
               name,
+              address: { raw: address },
+              photo,
             });
 
             sendStylistJoinApprovedEmail(userId);
