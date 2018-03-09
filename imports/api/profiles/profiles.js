@@ -136,6 +136,23 @@ const ProfilesSchema = new SimpleSchema({
     optional: true,
   },
   'favouredStylists.$': String,
+
+  stripeCustomerId: {
+    type: String,
+    optional: true,
+  },
+  stripeCardId: {
+    type: String,
+    optional: true,
+  },
+  stripeCardLast4: {
+    type: String,
+    optional: true,
+  },
+  stripeCardName: {
+    type: String,
+    optional: true,
+  },
 });
 
 Profiles.attachSchema(ProfilesSchema);
