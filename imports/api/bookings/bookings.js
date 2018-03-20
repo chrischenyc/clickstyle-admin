@@ -47,8 +47,33 @@ const BookingsSchema = new SimpleSchema({
   address: String,
   date: String,
   time: String,
+  duration: SimpleSchema.Integer,
   stripeCustomerId: String,
-  status: String, // pending, approved/declined, cancelled, completed
+  status: String, // pending, confirmed, declined, cancelled, completed
+  stylistConfirmedAt: {
+    type: Date,
+    optional: true,
+  },
+  stylistDeclinedAt: {
+    type: Date,
+    optional: true,
+  },
+  stylistCancelledAt: {
+    type: Date,
+    optional: true,
+  },
+  customerCancelledAt: {
+    type: Date,
+    optional: true,
+  },
+  systemCancelledAt: {
+    type: Date,
+    optional: true,
+  },
+  stylistCompletedAt: {
+    type: Date,
+    optional: true,
+  },
 });
 
 Bookings.attachSchema(BookingsSchema);

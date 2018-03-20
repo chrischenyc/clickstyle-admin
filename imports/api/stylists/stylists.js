@@ -201,7 +201,7 @@ const StylistsSchema = new SimpleSchema({
   'portfolioPhotos.$': PortfolioPhotoSchema,
 
   // ------------------------------
-  // normalised data from Profiles
+  // denormalised data from Profiles
   name: NameSchema,
   photo: {
     type: String,
