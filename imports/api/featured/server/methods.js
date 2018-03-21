@@ -91,10 +91,8 @@ Meteor.methods({
 
       return _.orderBy(unsorted, ['displayOrder']);
     } catch (exception) {
-      /* eslint-disable no-console */
-      console.error(exception);
-      /* eslint-enable no-console */
-      throw new Meteor.Error('500');
+      log.error(exception);
+      throw exception;
     }
   },
   'feature.home.stylist': function featureStylistOnHome(data) {
@@ -138,10 +136,8 @@ Meteor.methods({
         `param: ${JSON.stringify(data)}`,
       );
     } catch (exception) {
-      /* eslint-disable no-console */
-      console.error(exception);
-      /* eslint-enable no-console */
-      throw new Meteor.Error('500');
+      log.error(exception);
+      throw exception;
     }
   },
   'featured.home.stylists.update': function updateFeaturedStylistsOnHome(stylists) {
@@ -164,10 +160,8 @@ Meteor.methods({
         `param: ${JSON.stringify(stylists)}`,
       );
     } catch (exception) {
-      /* eslint-disable no-console */
-      console.error(exception);
-      /* eslint-enable no-console */
-      throw new Meteor.Error('500');
+      log.error(exception);
+      throw exception;
     }
   },
 });

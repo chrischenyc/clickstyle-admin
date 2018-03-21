@@ -4,11 +4,12 @@
   "description": "stylesquad.com.au admin app",
   "private": true,
   "author": "Chris Chen",
-  "contributors": [
-    "Chris Chen <chrischen79@gmail.com>"
-  ],
+  "contributors": ["Chris Chen <chrischen79@gmail.com>"],
   "scripts": {
-    "dev": "MONGO_URL=mongodb://localhost:27017/stylesquad  meteor -s settings-development.json --port 4000",
+    "dev":
+      "MONGO_URL=mongodb://localhost:27017/stylesquad  meteor -s settings-development.json --port 4000",
+    "debug":
+      "MONGO_URL=mongodb://localhost:27017/stylesquad meteor run --inspect -s settings-development.json --port 4000",
     "start": "meteor run",
     "cloc": "cloc imports client server private --exclude-ext=json"
   },

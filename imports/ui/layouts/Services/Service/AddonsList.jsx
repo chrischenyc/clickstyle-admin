@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Table, Button, Confirm } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
-import { formatDateTime } from '../../../../modules/format-date';
+import { dateTimeString } from '../../../../modules/format-date';
 import { NumberField } from '../../../components/FormInputField';
 
 class AddonsList extends Component {
@@ -51,7 +51,7 @@ class AddonsList extends Component {
                 />
               </Table.Cell>
 
-              <Table.Cell>{formatDateTime(addon.createdAt)}</Table.Cell>
+              <Table.Cell>{dateTimeString(addon.createdAt)}</Table.Cell>
 
               <Table.Cell>
                 {addon.createdBy === 'system' ? (

@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
 import { usersFindSelector } from '../../../modules/publish-selectors';
-import { formatDateTime } from '../../../modules/format-date';
+import { dateTimeString } from '../../../modules/format-date';
 
 class UsersList extends Component {
   componentWillReceiveProps(nextProps) {
@@ -46,7 +46,7 @@ class UsersList extends Component {
                   ))}
                 </Table.Cell>
 
-                <Table.Cell>{formatDateTime(user.createdAt)}</Table.Cell>
+                <Table.Cell>{dateTimeString(user.createdAt)}</Table.Cell>
               </Table.Row>
             ))}
         </Table.Body>

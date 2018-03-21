@@ -7,9 +7,8 @@ SyncedCron.config({
 });
 
 SyncedCron.add({
-  name: 'Refresh Suburbs.published status based on current Stylists data',
+  name: 'Refresh all suburbs .published field',
   schedule(parser) {
-    // parser is a later.parse object
     return parser.text('every 4 hours');
   },
   job() {
@@ -23,9 +22,9 @@ SyncedCron.add({
 });
 
 SyncedCron.add({
-  name: 'Refresh Stylists.occupiedTimeSlots for 90 days from now',
+  name: 'Update all stylists .occupiedTimeSlots field',
   schedule(parser) {
-    return parser.text('every 90 days');
+    return parser.text('every 2160 hours'); // 90 days
   },
   job() {
     Meteor.call('stylist.occupiedTimeSlots.refresh', { days: 90 }, (error) => {
@@ -34,6 +33,21 @@ SyncedCron.add({
       }
     });
     log.info('cron job - stylist.occupiedTimeSlots.refresh');
+  },
+});
+
+SyncedCron.add({
+  name: 'Cancel overdue pending bookings',
+  schedule(parser) {
+    return parser.text('every 1 minute');
+  },
+  job() {
+    Meteor.call('bookings.cancel.overdue', (error) => {
+      if (error) {
+        log.error('bookings.cancel.overdue', error);
+      }
+    });
+    log.info('cron job - Cancel pending Bookings that are overdue');
   },
 });
 

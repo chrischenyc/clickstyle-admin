@@ -6,7 +6,7 @@ import { Table } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
-import { formatDateTime } from '../../../../modules/format-date';
+import { dateTimeString } from '../../../../modules/format-date';
 import StylistApplications from '../../../../api/stylist_applications/stylist_applications';
 
 class StylistApplicationsList extends Component {
@@ -38,7 +38,7 @@ class StylistApplicationsList extends Component {
                     {application.approved ? 'approved' : 'pending'}
                   </Link>
                 </Table.Cell>
-                <Table.Cell>{formatDateTime(application.createdAt)}</Table.Cell>
+                <Table.Cell>{dateTimeString(application.createdAt)}</Table.Cell>
                 <Table.Cell>
                   <Link to={`/users/${application.userId}`}>{application.name}</Link>
                 </Table.Cell>

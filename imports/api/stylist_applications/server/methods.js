@@ -135,10 +135,8 @@ Meteor.methods({
         },
       );
     } catch (exception) {
-      /* eslint-disable no-console */
-      console.error(exception);
-      /* eslint-enable no-console */
-      throw new Meteor.Error('500');
+      log.error(exception);
+      throw exception;
     }
   },
 });

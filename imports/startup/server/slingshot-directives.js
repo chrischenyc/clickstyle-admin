@@ -3,7 +3,7 @@ import { Slingshot } from 'meteor/edgee:slingshot';
 
 import uuid from 'uuid/v1';
 
-import { formatFileTimestamp } from '../../modules/format-date';
+import { timestampString } from '../../modules/format-date';
 
 // https://github.com/jimmiebtlr/meteor-slingshot-cloudinary
 Slingshot.createDirective(Meteor.settings.public.SlingshotCloudinaryImage, Slingshot.Cloudinary, {
@@ -34,6 +34,6 @@ Slingshot.createDirective(Meteor.settings.public.SlingshotS3File, Slingshot.S3St
   },
   key(file) {
     // Store file with user id and timestamp
-    return `${this.userId}_${formatFileTimestamp(Date.now())}_${file.name}`;
+    return `${this.userId}_${timestampString(Date.now())}_${file.name}`;
   },
 });

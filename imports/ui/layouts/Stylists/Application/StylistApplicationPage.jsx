@@ -14,7 +14,7 @@ import {
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { formatDateTime } from '../../../../modules/format-date';
+import { dateTimeString } from '../../../../modules/format-date';
 
 const StylistApplicationPage = (props) => {
   if (!props.application) {
@@ -45,7 +45,7 @@ const StylistApplicationPage = (props) => {
       <Header as="h1">Stylist Join Application</Header>
 
       <Segment>
-        <div>Applied on:&nbsp;{formatDateTime(createdAt)}</div>
+        <div>Applied on:&nbsp;{dateTimeString(createdAt)}</div>
         <div>
           Name:&nbsp;<Link to={`/users/${userId}`}>{name}</Link>
         </div>
@@ -87,7 +87,7 @@ const StylistApplicationPage = (props) => {
             Application was approved by admin user (<Link to={`/users/${approvedBy}`}>
               {approvedBy}
             </Link>)&nbsp;on&nbsp;
-            {formatDateTime(approvedAt)}.
+            {dateTimeString(approvedAt)}.
           </p>
         </Message>
       ) : (

@@ -16,7 +16,7 @@ import {
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { formatDateTime } from '../../../../modules/format-date';
+import { dateTimeString } from '../../../../modules/format-date';
 import ScaledImageURL from '../../../../modules/scaled-image-url';
 
 const UserPage = (props) => {
@@ -48,7 +48,7 @@ const UserPage = (props) => {
 
               <div>
                 Registered on:&nbsp;
-                {formatDateTime(createdAt)}
+                {dateTimeString(createdAt)}
               </div>
               <div>
                 Email:&nbsp;

@@ -19,3 +19,5 @@ import '../../api/suburbs/server/publications';
 import '../../api/suburbs/server/methods';
 
 import '../../api/featured/server/methods';
+
+import '../../api/bookings/server/methods';

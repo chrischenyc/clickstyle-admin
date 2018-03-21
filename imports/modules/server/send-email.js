@@ -1,15 +1,16 @@
 import { Meteor } from 'meteor/meteor';
 import { Email } from 'meteor/email';
+import log from 'winston';
+
 import getPrivateFile from './get-private-file';
 import templateToText from './handlebars-email-to-text';
 import templateToHTML from './handlebars-email-to-html';
-import { formatDateTime } from '../../modules/format-date';
-
+import { dateTimeString } from '../../modules/format-date';
 import Profiles from '../../api/profiles/profiles';
 
 // core function to send email
 const sendEmail = ({
-  text, html, template, templateVars, ...rest
+  text, html, template, templateConstants, ...rest
 }) => {
   if (text || html || template) {
     return new Promise((resolve, reject) => {
@@ -20,13 +21,13 @@ const sendEmail = ({
             text: template
               ? templateToText(
                 getPrivateFile(`email-templates/${template}.txt`),
-                templateVars || {},
+                templateConstants || {},
               )
               : text,
             html: template
               ? templateToHTML(
                 getPrivateFile(`email-templates/${template}.html`),
-                templateVars || {},
+                templateConstants || {},
               )
               : html,
           });
@@ -59,7 +60,7 @@ const {
 export const fromAddress = `${appName} <${supportEmail}>`;
 
 // standard vars most email templates use
-const commonTemplateVars = {
+const constantsFromSettings = {
   appName,
   homeUrl: Meteor.absoluteUrl(homeUrl),
   helpUrl: Meteor.absoluteUrl(helpUrl),
@@ -75,10 +76,10 @@ const commonTemplateVars = {
 };
 
 // add shared footers
-export const templateVars = {
-  ...commonTemplateVars,
-  txtFooter: templateToText(getPrivateFile('email-templates/footer.txt'), commonTemplateVars),
-  htmlFooter: templateToHTML(getPrivateFile('email-templates/footer.html'), commonTemplateVars),
+export const templateConstants = {
+  ...constantsFromSettings,
+  txtFooter: templateToText(getPrivateFile('email-templates/footer.txt'), constantsFromSettings),
+  htmlFooter: templateToHTML(getPrivateFile('email-templates/footer.html'), constantsFromSettings),
 };
 
 export const sendStylistJoinApprovedEmail = (userId) => {
@@ -89,9 +90,9 @@ export const sendStylistJoinApprovedEmail = (userId) => {
     from: fromAddress,
     subject: `Congrats! You are now a stylist on ${appName}`,
     template: 'stylist-join-approved',
-    templateVars: {
+    templateConstants: {
       firstName: profile.name.first,
-      ...templateVars,
+      ...templateConstants,
     },
   }).catch((error) => {
     throw new Meteor.Error('500', `${error}`);
@@ -107,14 +108,51 @@ export const sendAdminAccessGrantEmail = (userId, grant, byUserId) => {
     from: fromAddress,
     subject: `Admin access ${grant ? 'granted' : 'revoked'}`,
     template: 'admin-access-grant',
-    templateVars: {
+    templateConstants: {
       grant: grant ? 'granted' : 'revoked',
       accountEmail: profile.email,
       byEmail: byProfile.email,
-      changedOn: formatDateTime(Date.now(0)),
-      ...templateVars,
+      changedOn: dateTimeString(Date.now(0)),
+      ...templateConstants,
     },
   }).catch((error) => {
     throw new Meteor.Error('500', `${error}`);
+  });
+};
+
+export const sendCustomerBookingCancelledBySystemEmail = ({
+  stylist,
+  services,
+  total,
+  firstName,
+  lastName,
+  email,
+  mobile,
+  address,
+  time,
+  bookingsId,
+  bookingUrl,
+}) => {
+  sendEmail({
+    to: email,
+    from: fromAddress,
+    subject: 'Booking has been cancelled',
+    template: 'booking-cancelled-by-system-customer',
+    templateConstants: {
+      stylist,
+      services,
+      total,
+      firstName,
+      lastName,
+      email,
+      mobile,
+      address,
+      time,
+      bookingsId,
+      bookingUrl: Meteor.settings.public.clientHost + bookingUrl,
+      ...templateConstants,
+    },
+  }).catch((error) => {
+    log.error(error);
   });
 };

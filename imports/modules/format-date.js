@@ -1,5 +1,11 @@
 import moment from 'moment';
 
-export const formatDate = date => moment(date).format('D MMMM YYYY');
-export const formatDateTime = date => moment(date).format('D MMMM YYYY, HH:mm');
-export const formatFileTimestamp = date => moment(date).format('YYYYMMDDHHmmss');
+export const dateString = date => moment(date).format('D MMMM YYYY');
+export const dateTimeString = date => moment(date).format('D MMMM YYYY, HH:mm');
+export const timestampString = date => moment(date).format('YYYYMMDDHHmmss');
+
+const urlQueryDateFormat = 'YYMMDD';
+export const urlQueryDateString = date => moment(date).format(urlQueryDateFormat);
+export const parseUrlQueryDate = string => moment(string, urlQueryDateFormat);
+
+export const parseBookingDateTime = string => moment(string, 'YYMMDDHH:mm');

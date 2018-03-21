@@ -1,0 +1,24 @@
+Hi {{firstName}},
+
+Your pending booking request became overdue. As {{stylist}} wasn&apos;t able to confirm this booking on time, we decided to cancel this booking.
+
+Booking number: {{bookingsId}}
+Stylist: {{stylist}}
+Customer: {{firstName}} {{lastName}}
+Time: {{time}}
+Address: {{address}}
+Services: {{services}}
+Total: {{total}}
+
+You won't be charged until your booked service is complete.
+
+View Your Booking: {{bookingUrl}}
+
+Warm Regards
+{{appName}} Family
+
+For your entertainment here’s a fun fact:
+Beauty can take time. The average time a woman spends to wash, dry and style her hair is 1 hour and 53 minutes a week. By the time she is 65, she will have spent 7 months of her life doing her hair.
+
+{{{txtFooter}}}
+

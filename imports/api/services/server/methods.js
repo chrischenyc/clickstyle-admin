@@ -34,10 +34,8 @@ Meteor.methods({
         `param: ${JSON.stringify(services)}`,
       );
     } catch (exception) {
-      /* eslint-disable no-console */
-      console.error(exception);
-      /* eslint-enable no-console */
-      throw new Meteor.Error('500');
+      log.error(exception);
+      throw exception;
     }
   },
   'services.photo.add': function profilesPhotoAdd(data) {
@@ -57,10 +55,7 @@ Meteor.methods({
       if (service.photo) {
         deleteCloudinaryFile(service.photo, (error) => {
           if (error) {
-            /* eslint-disable no-console */
-            console.error(`Unable to delete cloudinary file: ${service.photo}`);
-            console.error(error);
-            /* eslint-enable no-console */
+            log.error(`Unable to delete cloudinary file: ${service.photo}, error:${error}`);
           }
         });
       }
@@ -70,10 +65,8 @@ Meteor.methods({
 
       log.info('Meteor.methods: services.photo.add', `userId: ${this.userId}`, `param: ${data}`);
     } catch (exception) {
-      /* eslint-disable no-console */
-      console.error(exception);
-      /* eslint-enable no-console */
-      throw new Meteor.Error('500');
+      log.error(exception);
+      throw exception;
     }
   },
   'services.photo.remove': function profilesPhotoRemove(_id) {
@@ -90,10 +83,7 @@ Meteor.methods({
       if (service.photo) {
         deleteCloudinaryFile(service.photo, (error) => {
           if (error) {
-            /* eslint-disable no-console */
-            console.error(`Unable to delete cloudinary file: ${service.photo}`);
-            console.error(error);
-            /* eslint-enable no-console */
+            log.error(`Unable to delete cloudinary file: ${service.photo}, error: ${error}`);
           }
         });
       }
@@ -103,10 +93,8 @@ Meteor.methods({
 
       log.info('Meteor.methods: services.photo.remove', `userId: ${this.userId}`, `param: ${_id}`);
     } catch (exception) {
-      /* eslint-disable no-console */
-      console.error(exception);
-      /* eslint-enable no-console */
-      throw new Meteor.Error('500');
+      log.error(exception);
+      throw exception;
     }
   },
 });
