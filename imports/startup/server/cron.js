@@ -39,7 +39,7 @@ SyncedCron.add({
 SyncedCron.add({
   name: 'Cancel overdue pending bookings',
   schedule(parser) {
-    return parser.text('every 1 minute');
+    return parser.text('every 24 hours'); // daily
   },
   job() {
     Meteor.call('bookings.cancel.overdue', (error) => {
