@@ -51,7 +51,7 @@ SyncedCron.add({
 SyncedCron.add({
   name: 'Notify administrators of pending bookings over 24 hours',
   schedule(parser) {
-    return parser.text('every 1 minute'); // daily
+    return parser.text('every 1 day'); // daily
   },
   job() {
     Meteor.call('bookings.inform.admin.long.pending', (error) => {
