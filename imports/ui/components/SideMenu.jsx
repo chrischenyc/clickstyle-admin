@@ -37,6 +37,15 @@ const SideMenu = () => (
     </Menu.Item>
 
     <Menu.Item>
+      <Menu.Header>Bookings</Menu.Header>
+      <Menu.Menu>
+        <Menu.Item as={NavLink} to="/bookings">
+          Bookings
+        </Menu.Item>
+      </Menu.Menu>
+    </Menu.Item>
+
+    <Menu.Item>
       <Menu.Header>System</Menu.Header>
       <Menu.Menu>
         <Menu.Item as={NavLink} to="/cron">

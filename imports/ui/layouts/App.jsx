@@ -23,6 +23,8 @@ import Suburbs from '../layouts/Suburbs/Suburbs';
 import FeaturedStylists from '../layouts/Stylists/Featured/FeaturedStylists';
 import Cron from '../layouts/System/Cron';
 
+import Bookings from '../layouts/Bookings/Bookings/Bookings';
+
 class App extends Component {
   // after web App is refreshed, try to fetch Meteor user data then update redux states
   componentDidMount() {
@@ -74,11 +76,13 @@ class App extends Component {
 
               <SecureRoute exact path="/suburbs" component={withSideMenu(Suburbs)} />
 
+              <SecureRoute exact path="/bookings" component={withSideMenu(Bookings)} />
+
               <SecureRoute exact path="/cron" component={withSideMenu(Cron)} />
 
               <Route exact path="/login" component={Login} />
 
-              <Route component={() => <p>404 not found</p>} />
+              <Route component={withSideMenu(() => <p>404 not found</p>)} />
             </Switch>
           </div>
         </div>
