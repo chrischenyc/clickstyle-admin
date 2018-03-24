@@ -12,6 +12,7 @@ class Cron extends Component {
 
     this.handleRefreshPublishedSuburbs = this.handleRefreshPublishedSuburbs.bind(this);
     this.handleRefreshStylistTimeslots = this.handleRefreshStylistTimeslots.bind(this);
+    this.handleCancelOverdueBookings = this.handleCancelOverdueBookings.bind(this);
   }
 
   handleRefreshPublishedSuburbs() {
@@ -24,6 +25,13 @@ class Cron extends Component {
   handleRefreshStylistTimeslots() {
     this.setState({ loading: true });
     Meteor.call('stylist.occupiedTimeSlots.refresh', { days: 90 }, () => {
+      this.setState({ loading: false });
+    });
+  }
+
+  handleCancelOverdueBookings() {
+    this.setState({ loading: true });
+    Meteor.call('bookings.cancel.overdue', () => {
       this.setState({ loading: false });
     });
   }
@@ -51,9 +59,7 @@ class Cron extends Component {
                   Refresh published suburbs
                 </Button>
               </List.Header>
-              <List.Description>
-                The auto refresh is scheduled to run every 4 hours.
-              </List.Description>
+              <List.Description>This job is scheduled to run every 4 hours.</List.Description>
             </List.Content>
           </List.Item>
 
@@ -68,9 +74,22 @@ class Cron extends Component {
                   Refresh occupied timeslots of all stylists for next 90 days
                 </Button>
               </List.Header>
-              <List.Description>
-                The auto refresh is scheduled to run every 90 days.
-              </List.Description>
+              <List.Description>This job is scheduled to run every 90 days.</List.Description>
+            </List.Content>
+          </List.Item>
+
+          <List.Item>
+            <List.Content>
+              <List.Header>
+                <Button
+                  primary
+                  onClick={this.handleCancelOverdueBookings}
+                  loading={this.state.loading}
+                >
+                  Cancel overdue pending bookings
+                </Button>
+              </List.Header>
+              <List.Description>This job is scheduled to run every day.</List.Description>
             </List.Content>
           </List.Item>
         </List>
