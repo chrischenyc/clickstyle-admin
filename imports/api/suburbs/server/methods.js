@@ -76,8 +76,6 @@ Meteor.methods({
         { $set: { published: false } },
         { multi: true },
       );
-
-      log.info('Meteor.methods: suburbs.refresh.published', `userId: ${this.userId}`);
     } catch (exception) {
       log.error(exception);
       throw exception;

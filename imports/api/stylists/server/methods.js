@@ -99,8 +99,6 @@ Meteor.methods({
       stylists.forEach((stylist) => {
         updateStylistOccupiedTimeSlots(stylist, days);
       });
-
-      log.info('Meteor.methods: stylist.occupiedTimeSlots.refresh');
     } catch (exception) {
       log.error(exception);
       throw exception;
