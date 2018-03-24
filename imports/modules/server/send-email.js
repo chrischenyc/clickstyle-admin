@@ -156,3 +156,29 @@ export const sendCustomerBookingCancelledBySystemEmail = ({
     log.error(error);
   });
 };
+
+export const sendAdminEmailLongPendingBooking = (bookingId) => {
+  const adminUrl = Meteor.absoluteUrl(`bookings/${bookingId}`);
+
+  const adminUsers = Meteor.users
+    .find({ roles: Meteor.settings.public.roles.admin }, { fields: { emails: 1 } })
+    .fetch();
+
+  try {
+    adminUsers.forEach((adminUser) => {
+      sendEmail({
+        to: adminUser.emails[0],
+        from: fromAddress,
+        subject: `Booking ${bookingId} has been pending for over 24 hours`,
+        template: 'notify-admin-long-pending-booking',
+        templateConstants: {
+          adminUrl,
+          bookingId,
+          ...templateConstants,
+        },
+      });
+    });
+  } catch (error) {
+    log.error(error);
+  }
+};

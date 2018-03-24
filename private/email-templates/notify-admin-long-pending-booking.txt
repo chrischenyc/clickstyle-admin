@@ -1,0 +1,5 @@
+Booking {{bookingId}} has been waiting for stylist to confirm for over 24 hours. You may want to contact stylist.
+Review the booking: {{adminUrl}}
+
+You received this email because you are one of the admin users on {{appName}}.
+

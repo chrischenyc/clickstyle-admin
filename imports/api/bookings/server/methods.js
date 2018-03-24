@@ -5,7 +5,10 @@ import moment from 'moment';
 
 import Bookings from '../bookings';
 import rateLimit from '../../../modules/server/rate-limit';
-import { sendCustomerBookingCancelledBySystemEmail } from '../../../modules/server/send-email';
+import {
+  sendCustomerBookingCancelledBySystemEmail,
+  sendAdminEmailLongPendingBooking,
+} from '../../../modules/server/send-email';
 import servicesSummary from '../../../modules/format-services';
 
 import { parseUrlQueryDate, dateString, parseBookingDateTime } from '../../../modules/format-date';
@@ -73,10 +76,48 @@ Meteor.methods({
       throw exception;
     }
   },
+
+  'bookings.inform.admin.long.pending': function informAdminOfLongPendingBookings() {
+    if (
+      Meteor.isClient &&
+      !Roles.userIsInRole(Meteor.userId(), [
+        Meteor.settings.public.roles.admin,
+        Meteor.settings.public.roles.superAdmin,
+      ])
+    ) {
+      throw new Meteor.Error(403, 'unauthorized');
+    }
+
+    try {
+      const pendingBookings = Bookings.find({
+        status: 'pending',
+        informedAdminOfLongPendingAt: { $exists: false },
+      }).fetch();
+
+      pendingBookings.forEach((booking) => {
+        const bookingStartDateTime = parseBookingDateTime(booking.date + booking.time);
+
+        if (bookingStartDateTime.isBefore(moment().subtract(1, 'day'))) {
+          sendAdminEmailLongPendingBooking(booking._id);
+
+          Bookings.update(
+            { _id: booking._id },
+            { $set: { informedAdminOfLongPendingAt: Date.now() } },
+          );
+
+          log.info(`Informed admin of long pending booking ${booking._id}.`);
+        }
+      });
+    } catch (exception) {
+      log.error(exception);
+
+      throw exception;
+    }
+  },
 });
 
 rateLimit({
-  methods: ['bookings.cancel.overdue'],
+  methods: ['bookings.cancel.overdue', 'bookings.inform.admin.long.pending'],
   limit: 5,
   timeRange: 1000,
 });

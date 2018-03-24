@@ -17,7 +17,6 @@ SyncedCron.add({
         log.error('suburbs.refresh.published', error);
       }
     });
-    log.info('cron job - suburbs.refresh.published');
   },
 });
 
@@ -32,7 +31,6 @@ SyncedCron.add({
         log.error('stylist.occupiedTimeSlots.refresh', error);
       }
     });
-    log.info('cron job - stylist.occupiedTimeSlots.refresh');
   },
 });
 
@@ -47,7 +45,20 @@ SyncedCron.add({
         log.error('bookings.cancel.overdue', error);
       }
     });
-    log.info('cron job - Cancel pending Bookings that are overdue');
+  },
+});
+
+SyncedCron.add({
+  name: 'Notify administrators of pending bookings over 24 hours',
+  schedule(parser) {
+    return parser.text('every 1 minute'); // daily
+  },
+  job() {
+    Meteor.call('bookings.inform.admin.long.pending', (error) => {
+      if (error) {
+        log.error('bookings.inform.admin.long.pending', error);
+      }
+    });
   },
 });
 
