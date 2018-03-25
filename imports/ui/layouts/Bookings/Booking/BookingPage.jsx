@@ -1,121 +1,104 @@
-import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  Container,
-  Header,
-  Segment,
-  List,
-  Message,
-  Button,
-  Divider,
-  Icon,
-} from 'semantic-ui-react';
+import { Container, Header, Message, Button, Divider } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import moment from 'moment';
 
 import { dateTimeString } from '../../../../modules/format-date';
+import servicesSummary from '../../../../modules/format-services';
 
-const StylistApplicationPage = (props) => {
-  if (!props.application) {
-    return (
-      <Container>
-        <p>loading...</p>
-      </Container>
-    );
-  }
+const BookingPage = props => (
+  <Container>
+    <Header as="h2">Booking {props.booking._id}</Header>
 
-  const {
-    userId,
-    name,
-    email,
-    mobile,
-    address,
-    services,
-    referenceUrl,
-    qualificationUrl,
-    approved,
-    approvedAt,
-    approvedBy,
-    createdAt,
-  } = props.application;
+    <div>
+      Booking date: {dateTimeString(moment(props.booking.date + props.booking.time, 'YYMMDDHHmm'))}
+    </div>
 
-  return (
-    <Container>
-      <Header as="h1">Stylist Join Application</Header>
+    <div>Services:&nbsp;{servicesSummary(props.booking.services)}</div>
 
-      <Segment>
-        <div>Applied on:&nbsp;{dateTimeString(createdAt)}</div>
-        <div>
-          Name:&nbsp;<Link to={`/users/${userId}`}>{name}</Link>
-        </div>
-        <div>
-          Email:&nbsp;<a href={`mailto:${email}`}>{email}</a>
-        </div>
-        <div>Mobile:&nbsp;{mobile}</div>
-        <div>
-          Address:&nbsp;
-          <a href={`https://maps.google.com/?q=${address}`} target="_blank">
-            {address}
-          </a>
-        </div>
-        <div>
-          Reference:&nbsp;
-          <a href={referenceUrl} target="_blank">
-            {referenceUrl}
-          </a>
-        </div>
-        {qualificationUrl && (
-          <div>
-            Qualification:&nbsp;
-            <a href={qualificationUrl} target="_blank">
-              <Icon name="file outline" />&nbsp;open
-            </a>
-          </div>
-        )}
+    <div>Total:&nbsp;{props.booking.total}</div>
 
-        <Divider />
-        <Header as="h3">Services</Header>
-        <List>
-          {services.map(service => <List.Item key={service._id}>{service.name}</List.Item>)}
-        </List>
-      </Segment>
+    <div>Customer:&nbsp; {`${props.booking.firstName} ${props.booking.lastName}`}</div>
 
-      {approved ? (
-        <Message info>
-          <p>
-            Application was approved by admin user (<Link to={`/users/${approvedBy}`}>
-              {approvedBy}
-            </Link>)&nbsp;on&nbsp;
-            {dateTimeString(approvedAt)}.
-          </p>
-        </Message>
-      ) : (
-        <Button
-          size="large"
-          primary
-          onClick={props.onApprove}
-          loading={props.loading}
-          disabled={props.loading}
-        >
-          Approve application
-        </Button>
-      )}
+    <div>
+      Email:&nbsp;<a href={`mailto:${props.booking.email}`}>{props.booking.email}</a>
+    </div>
 
-      {!_.isEmpty(props.error) && <Message error>{props.error}</Message>}
-    </Container>
-  );
-};
+    <div>Mobile:&nbsp;{props.booking.mobile}</div>
 
-StylistApplicationPage.defaultProps = {
-  application: null,
-};
+    <div>
+      Address:&nbsp;
+      <a href={`https://maps.google.com/?q=${props.booking.address}`} target="_blank">
+        {props.booking.address}
+      </a>
+    </div>
 
-StylistApplicationPage.propTypes = {
-  application: PropTypes.object,
-  onApprove: PropTypes.func.isRequired,
+    <Divider />
+    <div>
+      Customer:&nbsp;
+      <Link to={`/users/${props.booking.customer.owner}`}>
+        {`${props.booking.customer.name.first} ${props.booking.customer.name.last}`}
+      </Link>
+    </div>
+
+    <div>
+      Email:&nbsp;<a href={`mailto:${props.booking.customer.email}`}>{props.booking.customer.email}</a>
+    </div>
+
+    <div>Mobile:&nbsp;{props.booking.customer.mobile}</div>
+
+    <Divider />
+    <div>
+      Stylist:&nbsp;
+      <Link to={`/users/${props.booking.stylist.owner}`}>
+        {`${props.booking.stylist.name.first} ${props.booking.stylist.name.last}`}
+      </Link>
+    </div>
+
+    <div>
+      Email:&nbsp;
+      <a href={`mailto:${props.booking.stylist.email}`}>{props.booking.stylist.email}</a>
+    </div>
+
+    <div>Mobile:&nbsp;{props.booking.stylist.mobile}</div>
+
+    <Divider />
+
+    <div>Created: {dateTimeString(props.booking.createdAt)}</div>
+
+    {props.booking.stylistConfirmedAt && (<div>Stylist confirmed: {dateTimeString(props.booking.stylistConfirmedAt)}</div>)}
+    {props.booking.stylistDeclinedAt && (<div>Stylist declined: {dateTimeString(props.booking.stylistDeclinedAt)}</div>)}
+    {props.booking.stylistCancelledAt && (<div>Stylist cancelled: {dateTimeString(props.booking.stylistCancelledAt)}</div>)}
+    {props.booking.customerCancelledAt && (<div>Customer cancelled: {dateTimeString(props.booking.customerCancelledAt)}</div>)}
+    {props.booking.systemCancelledAt && (<div>System cancelled: {dateTimeString(props.booking.systemCancelledAt)}</div>)}
+    {props.booking.informedAdminOfLongPendingAt && (<div>Informed admin of long pending: {dateTimeString(props.booking.informedAdminOfLongPendingAt)}</div>)}
+    {props.booking.stylistCompletedAt && (<div>Stylist completed: {dateTimeString(props.booking.stylistCompletedAt)}</div>)}
+
+    <Divider />
+
+    {/* {(props.booking.status === 'pending' || props.booking.status === 'confirmed') && (
+      <Button
+        size="large"
+        primary
+        onClick={props.onCancel}
+        loading={props.loading}
+        disabled={props.loading}
+      >
+        Cancel booking
+      </Button>
+    )} */}
+
+    {!_.isEmpty(props.error) && <Message error>{props.error}</Message>}
+  </Container>
+);
+
+BookingPage.propTypes = {
+  booking: PropTypes.object.isRequired,
+  onCancel: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   error: PropTypes.string.isRequired,
 };
 
-export default StylistApplicationPage;
+export default BookingPage;

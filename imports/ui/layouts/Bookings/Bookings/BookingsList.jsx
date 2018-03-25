@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import moment from 'moment';
 
-import { dateTimeString, parseUrlQueryDate } from '../../../../modules/format-date';
+import { dateTimeString } from '../../../../modules/format-date';
 import Bookings from '../../../../api/bookings/bookings';
 
 class BookingsList extends Component {

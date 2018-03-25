@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
+import { check } from 'meteor/check';
 import log from 'winston';
 import moment from 'moment';
 
@@ -13,6 +14,7 @@ import servicesSummary from '../../../modules/format-services';
 
 import { parseUrlQueryDate, dateString, parseBookingDateTime } from '../../../modules/format-date';
 import Stylists from '../../stylists/stylists';
+import Profiles from '../../profiles/profiles';
 
 Meteor.methods({
   'bookings.cancel.overdue': function cancelOverdueBookings() {
@@ -114,10 +116,37 @@ Meteor.methods({
       throw exception;
     }
   },
+
+  'find.booking': function findBooking(_id) {
+    if (
+      Meteor.isClient &&
+      !Roles.userIsInRole(Meteor.userId(), [
+        Meteor.settings.public.roles.admin,
+        Meteor.settings.public.roles.superAdmin,
+      ])
+    ) {
+      throw new Meteor.Error(403, 'unauthorized');
+    }
+
+    check(_id, String);
+
+    try {
+      const booking = Bookings.findOne({ _id });
+
+      const customer = Profiles.findOne({ owner: booking.customer });
+      const stylist = Profiles.findOne({ owner: booking.stylist });
+
+      return { ...booking, customer, stylist };
+    } catch (exception) {
+      log.error(exception);
+
+      throw exception;
+    }
+  },
 });
 
 rateLimit({
-  methods: ['bookings.cancel.overdue', 'bookings.inform.admin.long.pending'],
+  methods: ['bookings.cancel.overdue', 'bookings.inform.admin.long.pending', 'find.booking'],
   limit: 5,
   timeRange: 1000,
 });

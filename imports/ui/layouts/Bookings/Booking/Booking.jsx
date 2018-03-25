@@ -1,43 +1,56 @@
 import { Meteor } from 'meteor/meteor';
-import { withTracker } from 'meteor/react-meteor-data';
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
-import StylistApplications from '../../../../api/stylist_applications/stylist_applications';
-import StylistApplicationPage from './StylistApplicationPage';
+import BookingPage from './BookingPage';
 
-class StylistApplication extends Component {
+class Booking extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      booking: null,
       loading: false,
       error: '',
     };
 
-    this.handleApprove = this.handleApprove.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.loadBooking = this.loadBooking.bind(this);
   }
 
-  handleApprove() {
+  componentDidMount() {
+    this.loadBooking();
+  }
+
+  loadBooking() {
+    this.setState({ loading: true, error: '' });
+
+    Meteor.call('find.booking', this.props.match.params._id, (error, booking) => {
+      if (error) {
+        this.setState({ error: error.message, loading: false });
+      } else {
+        this.setState({ booking, loading: false });
+      }
+    });
+  }
+
+  handleCancel() {
     this.setState({ loading: true });
 
-    Meteor.call(
-      'stylist.application.approve',
-      { applicationId: this.props.application._id, userId: this.props.application.userId },
-      (error) => {
-        this.setState({ loading: false });
+    Meteor.call('cancel.booking', this.props.match.params._id, (error) => {
+      this.setState({ loading: false });
 
-        if (error) {
-          this.setState({ error: error.message });
-        }
-      },
-    );
+      if (error) {
+        this.setState({ error: error.message });
+      } else {
+        this.loadBooking();
+      }
+    });
   }
 
   render() {
-    return this.props.ready ? (
-      <StylistApplicationPage
-        application={this.props.application}
-        onApprove={this.handleApprove}
+    return this.state.booking ? (
+      <BookingPage
+        booking={this.state.booking}
+        onCancel={this.handleCancel}
         loading={this.state.loading}
         error={this.state.error}
       />
@@ -47,22 +60,4 @@ class StylistApplication extends Component {
   }
 }
 
-StylistApplication.defaultProps = {
-  ready: false,
-  application: null,
-};
-
-StylistApplication.propTypes = {
-  match: PropTypes.object.isRequired,
-  ready: PropTypes.bool,
-  application: PropTypes.object,
-};
-
-export default withTracker((props) => {
-  const handle = Meteor.subscribe('stylist.application', props.match.params.id);
-
-  return {
-    ready: handle.ready(),
-    application: StylistApplications.findOne({ _id: props.match.params.id }),
-  };
-})(StylistApplication);
+export default Booking;
