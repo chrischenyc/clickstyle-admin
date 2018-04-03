@@ -1,7 +1,6 @@
-import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Form, Grid, Message, Segment, Divider } from 'semantic-ui-react';
+import { Button, Form, Grid, Message, Segment } from 'semantic-ui-react';
 import _ from 'lodash';
 
 import FormInputField from '../../components/FormInputField';
