@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Form, Grid, Message, Segment } from 'semantic-ui-react';
 import _ from 'lodash';
 
-import FormInputField from '../../components/FormInputField';
+import { FormInputField } from '../../components/FormInputField';
 
 // web version of the login form, stateless component
 const LoginPage = ({
