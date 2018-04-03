@@ -89,7 +89,7 @@ export const sendStylistJoinApprovedEmail = (userId) => {
     to: profile.email,
     from: fromAddress,
     subject: `Congrats! You are now a stylist on ${appName}`,
-    template: 'stylist-join-approved',
+    template: 'stylist-applicationApproved',
     templateConstants: {
       firstName: profile.name.first,
       ...templateConstants,
@@ -107,7 +107,7 @@ export const sendAdminAccessGrantEmail = (userId, grant, byUserId) => {
     to: profile.email,
     from: fromAddress,
     subject: `Admin access ${grant ? 'granted' : 'revoked'}`,
-    template: 'admin-access-grant',
+    template: 'admin-adminAccessGranted',
     templateConstants: {
       grant: grant ? 'granted' : 'revoked',
       accountEmail: profile.email,
@@ -137,7 +137,7 @@ export const sendCustomerBookingCancelledBySystemEmail = ({
     to: email,
     from: fromAddress,
     subject: 'Booking has been cancelled',
-    template: 'booking-cancelled-by-system-customer',
+    template: 'customer-bookingCancelledBySystem',
     templateConstants: {
       stylist,
       services,
@@ -170,7 +170,7 @@ export const sendAdminEmailLongPendingBooking = (bookingId) => {
         to: adminUser.emails[0],
         from: fromAddress,
         subject: `Booking ${bookingId} has been pending for over 24 hours`,
-        template: 'notify-admin-long-pending-booking',
+        template: 'admin-pendingBookingsReminder',
         templateConstants: {
           adminUrl,
           bookingId,
