@@ -1,6 +1,5 @@
 {
-  "extends": ["airbnb", "plugin:meteor/recommended"],
-  "plugins": ["meteor"],
+  "extends": ["airbnb"],
   "env": {
     "browser": true,
     "commonjs": true,
@@ -29,7 +28,9 @@
         "specialLink": ["to", "hrefLeft", "hrefRight"],
         "aspects": ["noHref", "invalidHref", "preferButton"]
       }
-    ]
-  
+    ],
+
+    "import/no-unresolved": ["error", { "ignore": ["^meteor/", "^/"] }],
+    "import/extensions": ["off", "never"]
   }
 }
