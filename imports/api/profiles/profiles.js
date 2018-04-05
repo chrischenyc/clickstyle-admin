@@ -141,15 +141,15 @@ const ProfilesSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
-  stripeCardId: {
+  stripeDefaultCardId: {
     type: String,
     optional: true,
   },
-  stripeCardLast4: {
+  stripeDefaultCardLast4: {
     type: String,
     optional: true,
   },
-  stripeCardName: {
+  stripeDefaultCardName: {
     type: String,
     optional: true,
   },

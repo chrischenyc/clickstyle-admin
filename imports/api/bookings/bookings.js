@@ -49,6 +49,7 @@ const BookingsSchema = new SimpleSchema({
   time: String,
   duration: SimpleSchema.Integer,
   stripeCustomerId: String,
+  stripeCardId: String,
   status: String, // pending, confirmed, declined, cancelled, completed
   stylistConfirmedAt: {
     type: Date,
@@ -77,7 +78,7 @@ const BookingsSchema = new SimpleSchema({
   informedAdminOfLongPendingAt: {
     type: Date,
     optional: true,
-  }
+  },
 });
 
 Bookings.attachSchema(BookingsSchema);
