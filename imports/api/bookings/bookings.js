@@ -75,7 +75,7 @@ const BookingsSchema = new SimpleSchema({
     type: Date,
     optional: true,
   },
-  informedAdminOfLongPendingAt: {
+  remindedPendingAt: {
     type: Date,
     optional: true,
   },

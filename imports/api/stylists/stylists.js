@@ -99,12 +99,12 @@ const AddressSchema = new SimpleSchema({
   state: {
     type: String,
     optional: true,
-    max: 3, // TODO: enhance regex
+    max: 3,
   },
   postcode: {
     type: String,
     optional: true,
-    regEx: /^[0-9]{4}$/, // TODO: enhance regex
+    regEx: /^[0-9]{4}$/,
   },
   suburb: {
     type: String,
