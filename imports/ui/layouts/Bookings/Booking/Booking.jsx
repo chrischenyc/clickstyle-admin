@@ -23,7 +23,7 @@ class Booking extends Component {
   loadBooking() {
     this.setState({ loading: true, error: '' });
 
-    Meteor.call('find.booking', this.props.match.params._id, (error, booking) => {
+    Meteor.call('bookings.find', this.props.match.params._id, (error, booking) => {
       if (error) {
         this.setState({ error: error.message, loading: false });
       } else {

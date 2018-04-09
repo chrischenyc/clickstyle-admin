@@ -13,6 +13,7 @@ class Cron extends Component {
     this.handleRefreshPublishedSuburbs = this.handleRefreshPublishedSuburbs.bind(this);
     this.handleRefreshStylistTimeslots = this.handleRefreshStylistTimeslots.bind(this);
     this.handleCancelOverdueBookings = this.handleCancelOverdueBookings.bind(this);
+    this.handleRemindPendingBookings = this.handleRemindPendingBookings.bind(this);
   }
 
   handleRefreshPublishedSuburbs() {
@@ -32,6 +33,13 @@ class Cron extends Component {
   handleCancelOverdueBookings() {
     this.setState({ loading: true });
     Meteor.call('bookings.cancel.overdue', () => {
+      this.setState({ loading: false });
+    });
+  }
+
+  handleRemindPendingBookings() {
+    this.setState({ loading: true });
+    Meteor.call('bookings.remind.pending', () => {
       this.setState({ loading: false });
     });
   }
@@ -75,6 +83,21 @@ class Cron extends Component {
                 </Button>
               </List.Header>
               <List.Description>This job is scheduled to run every 90 days.</List.Description>
+            </List.Content>
+          </List.Item>
+
+          <List.Item>
+            <List.Content>
+              <List.Header>
+                <Button
+                  primary
+                  onClick={this.handleRemindPendingBookings}
+                  loading={this.state.loading}
+                >
+                  Remind bookings for over 24 hours
+                </Button>
+              </List.Header>
+              <List.Description>This job is scheduled to run every day.</List.Description>
             </List.Content>
           </List.Item>
 

@@ -9,6 +9,7 @@ import rateLimit from '../../../modules/server/rate-limit';
 import {
   sendCustomerBookingCancelledBySystemEmail,
   sendAdminEmailLongPendingBooking,
+  sendStylistPendingBookingReminder,
 } from '../../../modules/server/send-email';
 import servicesSummary from '../../../modules/format-services';
 
@@ -79,7 +80,7 @@ Meteor.methods({
     }
   },
 
-  'bookings.inform.admin.long.pending': function informAdminOfLongPendingBookings() {
+  'bookings.remind.pending': function informAdminOfLongPendingBookings() {
     if (
       Meteor.isClient &&
       !Roles.userIsInRole(Meteor.userId(), [
@@ -102,12 +103,22 @@ Meteor.methods({
         if (bookingStartDateTime.isBefore(moment().subtract(1, 'day'))) {
           sendAdminEmailLongPendingBooking(booking._id);
 
+          const { name, email } = Profiles.findOne({ owner: booking.stylist });
+          sendStylistPendingBookingReminder({
+            stylistEmail: email,
+            stylistFirstName: name.first,
+            firstName: booking.firstName,
+            lastName: booking.lastName,
+            bookingId: booking._id,
+            bookingUrl: `/users/stylist/bookings/${booking._id}`,
+          });
+
           Bookings.update(
             { _id: booking._id },
             { $set: { informedAdminOfLongPendingAt: Date.now() } },
           );
 
-          log.info(`Informed admin of long pending booking ${booking._id}.`);
+          log.info(`Informed long pending booking ${booking._id}.`);
         }
       });
     } catch (exception) {
@@ -117,7 +128,7 @@ Meteor.methods({
     }
   },
 
-  'find.booking': function findBooking(_id) {
+  'bookings.find': function findBooking(_id) {
     if (
       Meteor.isClient &&
       !Roles.userIsInRole(Meteor.userId(), [
@@ -146,7 +157,7 @@ Meteor.methods({
 });
 
 rateLimit({
-  methods: ['bookings.cancel.overdue', 'bookings.inform.admin.long.pending', 'find.booking'],
+  methods: ['bookings.cancel.overdue', 'bookings.remind.pending', 'bookings.find'],
   limit: 5,
   timeRange: 1000,
 });

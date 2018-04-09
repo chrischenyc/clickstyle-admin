@@ -54,9 +54,9 @@ SyncedCron.add({
     return parser.text('every 1 day'); // daily
   },
   job() {
-    Meteor.call('bookings.inform.admin.long.pending', (error) => {
+    Meteor.call('bookings.remind.pending', (error) => {
       if (error) {
-        log.error('bookings.inform.admin.long.pending', error);
+        log.error('bookings.remind.pending', error);
       }
     });
   },

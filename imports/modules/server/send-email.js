@@ -182,3 +182,29 @@ export const sendAdminEmailLongPendingBooking = (bookingId) => {
     log.error(error);
   }
 };
+
+export const sendStylistPendingBookingReminder = ({
+  stylistFirstName,
+  stylistEmail,
+  firstName,
+  lastName,
+  bookingId,
+  bookingUrl,
+}) => {
+  sendEmail({
+    to: stylistEmail,
+    from: fromAddress,
+    subject: `Booking request ${bookingId} is waiting for your response`,
+    template: 'stylist-pendingBookingReminder',
+    templateConstants: {
+      stylistFirstName,
+      firstName,
+      lastName,
+      bookingId,
+      bookingUrl: Meteor.settings.public.clientHost + bookingUrl,
+      ...templateConstants,
+    },
+  }).catch((error) => {
+    log.error(error);
+  });
+};
