@@ -94,7 +94,7 @@ Meteor.methods({
     try {
       const pendingBookings = Bookings.find({
         status: 'pending',
-        informedAdminOfLongPendingAt: { $exists: false },
+        remindedPendingAt: { $exists: false },
       }).fetch();
 
       pendingBookings.forEach((booking) => {
@@ -115,7 +115,7 @@ Meteor.methods({
 
           Bookings.update(
             { _id: booking._id },
-            { $set: { informedAdminOfLongPendingAt: Date.now() } },
+            { $set: { remindedPendingAt: Date.now() } },
           );
 
           log.info(`Informed long pending booking ${booking._id}.`);

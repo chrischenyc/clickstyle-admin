@@ -73,7 +73,7 @@ const BookingPage = props => (
     {props.booking.stylistCancelledAt && (<div>Stylist cancelled: {dateTimeString(props.booking.stylistCancelledAt)}</div>)}
     {props.booking.customerCancelledAt && (<div>Customer cancelled: {dateTimeString(props.booking.customerCancelledAt)}</div>)}
     {props.booking.systemCancelledAt && (<div>System cancelled: {dateTimeString(props.booking.systemCancelledAt)}</div>)}
-    {props.booking.informedAdminOfLongPendingAt && (<div>Informed admin of long pending: {dateTimeString(props.booking.informedAdminOfLongPendingAt)}</div>)}
+    {props.booking.remindedPendingAt && (<div>Informed admin of long pending: {dateTimeString(props.booking.remindedPendingAt)}</div>)}
     {props.booking.stylistCompletedAt && (<div>Stylist completed: {dateTimeString(props.booking.stylistCompletedAt)}</div>)}
 
     <Divider />
