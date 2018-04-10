@@ -1,5 +1,6 @@
 rsync ../stylesquad-web/imports/api/addons/addons.js imports/api/addons/addons.js
 rsync ../stylesquad-web/imports/api/bookings/bookings.js imports/api/bookings/bookings.js
+rsync ../stylesquad-web/imports/api/reviews/reviews.js imports/api/reviews/reviews.js
 rsync ../stylesquad-web/imports/api/featured/featured.js imports/api/featured/featured.js
 rsync ../stylesquad-web/imports/api/products/products.js imports/api/products/products.js
 rsync ../stylesquad-web/imports/api/profiles/profiles.js imports/api/profiles/profiles.js
