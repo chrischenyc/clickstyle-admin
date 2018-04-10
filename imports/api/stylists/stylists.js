@@ -123,21 +123,6 @@ const AddressSchema = new SimpleSchema({
   },
 });
 
-const ReviewSchema = new SimpleSchema({
-  reviewer: String, // customer _id
-  booking: String, // booking _id
-  createdAt: Date,
-  rating: {
-    type: SimpleSchema.Integer,
-    min: 1,
-    max: 5,
-  },
-  comment: {
-    type: String,
-    optional: true,
-  },
-});
-
 const PortfolioPhotoSchema = new SimpleSchema({
   url: String,
   displayOrder: SimpleSchema.Integer,
@@ -189,8 +174,10 @@ const StylistsSchema = new SimpleSchema({
   favourites: Array,
   'favourites.$': String,
 
-  reviews: Array,
-  'reviews.$': ReviewSchema,
+  reviewsCount: {
+    type: SimpleSchema.Integer,
+    optional: true,
+  },
 
   averageRating: {
     type: Number,
