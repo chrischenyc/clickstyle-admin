@@ -37,7 +37,7 @@ SyncedCron.add({
 SyncedCron.add({
   name: 'Cancel overdue pending bookings',
   schedule(parser) {
-    return parser.text('every 24 hours'); // daily
+    return parser.text('every 24 hours');
   },
   job() {
     Meteor.call('bookings.cancel.overdue', (error) => {
@@ -51,12 +51,26 @@ SyncedCron.add({
 SyncedCron.add({
   name: 'Notify administrators of pending bookings over 24 hours',
   schedule(parser) {
-    return parser.text('every 1 day'); // daily
+    return parser.text('every 1 day');
   },
   job() {
     Meteor.call('bookings.remind.pending', (error) => {
       if (error) {
         log.error('bookings.remind.pending', error);
+      }
+    });
+  },
+});
+
+SyncedCron.add({
+  name: 'Remind customers to review completed bookings one day later',
+  schedule(parser) {
+    return parser.text('every 1 day');
+  },
+  job() {
+    Meteor.call('bookings.remind.review.completed', (error) => {
+      if (error) {
+        log.error('bookings.remind.review.completed', error);
       }
     });
   },

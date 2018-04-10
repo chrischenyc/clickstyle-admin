@@ -208,3 +208,27 @@ export const sendStylistPendingBookingReminder = ({
     log.error(error);
   });
 };
+
+export const sendCustomerReviewBookingReminder = ({
+  email,
+  stylistFirstName,
+  firstName,
+  bookingId,
+  bookingUrl,
+}) => {
+  sendEmail({
+    to: email,
+    from: fromAddress,
+    subject: `How was it? Write a review for ${stylistFirstName}`,
+    template: 'customer-reviewBooking',
+    templateConstants: {
+      stylistFirstName,
+      firstName,
+      bookingId,
+      bookingUrl: Meteor.settings.public.clientHost + bookingUrl,
+      ...templateConstants,
+    },
+  }).catch((error) => {
+    log.error(error);
+  });
+};

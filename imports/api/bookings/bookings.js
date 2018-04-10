@@ -75,7 +75,15 @@ const BookingsSchema = new SimpleSchema({
     type: Date,
     optional: true,
   },
+  customerReviewedAt: {
+    type: Date,
+    optional: true,
+  },
   remindedPendingAt: {
+    type: Date,
+    optional: true,
+  },
+  remindedReviewAt: {
     type: Date,
     optional: true,
   },

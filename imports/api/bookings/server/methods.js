@@ -10,6 +10,7 @@ import {
   sendCustomerBookingCancelledBySystemEmail,
   sendAdminEmailLongPendingBooking,
   sendStylistPendingBookingReminder,
+  sendCustomerReviewBookingReminder,
 } from '../../../modules/server/send-email';
 import servicesSummary from '../../../modules/format-services';
 
@@ -113,12 +114,51 @@ Meteor.methods({
             bookingUrl: `/users/stylist/bookings/${booking._id}`,
           });
 
-          Bookings.update(
-            { _id: booking._id },
-            { $set: { remindedPendingAt: Date.now() } },
-          );
+          Bookings.update({ _id: booking._id }, { $set: { remindedPendingAt: Date.now() } });
 
           log.info(`Informed long pending booking ${booking._id}.`);
+        }
+      });
+    } catch (exception) {
+      log.error(exception);
+
+      throw exception;
+    }
+  },
+
+  'bookings.remind.review.completed': function remindCustomersReviewCompletedBookings() {
+    if (
+      Meteor.isClient &&
+      !Roles.userIsInRole(Meteor.userId(), [
+        Meteor.settings.public.roles.admin,
+        Meteor.settings.public.roles.superAdmin,
+      ])
+    ) {
+      throw new Meteor.Error(403, 'unauthorized');
+    }
+
+    try {
+      const completedBookings = Bookings.find({
+        status: 'completed',
+        customerReviewedAt: { $exists: false },
+      }).fetch();
+
+      completedBookings.forEach((booking) => {
+        if (booking.stylistCompletedAt.isBefore(moment().subtract(1, 'day'))) {
+          const { name } = Profiles.findOne({ owner: booking.stylist });
+          const { email } = Profiles.findOne({ owner: booking.customer });
+
+          sendCustomerReviewBookingReminder({
+            email,
+            stylistFirstName: name.first,
+            firstName: booking.firstName,
+            bookingId: booking._id,
+            bookingUrl: `/users/bookings/${booking._id}`,
+          });
+
+          Bookings.update({ _id: booking._id }, { $set: { remindedReviewAt: Date.now() } });
+
+          log.info(`Reminded customer to review booking ${booking._id}.`);
         }
       });
     } catch (exception) {
@@ -157,7 +197,12 @@ Meteor.methods({
 });
 
 rateLimit({
-  methods: ['bookings.cancel.overdue', 'bookings.remind.pending', 'bookings.find'],
+  methods: [
+    'bookings.cancel.overdue',
+    'bookings.remind.pending',
+    'bookings.find',
+    'bookings.remind.review.completed',
+  ],
   limit: 5,
   timeRange: 1000,
 });
