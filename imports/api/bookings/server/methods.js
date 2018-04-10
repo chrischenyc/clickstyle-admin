@@ -140,11 +140,13 @@ Meteor.methods({
     try {
       const completedBookings = Bookings.find({
         status: 'completed',
+        stylistCompletedAt: { $exists: true },
         customerReviewedAt: { $exists: false },
+        remindedReviewAt: { $exists: false },
       }).fetch();
 
       completedBookings.forEach((booking) => {
-        if (booking.stylistCompletedAt.isBefore(moment().subtract(1, 'day'))) {
+        if (moment(booking.stylistCompletedAt).isBefore(moment().subtract(1, 'day'))) {
           const { name } = Profiles.findOne({ owner: booking.stylist });
           const { email } = Profiles.findOne({ owner: booking.customer });
 
