@@ -14,7 +14,7 @@ import {
 } from '../../../modules/server/send-email';
 import servicesSummary from '../../../modules/format-services';
 
-import { parseUrlQueryDate, dateString, parseBookingDateTime } from '../../../modules/format-date';
+import { parseUrlQueryDate, dateString } from '../../../modules/format-date';
 import Stylists from '../../stylists/stylists';
 import Profiles from '../../profiles/profiles';
 
@@ -34,7 +34,7 @@ Meteor.methods({
       const pendingBookings = Bookings.find({ status: 'pending' }).fetch();
 
       pendingBookings.forEach((booking) => {
-        const bookingStartDateTime = parseBookingDateTime(booking.date + booking.time);
+        const bookingStartDateTime = moment(booking.time);
 
         if (bookingStartDateTime.isBefore(moment())) {
           // update bookings record, insert timestamp
@@ -99,7 +99,7 @@ Meteor.methods({
       }).fetch();
 
       pendingBookings.forEach((booking) => {
-        const bookingStartDateTime = parseBookingDateTime(booking.date + booking.time);
+        const bookingStartDateTime = moment(booking.time);
 
         if (bookingStartDateTime.isBefore(moment().subtract(1, 'day'))) {
           sendAdminEmailLongPendingBooking(booking._id);

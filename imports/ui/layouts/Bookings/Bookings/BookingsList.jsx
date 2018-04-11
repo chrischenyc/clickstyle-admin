@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import moment from 'moment';
 
 import { dateTimeString } from '../../../../modules/format-date';
 import Bookings from '../../../../api/bookings/bookings';
@@ -40,9 +39,7 @@ class BookingsList extends Component {
                 </Table.Cell>
                 <Table.Cell>{booking.status}</Table.Cell>
                 <Table.Cell>{dateTimeString(booking.createdAt)}</Table.Cell>
-                <Table.Cell>
-                  {dateTimeString(moment(booking.date + booking.time, 'YYMMDDHHmm'))}
-                </Table.Cell>
+                <Table.Cell>{dateTimeString(booking.time)}</Table.Cell>
                 <Table.Cell>
                   <Link to={`/users/${booking.customer}`}>
                     {`${booking.firstName} ${booking.lastName}`}

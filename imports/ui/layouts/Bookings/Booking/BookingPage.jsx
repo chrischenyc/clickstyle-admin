@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Header, Message, Button, Divider } from 'semantic-ui-react';
+import { Container, Header, Message, Divider } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import moment from 'moment';
 
 import { dateTimeString } from '../../../../modules/format-date';
 import servicesSummary from '../../../../modules/format-services';
@@ -12,9 +11,7 @@ const BookingPage = props => (
   <Container>
     <Header as="h2">Booking {props.booking._id}</Header>
 
-    <div>
-      Booking date: {dateTimeString(moment(props.booking.date + props.booking.time, 'YYMMDDHHmm'))}
-    </div>
+    <div>Booking date: {dateTimeString(props.booking.time)}</div>
 
     <div>Services:&nbsp;{servicesSummary(props.booking.services)}</div>
 
@@ -44,7 +41,9 @@ const BookingPage = props => (
     </div>
 
     <div>
-      Email:&nbsp;<a href={`mailto:${props.booking.customer.email}`}>{props.booking.customer.email}</a>
+      Email:&nbsp;<a href={`mailto:${props.booking.customer.email}`}>
+        {props.booking.customer.email}
+      </a>
     </div>
 
     <div>Mobile:&nbsp;{props.booking.customer.mobile}</div>
@@ -68,13 +67,27 @@ const BookingPage = props => (
 
     <div>Created: {dateTimeString(props.booking.createdAt)}</div>
 
-    {props.booking.stylistConfirmedAt && (<div>Stylist confirmed: {dateTimeString(props.booking.stylistConfirmedAt)}</div>)}
-    {props.booking.stylistDeclinedAt && (<div>Stylist declined: {dateTimeString(props.booking.stylistDeclinedAt)}</div>)}
-    {props.booking.stylistCancelledAt && (<div>Stylist cancelled: {dateTimeString(props.booking.stylistCancelledAt)}</div>)}
-    {props.booking.customerCancelledAt && (<div>Customer cancelled: {dateTimeString(props.booking.customerCancelledAt)}</div>)}
-    {props.booking.systemCancelledAt && (<div>System cancelled: {dateTimeString(props.booking.systemCancelledAt)}</div>)}
-    {props.booking.remindedPendingAt && (<div>Informed admin of long pending: {dateTimeString(props.booking.remindedPendingAt)}</div>)}
-    {props.booking.stylistCompletedAt && (<div>Stylist completed: {dateTimeString(props.booking.stylistCompletedAt)}</div>)}
+    {props.booking.stylistConfirmedAt && (
+      <div>Stylist confirmed: {dateTimeString(props.booking.stylistConfirmedAt)}</div>
+    )}
+    {props.booking.stylistDeclinedAt && (
+      <div>Stylist declined: {dateTimeString(props.booking.stylistDeclinedAt)}</div>
+    )}
+    {props.booking.stylistCancelledAt && (
+      <div>Stylist cancelled: {dateTimeString(props.booking.stylistCancelledAt)}</div>
+    )}
+    {props.booking.customerCancelledAt && (
+      <div>Customer cancelled: {dateTimeString(props.booking.customerCancelledAt)}</div>
+    )}
+    {props.booking.systemCancelledAt && (
+      <div>System cancelled: {dateTimeString(props.booking.systemCancelledAt)}</div>
+    )}
+    {props.booking.remindedPendingAt && (
+      <div>Informed admin of long pending: {dateTimeString(props.booking.remindedPendingAt)}</div>
+    )}
+    {props.booking.stylistCompletedAt && (
+      <div>Stylist completed: {dateTimeString(props.booking.stylistCompletedAt)}</div>
+    )}
 
     <Divider />
 
