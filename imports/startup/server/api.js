@@ -22,3 +22,5 @@ import '../../api/featured/server/methods';
 
 import '../../api/bookings/server/methods';
 import '../../api/bookings/server/publications';
+
+import '../../api/notifications/server/methods';

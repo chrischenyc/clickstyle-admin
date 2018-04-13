@@ -126,6 +126,47 @@ Meteor.methods({
 
             sendStylistJoinApprovedEmail(userId);
 
+            // send notification to customer
+            Meteor.call('notifications.create', {
+              recipient: userId,
+              content:
+                "Congrats! You've become one of our stylists. Please take time to complete your profile, so customers can better know you",
+              type: 'warning',
+              dismissible: true,
+              dismissed: false,
+              link: '/users/profile',
+            });
+
+            Meteor.call('notifications.create', {
+              recipient: userId,
+              content:
+                "Please set your services and prices, otherwise your profile won't be publicly visible",
+              type: 'warning',
+              dismissible: false,
+              dismissed: false,
+              link: '/users/stylist/services',
+            });
+
+            Meteor.call('notifications.create', {
+              recipient: userId,
+              content:
+                "Please set your servicing areas, otherwise your profile won't be publicly visible",
+              type: 'warning',
+              dismissible: false,
+              dismissed: false,
+              link: '/users/stylist/areas',
+            });
+
+            Meteor.call('notifications.create', {
+              recipient: userId,
+              content:
+                'Please set your availability, be default you are available from 9am to 5pm on each weekday',
+              type: 'success',
+              dismissible: true,
+              dismissed: false,
+              link: '/users/stylist/calendar',
+            });
+
             log.info(
               'Meteor.methods: stylist.application.approve',
               `userId: ${this.userId}`,
