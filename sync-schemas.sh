@@ -12,5 +12,6 @@ rsync ../stylesquad-web/imports/api/stylists/stylists-services-schema.js imports
 rsync ../stylesquad-web/imports/api/suburbs/suburbs.js imports/api/suburbs/suburbs.js
 rsync ../stylesquad-web/imports/api/user_contacts/user_contacts.js imports/api/user_contacts/user_contacts.js
 rsync ../stylesquad-web/imports/api/payments/payments.js imports/api/payments/payments.js
+rsync ../stylesquad-web/imports/api/notifications/notifications.js imports/api/notifications/notifications.js
 
 git add -A && git commit -m "sync db schemas from client codebase"

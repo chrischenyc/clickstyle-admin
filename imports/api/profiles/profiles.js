@@ -153,6 +153,8 @@ const ProfilesSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
+
+  notifications: SimpleSchema.Integer,
 });
 
 Profiles.attachSchema(ProfilesSchema);
