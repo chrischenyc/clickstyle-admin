@@ -221,7 +221,7 @@ export const sendStylistCompleteBookingReminder = ({
     to: stylistEmail,
     from: fromAddress,
     subject: "Have you done your job, don't forget to complete the booking so you can get paid",
-    template: 'stylist-pendingBookingReminder',
+    template: 'stylist-completeBookingReminder',
     templateConstants: {
       stylistFirstName,
       firstName,
