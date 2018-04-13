@@ -1,26 +1,21 @@
 # Stylesquad admin app
 
-## Running on local machine
-
-`npm install` (don't use yarn, Meteor doesn't work well with yarn)
+## Run on local machine
 
 `npm run dev`
 
-Note: we use port 4000 to avoid conflicts with `stylesquad-web` instance
+`npm install` for the first time (don't use yarn, Meteor doesn't work well with yarn)
 
-## Heroku deployment
+## Deploy on Heroku
 
-### push credentials to heroku ENV
+`npm run deploy`
 
-`heroku config:add METEOR_SETTINGS="$(cat settings-production.json)"`
+make sure heroku cli is installed and signed in
 
 ## Accounts
 
-- Deploy@Heroku: chrischen79@gmail.com
-- Domain@Godaddy: viz.patel7@gmail.com, chrischen79@gmail.com
-- Mailing@Mailgun: chrischen79@gmail.com
-- Upload & CDN@cloudinary: chrischen79@gmail.com
-
-## Coding guideline
-
-- Separate React logic from view component. Take login for example, we should have a stateful (smart) React component `Login.jsx` to manage user input states, form validation, API invoking, and post-submit screen flow. While another stateless (dumb) React component `LoginPage.jsx` to render the actual web page version of login interface, to display loadings status and errors, and to redirect to another web url. When we start developing React Native app, we should be able to reuse `Login.jsx` while only need to develop a `LoginView.jsx` to render login interface for the native apps.
+* Heroku: chrischen79@gmail.com
+* Godaddy: viz.patel7@gmail.com, chrischen79@gmail.com
+* Mailgun: chrischen79@gmail.com
+* cloudinary: chrischen79@gmail.com
+* Hotjar: chrischen79@gmail.com
