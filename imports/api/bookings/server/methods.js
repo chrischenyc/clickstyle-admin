@@ -10,6 +10,7 @@ import {
   sendCustomerBookingCancelledBySystemEmail,
   sendAdminEmailLongPendingBooking,
   sendStylistPendingBookingReminder,
+  sendStylistCompleteBookingReminder,
   sendCustomerReviewBookingReminder,
 } from '../../../modules/server/send-email';
 import servicesSummary from '../../../modules/format-services';
@@ -126,6 +127,50 @@ Meteor.methods({
     }
   },
 
+  'bookings.remind.complete': function remindStylistToCompleteBooking() {
+    if (
+      Meteor.isClient &&
+      !Roles.userIsInRole(Meteor.userId(), [
+        Meteor.settings.public.roles.admin,
+        Meteor.settings.public.roles.superAdmin,
+      ])
+    ) {
+      throw new Meteor.Error(403, 'unauthorized');
+    }
+
+    try {
+      const bookings = Bookings.find({
+        status: 'confirmed',
+        remindedCompleteAt: { $exists: false },
+        time: {
+          $lte: moment()
+            .subtract(1, 'days')
+            .toDate(),
+        },
+      }).fetch();
+
+      bookings.forEach((booking) => {
+        const { name, email } = Profiles.findOne({ owner: booking.stylist });
+        sendStylistCompleteBookingReminder({
+          stylistEmail: email,
+          stylistFirstName: name.first,
+          firstName: booking.firstName,
+          lastName: booking.lastName,
+          bookingId: booking._id,
+          bookingUrl: `/users/stylist/bookings/${booking._id}`,
+        });
+
+        Bookings.update({ _id: booking._id }, { $set: { remindedCompleteAt: Date.now() } });
+
+        log.info(`Informed to complete ${booking._id}.`);
+      });
+    } catch (exception) {
+      log.error(exception);
+
+      throw exception;
+    }
+  },
+
   'bookings.remind.review.completed': function remindCustomersReviewCompletedBookings() {
     if (
       Meteor.isClient &&
@@ -202,6 +247,7 @@ rateLimit({
   methods: [
     'bookings.cancel.overdue',
     'bookings.remind.pending',
+    'bookings.remind.complete',
     'bookings.find',
     'bookings.remind.review.completed',
   ],

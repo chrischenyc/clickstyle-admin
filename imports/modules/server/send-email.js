@@ -209,6 +209,32 @@ export const sendStylistPendingBookingReminder = ({
   });
 };
 
+export const sendStylistCompleteBookingReminder = ({
+  stylistFirstName,
+  stylistEmail,
+  firstName,
+  lastName,
+  bookingId,
+  bookingUrl,
+}) => {
+  sendEmail({
+    to: stylistEmail,
+    from: fromAddress,
+    subject: "Have you done your job, don't forget to complete the booking so you can get paid",
+    template: 'stylist-pendingBookingReminder',
+    templateConstants: {
+      stylistFirstName,
+      firstName,
+      lastName,
+      bookingId,
+      bookingUrl: Meteor.settings.public.clientHost + bookingUrl,
+      ...templateConstants,
+    },
+  }).catch((error) => {
+    log.error(error);
+  });
+};
+
 export const sendCustomerReviewBookingReminder = ({
   email,
   stylistFirstName,

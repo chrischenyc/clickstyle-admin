@@ -49,7 +49,7 @@ SyncedCron.add({
 });
 
 SyncedCron.add({
-  name: 'Notify administrators of pending bookings over 24 hours',
+  name: 'Notify administrators and stylists of pending bookings over 24 hours',
   schedule(parser) {
     return parser.text('every 1 day');
   },
@@ -57,6 +57,20 @@ SyncedCron.add({
     Meteor.call('bookings.remind.pending', (error) => {
       if (error) {
         log.error('bookings.remind.pending', error);
+      }
+    });
+  },
+});
+
+SyncedCron.add({
+  name: 'Notify stylists to complete booking over 24 hours',
+  schedule(parser) {
+    return parser.text('every 1 day');
+  },
+  job() {
+    Meteor.call('bookings.remind.complete', (error) => {
+      if (error) {
+        log.error('bookings.remind.complete', error);
       }
     });
   },
