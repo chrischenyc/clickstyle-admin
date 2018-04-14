@@ -1,7 +1,7 @@
 import moment from 'moment';
 
-export const dateString = date => moment(date).format('D MMMM YYYY');
-export const dateTimeString = date => moment(date).format('D MMMM YYYY, HH:mm');
+export const dateString = date => moment(date).format('DD MMM YYYY');
+export const dateTimeString = date => moment(date).format('DD MMM YYYY (ddd) HH:mm');
 export const timestampString = date => moment(date).format('YYYYMMDDHHmmss');
 
 const urlQueryDateFormat = 'YYMMDD';

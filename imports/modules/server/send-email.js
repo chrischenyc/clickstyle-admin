@@ -5,7 +5,7 @@ import log from 'winston';
 import getPrivateFile from './get-private-file';
 import templateToText from './handlebars-email-to-text';
 import templateToHTML from './handlebars-email-to-html';
-import { dateTimeString } from '../../modules/format-date';
+import { dateTimeString, dateString } from '../../modules/format-date';
 import Profiles from '../../api/profiles/profiles';
 
 // core function to send email
@@ -136,7 +136,7 @@ export const sendCustomerBookingCancelledBySystemEmail = ({
   sendEmail({
     to: email,
     from: fromAddress,
-    subject: 'Booking has been cancelled',
+    subject: `We cancelled a booking on ${dateString(time)}`,
     template: 'customer-bookingCancelledBySystem',
     templateConstants: {
       stylist,
@@ -188,13 +188,14 @@ export const sendStylistPendingBookingReminder = ({
   stylistEmail,
   firstName,
   lastName,
+  time,
   bookingId,
   bookingUrl,
 }) => {
   sendEmail({
     to: stylistEmail,
     from: fromAddress,
-    subject: `Booking request ${bookingId} is waiting for your response`,
+    subject: `Please response ${firstName}'s request for a booking on ${dateString(time)} asap`,
     template: 'stylist-pendingBookingReminder',
     templateConstants: {
       stylistFirstName,
@@ -214,13 +215,14 @@ export const sendStylistCompleteBookingReminder = ({
   stylistEmail,
   firstName,
   lastName,
+  time,
   bookingId,
   bookingUrl,
 }) => {
   sendEmail({
     to: stylistEmail,
     from: fromAddress,
-    subject: "Have you done your job, don't forget to complete the booking so you can get paid",
+    subject: `Don't forget to complete the booking on ${dateString(time)}`,
     template: 'stylist-completeBookingReminder',
     templateConstants: {
       stylistFirstName,
@@ -239,13 +241,14 @@ export const sendCustomerReviewBookingReminder = ({
   email,
   stylistFirstName,
   firstName,
+  time,
   bookingId,
   bookingUrl,
 }) => {
   sendEmail({
     to: email,
     from: fromAddress,
-    subject: `How was it? Write a review for ${stylistFirstName}`,
+    subject: `How did the booking on ${dateString(time)} go? Write ${stylistFirstName} a review!`,
     template: 'customer-reviewBooking',
     templateConstants: {
       stylistFirstName,

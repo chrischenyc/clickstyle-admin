@@ -160,6 +160,7 @@ Meteor.methods({
           stylistFirstName: name.first,
           firstName: booking.firstName,
           lastName: booking.lastName,
+          time: booking.time,
           bookingId: booking._id,
           bookingUrl: `/users/stylist/bookings/${booking._id}`,
         });
@@ -216,6 +217,7 @@ Meteor.methods({
           stylistFirstName: name.first,
           firstName: booking.firstName,
           lastName: booking.lastName,
+          time: booking.time,
           bookingId: booking._id,
           bookingUrl: `/users/stylist/bookings/${booking._id}`,
         });
@@ -273,6 +275,7 @@ Meteor.methods({
           email,
           stylistFirstName: stylistName.first,
           firstName: booking.firstName,
+          time: booking.time,
           bookingId: booking._id,
           bookingUrl: `/users/bookings/${booking._id}`,
         });
