@@ -80,7 +80,7 @@ class Cron extends Component {
                   onClick={this.handleRefreshPublishedSuburbs}
                   loading={this.state.loading}
                 >
-                  Refresh published suburbs
+                  Update searchable suburbs that have stylists presence
                 </Button>
               </List.Header>
               <List.Description>This job is scheduled to run every 4 hours.</List.Description>
@@ -95,7 +95,7 @@ class Cron extends Component {
                   onClick={this.handleRefreshStylistTimeslots}
                   loading={this.state.loading}
                 >
-                  Refresh occupied timeslots of all stylists for next 90 days
+                  Update stylists calendars for next 90 days
                 </Button>
               </List.Header>
               <List.Description>This job is scheduled to run every 90 days.</List.Description>
@@ -110,37 +110,7 @@ class Cron extends Component {
                   onClick={this.handleRemindPendingBookings}
                   loading={this.state.loading}
                 >
-                  Remind bookings for over 24 hours
-                </Button>
-              </List.Header>
-              <List.Description>This job is scheduled to run every day.</List.Description>
-            </List.Content>
-          </List.Item>
-
-          <List.Item>
-            <List.Content>
-              <List.Header>
-                <Button
-                  primary
-                  onClick={this.handleRemindCompleteBookings}
-                  loading={this.state.loading}
-                >
-                  Remind stylists to complete bookings for over 24 hours
-                </Button>
-              </List.Header>
-              <List.Description>This job is scheduled to run every day.</List.Description>
-            </List.Content>
-          </List.Item>
-
-          <List.Item>
-            <List.Content>
-              <List.Header>
-                <Button
-                  primary
-                  onClick={this.handleRemindReviewCompletedBookings}
-                  loading={this.state.loading}
-                >
-                  Remind customers to review bookings completed more than 24 hours ago
+                  Send out reminders of booking requests that are pending for over 24 hours
                 </Button>
               </List.Header>
               <List.Description>This job is scheduled to run every day.</List.Description>
@@ -155,7 +125,37 @@ class Cron extends Component {
                   onClick={this.handleCancelOverdueBookings}
                   loading={this.state.loading}
                 >
-                  Cancel overdue pending bookings
+                  Auto cancel pending booking requests which are overdue
+                </Button>
+              </List.Header>
+              <List.Description>This job is scheduled to run every day.</List.Description>
+            </List.Content>
+          </List.Item>
+
+          <List.Item>
+            <List.Content>
+              <List.Header>
+                <Button
+                  primary
+                  onClick={this.handleRemindCompleteBookings}
+                  loading={this.state.loading}
+                >
+                  Remind stylists to complete bookings due over 24 hours
+                </Button>
+              </List.Header>
+              <List.Description>This job is scheduled to run every day.</List.Description>
+            </List.Content>
+          </List.Item>
+
+          <List.Item>
+            <List.Content>
+              <List.Header>
+                <Button
+                  primary
+                  onClick={this.handleRemindReviewCompletedBookings}
+                  loading={this.state.loading}
+                >
+                  Remind customers to review bookings completed over 24 hours ago
                 </Button>
               </List.Header>
               <List.Description>This job is scheduled to run every day.</List.Description>
