@@ -21,7 +21,34 @@ import Stylists from '../../stylists/stylists';
 import Profiles from '../../profiles/profiles';
 
 Meteor.methods({
-  'bookings.cancel.overdue': function cancelOverdueBookings() {
+  'bookings.find': function findBooking(_id) {
+    if (
+      Meteor.isClient &&
+      !Roles.userIsInRole(Meteor.userId(), [
+        Meteor.settings.public.roles.admin,
+        Meteor.settings.public.roles.superAdmin,
+      ])
+    ) {
+      throw new Meteor.Error(403, 'unauthorized');
+    }
+
+    check(_id, String);
+
+    try {
+      const booking = Bookings.findOne({ _id });
+
+      const customer = Profiles.findOne({ owner: booking.customer });
+      const stylist = Profiles.findOne({ owner: booking.stylist });
+
+      return { ...booking, customer, stylist };
+    } catch (exception) {
+      log.error(exception);
+
+      throw exception;
+    }
+  },
+
+  'bookings.cancel.overdue.pending': function cancelOverdueBookings() {
     if (
       Meteor.isClient &&
       !Roles.userIsInRole(Meteor.userId(), [
@@ -214,7 +241,7 @@ Meteor.methods({
     }
   },
 
-  'bookings.remind.review.completed': function remindCustomersReviewCompletedBookings() {
+  'bookings.remind.review': function remindCustomersReviewCompletedBookings() {
     if (
       Meteor.isClient &&
       !Roles.userIsInRole(Meteor.userId(), [
@@ -270,42 +297,15 @@ Meteor.methods({
       throw exception;
     }
   },
-
-  'bookings.find': function findBooking(_id) {
-    if (
-      Meteor.isClient &&
-      !Roles.userIsInRole(Meteor.userId(), [
-        Meteor.settings.public.roles.admin,
-        Meteor.settings.public.roles.superAdmin,
-      ])
-    ) {
-      throw new Meteor.Error(403, 'unauthorized');
-    }
-
-    check(_id, String);
-
-    try {
-      const booking = Bookings.findOne({ _id });
-
-      const customer = Profiles.findOne({ owner: booking.customer });
-      const stylist = Profiles.findOne({ owner: booking.stylist });
-
-      return { ...booking, customer, stylist };
-    } catch (exception) {
-      log.error(exception);
-
-      throw exception;
-    }
-  },
 });
 
 rateLimit({
   methods: [
-    'bookings.cancel.overdue',
+    'bookings.find',
+    'bookings.cancel.overdue.pending',
     'bookings.remind.pending',
     'bookings.remind.complete',
-    'bookings.find',
-    'bookings.remind.review.completed',
+    'bookings.remind.review',
   ],
   limit: 5,
   timeRange: 1000,

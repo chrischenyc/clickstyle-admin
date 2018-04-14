@@ -9,7 +9,7 @@ import Suburbs from '../suburbs';
 import Stylists from '../../stylists/stylists';
 
 Meteor.methods({
-  'suburb.activate': function activateSuburb(data) {
+  'suburbs.activate': function activateSuburb(data) {
     if (
       !Roles.userIsInRole(Meteor.userId(), [
         Meteor.settings.public.roles.admin,
@@ -37,9 +37,7 @@ Meteor.methods({
       throw exception;
     }
   },
-});
 
-Meteor.methods({
   'suburbs.refresh.published': function refreshPublishedSuburbs(data) {
     if (
       Meteor.isClient &&
@@ -84,7 +82,7 @@ Meteor.methods({
 });
 
 rateLimit({
-  methods: ['suburb.activate', 'suburbs.refresh.published'],
+  methods: ['suburbs.activate', 'suburbs.refresh.published'],
   limit: 5,
   timeRange: 1000,
 });

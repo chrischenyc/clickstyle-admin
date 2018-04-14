@@ -34,7 +34,7 @@ class Suburbs extends Component {
   }
 
   handleActivateSuburb(suburb, active) {
-    Meteor.call('suburb.activate', { _id: suburb._id, active });
+    Meteor.call('suburbs.activate', { _id: suburb._id, active });
   }
 
   handleRefreshPublished() {

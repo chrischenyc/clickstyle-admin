@@ -40,9 +40,9 @@ SyncedCron.add({
     return parser.text('every 24 hours');
   },
   job() {
-    Meteor.call('bookings.cancel.overdue', (error) => {
+    Meteor.call('bookings.cancel.overdue.pending', (error) => {
       if (error) {
-        log.error('bookings.cancel.overdue', error);
+        log.error('bookings.cancel.overdue.pending', error);
       }
     });
   },
@@ -82,9 +82,9 @@ SyncedCron.add({
     return parser.text('every 1 day');
   },
   job() {
-    Meteor.call('bookings.remind.review.completed', (error) => {
+    Meteor.call('bookings.remind.review', (error) => {
       if (error) {
-        log.error('bookings.remind.review.completed', error);
+        log.error('bookings.remind.review', error);
       }
     });
   },

@@ -34,7 +34,7 @@ class Cron extends Component {
 
   handleCancelOverdueBookings() {
     this.setState({ loading: true });
-    Meteor.call('bookings.cancel.overdue', () => {
+    Meteor.call('bookings.cancel.overdue.pending', () => {
       this.setState({ loading: false });
     });
   }
@@ -55,7 +55,7 @@ class Cron extends Component {
 
   handleRemindReviewCompletedBookings() {
     this.setState({ loading: true });
-    Meteor.call('bookings.remind.review.completed', () => {
+    Meteor.call('bookings.remind.review', () => {
       this.setState({ loading: false });
     });
   }
