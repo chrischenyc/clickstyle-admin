@@ -33,7 +33,6 @@ StylistApplications.attachBehaviour('timestampable', {
 });
 
 const ServiceSchema = new SimpleSchema({
-  // required fields
   _id: {
     type: String,
   },
