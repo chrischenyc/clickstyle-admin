@@ -90,6 +90,15 @@ const BookingsSchema = new SimpleSchema({
     type: Date,
     optional: true,
   },
+  conversation: {
+    type: String,
+    optional: true,
+  },
+  note: {
+    type: String,
+    max: 500,
+    optional: true,
+  },
 });
 
 Bookings.attachSchema(BookingsSchema);

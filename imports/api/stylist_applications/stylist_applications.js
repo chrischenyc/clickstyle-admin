@@ -62,9 +62,7 @@ const StylistApplicationsSchema = new SimpleSchema({
     type: String,
     max: 200,
   },
-  services: {
-    type: Array,
-  },
+  services: Array,
   'services.$': ServiceSchema,
   qualificationUrl: {
     type: String,
