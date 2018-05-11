@@ -1,4 +1,4 @@
-# Stylesquad admin app
+# Clickstyle admin app
 
 ## Run on local machine
 

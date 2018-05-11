@@ -1,15 +1,15 @@
 {
-  "name": "stylesquad-admin",
+  "name": "clickstyle-admin",
   "version": "0.1.0",
-  "description": "stylesquad.com.au admin app",
+  "description": "clickstyle.com.au admin app",
   "private": true,
   "author": "Chris Chen",
-  "contributors": [
-    "Chris Chen <chrischen79@gmail.com>"
-  ],
+  "contributors": ["Chris Chen <chrischen79@gmail.com>"],
   "scripts": {
-    "dev": "MONGO_URL=mongodb://localhost:27017/stylesquad  meteor -s settings-development.json --port 4000",
-    "debug": "MONGO_URL=mongodb://localhost:27017/stylesquad meteor run --inspect -s settings-development.json --port 4000",
+    "dev":
+      "MONGO_URL=mongodb://localhost:27017/clickstyle  meteor -s settings-development.json --port 4000",
+    "debug":
+      "MONGO_URL=mongodb://localhost:27017/clickstyle meteor run --inspect -s settings-development.json --port 4000",
     "start": "meteor run",
     "predeploy": "heroku config:add METEOR_SETTINGS=\"$(cat settings-production.json)\"",
     "deploy": "git push heroku master",
