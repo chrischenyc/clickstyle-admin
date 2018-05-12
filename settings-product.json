@@ -34,7 +34,7 @@
   },
 
   "MAIL_URL":
-    "smtp://postmaster%40mg.stylesquard.com:50bcad8dafbc3d5293219b7050ce4404@smtp.mailgun.org:587",
+  "smtp://postmaster%40mg.clickstyle.com.au:bc6a7f703ad3ad2340a9cfab98856557-97923b2d-8776308e@smtp.mailgun.org:587",
 
   "CloudinaryCloudName": "clickstyle-com-au",
   "CloudinarySecret": "GjbCmE566kC2I-Es0dTyOzE0Ae0",
