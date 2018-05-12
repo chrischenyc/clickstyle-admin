@@ -1,0 +1,52 @@
+{
+  "public": {
+    "appName": "ClickStyle",
+    "legalName": "ClickStyle Services Pty Ltd",
+    "supportEmail": "team@clickstyle.com.au",
+    "twitterUrl": "https://twitter.com/clickstyle01",
+    "facebookUrl": "https://facebook.com/clickstyle01",
+    "instagramUrl": "https://instagram.com/clickstyle01",
+    "homeUrl": "",
+    "helpUrl": "help",
+    "contactUrl": "contact",
+    "searchUrl": "stylists",
+    "joinUrl": "join",
+    "privacyUrl": "privacy",
+    "termsUrl": "terms",
+    "SlingshotS3File": "S3File",
+    "SlingshotCloudinaryImage": "CloudinaryImage",
+    "CloudinaryTag": "product",
+    "image": {
+      "maxFileSize": 4,
+      "defaultProfilePhoto":
+        "https://res.cloudinary.com/stylesquard/image/upload/v1508935172/6dbb9016-1715-4426-bd0e-1f369bc8aa1e"
+    },
+    "document": {
+      "maxFileSize": 8
+    },
+    "roles": {
+      "customer": "customer",
+      "stylist": "stylist",
+      "admin": "admin",
+      "superAdmin": "super-admin"
+    },
+    "clientHost": "https://clickstyle.herokuapp.com"
+  },
+
+  "MAIL_URL":
+    "smtp://postmaster%40mg.stylesquard.com:50bcad8dafbc3d5293219b7050ce4404@smtp.mailgun.org:587",
+
+  "CloudinaryCloudName": "stylesquard",
+  "CloudinarySecret": "tKy4yJqO2J2PT0gzLH0CW3v_Pck",
+  "CloudinaryKey": "449782933825394",
+  "CloudinaryPreset": "product",
+
+  "CDN": "https://d1aentw684zoa9.cloudfront.net/",
+  "AWSAccessKeyId": "AKIAJHJ4EJHH3Q2RS4EA",
+  "AWSSecretAccessKey": "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",
+  "S3Bucket": "com.stylesquard.bucket",
+  "AWSRegion": "ap-southeast-2",
+
+  "PapertrailHost": "logs6.papertrailapp.com",
+  "PapertrailPort": 21261
+}
