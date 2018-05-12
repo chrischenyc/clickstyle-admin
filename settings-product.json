@@ -34,17 +34,17 @@
   },
 
   "MAIL_URL":
-  "smtp://postmaster%40mg.clickstyle.com.au:bc6a7f703ad3ad2340a9cfab98856557-97923b2d-8776308e@smtp.mailgun.org:587",
+    "smtp://postmaster%40mg.clickstyle.com.au:bc6a7f703ad3ad2340a9cfab98856557-97923b2d-8776308e@smtp.mailgun.org:587",
 
   "CloudinaryCloudName": "clickstyle-com-au",
   "CloudinarySecret": "GjbCmE566kC2I-Es0dTyOzE0Ae0",
   "CloudinaryKey": "711511832669922",
   "CloudinaryPreset": "product",
 
-  "CDN": "https://d1aentw684zoa9.cloudfront.net/",
-  "AWSAccessKeyId": "AKIAJHJ4EJHH3Q2RS4EA",
-  "AWSSecretAccessKey": "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",
-  "S3Bucket": "com.stylesquard.bucket",
+  "CDN": "https://dde2jtknbb0fh.cloudfront.net/",
+  "AWSAccessKeyId": "AKIAJGKMVZ32Q5TVMSMA",
+  "AWSSecretAccessKey": "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",
+  "S3Bucket": "clickstyle-product",
   "AWSRegion": "ap-southeast-2",
 
   "PapertrailHost": "logs6.papertrailapp.com",
