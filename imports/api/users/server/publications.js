@@ -32,6 +32,7 @@ Meteor.publish('users', function users(filter, search, page, limit) {
     fields: {
       createdAt: 1,
       emails: 1,
+      registered_emails: 1,
       profile: 1,
       roles: 1,
     },
