@@ -35,10 +35,7 @@ Coupons.attachBehaviour('timestampable', {
 const CouponsSchema = new SimpleSchema({
   code: String, // coupon code
   discount: Number, // discount value
-  minBookingValue: {
-    type: Number, // min purchase value
-    optional: true,
-  },
+  minBookingValue: Number, // min purchase value,
   createdBy: String, // Users._id,
   expiry: {
     type: Date,

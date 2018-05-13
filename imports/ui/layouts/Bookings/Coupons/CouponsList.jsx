@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
@@ -26,8 +26,9 @@ class CouponsList extends Component {
             <Table.HeaderCell>Min Booking</Table.HeaderCell>
             <Table.HeaderCell>Status</Table.HeaderCell>
             <Table.HeaderCell>Create</Table.HeaderCell>
+            <Table.HeaderCell>Print</Table.HeaderCell>
+            <Table.HeaderCell>Redeem</Table.HeaderCell>
             <Table.HeaderCell>Expiry</Table.HeaderCell>
-            <Table.HeaderCell>Booking</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -37,15 +38,41 @@ class CouponsList extends Component {
               <Table.Row key={coupon._id}>
                 <Table.Cell>{coupon.code}</Table.Cell>
                 <Table.Cell>{coupon.discount}</Table.Cell>
-                <Table.Cell>{coupon.minBookingValue ? coupon.minBookingValue : 'N/A'}</Table.Cell>
+                <Table.Cell>{coupon.minBookingValue}</Table.Cell>
                 <Table.Cell>{coupon.status}</Table.Cell>
                 <Table.Cell>
-                  <Link to={`/users/${coupon.createdBy}`}>{coupon.createdBy}</Link> -{' '}
+                  created by <Link to={`/users/${coupon.createdBy}`}>{coupon.createdBy}</Link> at{' '}
                   {dateTimeString(coupon.createdAt)}
                 </Table.Cell>
-                <Table.Cell>{dateTimeString(coupon.expiry)}</Table.Cell>
                 <Table.Cell>
-                  <Link to={`/bookings/${coupon.booking}`}>{coupon.booking}</Link>
+                  {coupon.printedBy &&
+                    coupon.printedAt && (
+                      <Fragment>
+                        printed by <Link to={`/users/${coupon.printedBy}`}>{coupon.printedBy}</Link>{' '}
+                        at {dateTimeString(coupon.printedAt)}
+                      </Fragment>
+                    )}
+                </Table.Cell>
+
+                <Table.Cell>
+                  {coupon.redeemedAt &&
+                    coupon.booking && (
+                      <Fragment>
+                        redeemed with booking{' '}
+                        <Link to={`/bookings/${coupon.booking}`}>{coupon.booking}</Link> at{' '}
+                        {dateTimeString(coupon.redeemedAt)}
+                      </Fragment>
+                    )}
+                </Table.Cell>
+
+                <Table.Cell>
+                  {dateTimeString(coupon.expiry)}{' '}
+                  {coupon.expiredBy &&
+                    coupon.expiredAt && (
+                      <Fragment>
+                        expired by {coupon.expiredBy} at {dateTimeString(coupon.expiredAt)}
+                      </Fragment>
+                    )}
                 </Table.Cell>
               </Table.Row>
             ))}
