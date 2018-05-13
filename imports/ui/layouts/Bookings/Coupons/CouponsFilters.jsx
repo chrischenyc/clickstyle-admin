@@ -7,44 +7,36 @@ import PropTypes from 'prop-types';
 const CouponsFilters = props => (
   <Button.Group>
     <Button
-      active={props.filter === 'pending'}
+      active={props.filter === 'new'}
       onClick={() => {
-        props.onFilter('pending');
+        props.onFilter('new');
       }}
     >
-      Pending
+      New
     </Button>
     <Button
-      active={props.filter === 'confirmed'}
+      active={props.filter === 'printed'}
       onClick={() => {
-        props.onFilter('confirmed');
+        props.onFilter('printed');
       }}
     >
-      Confirmed
+      Printed
     </Button>
     <Button
-      active={props.filter === 'cancelled'}
+      active={props.filter === 'redeemed'}
       onClick={() => {
-        props.onFilter('cancelled');
+        props.onFilter('redeemed');
       }}
     >
-      Cancelled
+      Redeemed
     </Button>
     <Button
-      active={props.filter === 'declined'}
+      active={props.filter === 'expired'}
       onClick={() => {
-        props.onFilter('declined');
+        props.onFilter('expired');
       }}
     >
-      Declined
-    </Button>
-    <Button
-      active={props.filter === 'completed'}
-      onClick={() => {
-        props.onFilter('completed');
-      }}
-    >
-      Completed
+      Expired
     </Button>
 
     <Button

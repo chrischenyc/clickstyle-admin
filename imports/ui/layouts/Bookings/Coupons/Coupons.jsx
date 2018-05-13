@@ -10,9 +10,9 @@ class Coupons extends Component {
     super(props);
 
     this.state = {
-      filter: 'pending',
+      filter: 'new',
       page: 0,
-      limit: 25,
+      limit: 50,
       hasMore: false,
     };
 
@@ -26,7 +26,7 @@ class Coupons extends Component {
   render() {
     return (
       <Container>
-        <Header as="h2">Bookings - {this.state.filter} </Header>
+        <Header as="h2">Coupons - {this.state.filter} </Header>
 
         <CouponsFilters filter={this.state.filter} onFilter={this.handleFilter} />
 

@@ -7,12 +7,12 @@ import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
 import { dateTimeString } from '../../../../modules/format-date';
-import Bookings from '../../../../api/bookings/bookings';
+import Coupons from '../../../../api/coupons/coupons';
 
 class CouponsList extends Component {
   componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(nextProps.bookings, this.props.bookings)) {
-      this.props.onDataLoaded(nextProps.bookings.length >= this.props.limit);
+    if (!_.isEqual(nextProps.coupons, this.props.coupons)) {
+      this.props.onDataLoaded(nextProps.coupons.length >= this.props.limit);
     }
   }
 
@@ -21,31 +21,32 @@ class CouponsList extends Component {
       <Table celled selectable>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>ID</Table.HeaderCell>
+            <Table.HeaderCell>Code</Table.HeaderCell>
+            <Table.HeaderCell>Discount</Table.HeaderCell>
+            <Table.HeaderCell>Min Booking</Table.HeaderCell>
             <Table.HeaderCell>Status</Table.HeaderCell>
-            <Table.HeaderCell>Create Date</Table.HeaderCell>
-            <Table.HeaderCell>Book Date</Table.HeaderCell>
-            <Table.HeaderCell>Customer</Table.HeaderCell>
-            <Table.HeaderCell>Total</Table.HeaderCell>
+            <Table.HeaderCell>Create</Table.HeaderCell>
+            <Table.HeaderCell>Expiry</Table.HeaderCell>
+            <Table.HeaderCell>Booking</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
           {this.props.ready &&
-            this.props.bookings.map(booking => (
-              <Table.Row key={booking._id}>
+            this.props.coupons.map(coupon => (
+              <Table.Row key={coupon._id}>
+                <Table.Cell>{coupon.code}</Table.Cell>
+                <Table.Cell>{coupon.discount}</Table.Cell>
+                <Table.Cell>{coupon.minBookingValue ? coupon.minBookingValue : 'N/A'}</Table.Cell>
+                <Table.Cell>{coupon.status}</Table.Cell>
                 <Table.Cell>
-                  <Link to={`/bookings/${booking._id}`}>{booking._id}</Link>
+                  <Link to={`/users/${coupon.createdBy}`}>{coupon.createdBy}</Link> -{' '}
+                  {dateTimeString(coupon.createdAt)}
                 </Table.Cell>
-                <Table.Cell>{booking.status}</Table.Cell>
-                <Table.Cell>{dateTimeString(booking.createdAt)}</Table.Cell>
-                <Table.Cell>{dateTimeString(booking.time)}</Table.Cell>
+                <Table.Cell>{dateTimeString(coupon.expiry)}</Table.Cell>
                 <Table.Cell>
-                  <Link to={`/users/${booking.customer}`}>
-                    {`${booking.firstName} ${booking.lastName}`}
-                  </Link>
+                  <Link to={`/bookings/${coupon.booking}`}>{coupon.booking}</Link>
                 </Table.Cell>
-                <Table.Cell>{booking.total}</Table.Cell>
               </Table.Row>
             ))}
         </Table.Body>
@@ -56,12 +57,12 @@ class CouponsList extends Component {
 
 CouponsList.defaultProps = {
   ready: false,
-  bookings: [],
+  coupons: [],
 };
 
 CouponsList.propTypes = {
   ready: PropTypes.bool,
-  bookings: PropTypes.array,
+  coupons: PropTypes.array,
   filter: PropTypes.string.isRequired,
   page: PropTypes.number.isRequired,
   limit: PropTypes.number.isRequired,
@@ -69,11 +70,11 @@ CouponsList.propTypes = {
 };
 
 export default withTracker((props) => {
-  const handle = Meteor.subscribe('bookings', props.filter, props.page, props.limit);
+  const handle = Meteor.subscribe('coupons', props.filter, props.page, props.limit);
 
   return {
     ready: handle.ready(),
-    bookings: Bookings.find(
+    coupons: Coupons.find(
       {},
       {
         sort: { createdAt: -1 },
