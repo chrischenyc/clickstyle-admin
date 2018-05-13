@@ -25,6 +25,7 @@ import Cron from '../layouts/System/Cron';
 
 import Bookings from '../layouts/Bookings/Bookings/Bookings';
 import Booking from '../layouts/Bookings/Booking/Booking';
+import Coupons from '../layouts/Bookings/Coupons/Coupons';
 
 class App extends Component {
   // after web App is refreshed, try to fetch Meteor user data then update redux states
@@ -79,6 +80,8 @@ class App extends Component {
 
               <SecureRoute exact path="/bookings" component={withSideMenu(Bookings)} />
               <SecureRoute exact path="/bookings/:_id" component={withSideMenu(Booking)} />
+
+              <SecureRoute exact path="/coupons" component={withSideMenu(Coupons)} />
 
               <SecureRoute exact path="/cron" component={withSideMenu(Cron)} />
 
