@@ -39,16 +39,16 @@ class UsersList extends Component {
                 <Table.Cell>{`${user.profile.name.first} ${user.profile.name.last}`}</Table.Cell>
 
                 <Table.Cell>
-                  {user.registered_emails &&
-                    user.registered_emails.map(email => (
+                  {user.emails &&
+                    user.emails.map(email => (
                       <div key={email.address}>
                         {email.address} ({email.verified ? 'verified' : 'unverified'})
                       </div>
                     ))}
 
-                  {!user.registered_emails &&
-                    user.emails &&
-                    user.emails.map(email => (
+                  {!user.emails &&
+                    user.registered_emails &&
+                    user.registered_emails.map(email => (
                       <div key={email.address}>
                         {email.address} ({email.verified ? 'verified' : 'unverified'})
                       </div>
