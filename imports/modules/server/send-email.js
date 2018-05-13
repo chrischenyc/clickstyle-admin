@@ -165,19 +165,21 @@ export const sendAdminEmailLongPendingBooking = (bookingId) => {
     .fetch();
 
   try {
-    adminUsers.forEach((adminUser) => {
-      sendEmail({
-        to: adminUser.emails[0],
-        from: fromAddress,
-        subject: `Booking ${bookingId} has been pending for over 24 hours`,
-        template: 'admin-pendingBookingsReminder',
-        templateConstants: {
-          adminUrl,
-          bookingId,
-          ...templateConstants,
-        },
+    adminUsers
+      .filter(adminUser => adminUser.emails && adminUser.emails.length > 0)
+      .forEach((adminUser) => {
+        sendEmail({
+          to: adminUser.emails[0],
+          from: fromAddress,
+          subject: `Booking ${bookingId} has been pending for over 24 hours`,
+          template: 'admin-pendingBookingsReminder',
+          templateConstants: {
+            adminUrl,
+            bookingId,
+            ...templateConstants,
+          },
+        });
       });
-    });
   } catch (error) {
     log.error(error);
   }
