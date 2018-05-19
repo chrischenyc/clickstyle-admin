@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Header } from 'semantic-ui-react';
+import { Container, Header, Button } from 'semantic-ui-react';
 
 import CouponsFilters from './CouponsFilters';
 import CouponsList from './CouponsList';
@@ -10,7 +10,7 @@ class Coupons extends Component {
     super(props);
 
     this.state = {
-      filter: 'new',
+      filter: 'printed',
       page: 0,
       limit: 50,
       hasMore: false,
@@ -26,6 +26,14 @@ class Coupons extends Component {
   render() {
     return (
       <Container>
+        <Button
+          onClick={() => {
+            this.props.history.push('/coupons/new');
+          }}
+        >
+          Generate coupons
+        </Button>
+
         <Header as="h2">Coupons - {this.state.filter} </Header>
 
         <CouponsFilters filter={this.state.filter} onFilter={this.handleFilter} />

@@ -54,7 +54,7 @@ const CouponsSchema = new SimpleSchema({
     type: Date,
     optional: true,
   },
-  booking: {
+  redeemedBooking: {
     type: String,
     optional: true,
   },

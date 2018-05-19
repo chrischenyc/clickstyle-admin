@@ -8,20 +8,17 @@
   },
   "private": true,
   "author": "Chris Chen",
-  "contributors": ["Chris Chen <chrischen79@gmail.com>"],
+  "contributors": [
+    "Chris Chen <chrischen79@gmail.com>"
+  ],
   "scripts": {
-    "dev":
-      "MONGO_URL=mongodb://localhost:27017/clickstyle  meteor -s settings-development.json --port 4000",
-    "debug":
-      "MONGO_URL=mongodb://localhost:27017/clickstyle meteor run --inspect -s settings-development.json --port 4000",
+    "dev": "MONGO_URL=mongodb://localhost:27017/clickstyle  meteor -s settings-development.json --port 4000",
+    "debug": "MONGO_URL=mongodb://localhost:27017/clickstyle meteor run --inspect -s settings-development.json --port 4000",
     "start": "meteor run",
     "cloc": "cloc imports client server private --exclude-ext=json",
-
-    "predeploy-staging":
-      "heroku config:add METEOR_SETTINGS=\"$(cat settings-staging.json)\" --remote heroku-staging",
+    "predeploy-staging": "heroku config:add METEOR_SETTINGS=\"$(cat settings-staging.json)\" --remote heroku-staging",
     "deploy-staging": "git push heroku-staging develop:master",
-    "predeploy-product":
-      "heroku config:add METEOR_SETTINGS=\"$(cat settings-product.json)\" --remote heroku-product",
+    "predeploy-product": "heroku config:add METEOR_SETTINGS=\"$(cat settings-product.json)\" --remote heroku-product",
     "deploy-product": "git push heroku-product develop:master"
   },
   "dependencies": {
@@ -31,7 +28,9 @@
     "bcrypt": "^1.0.3",
     "cloudinary": "^1.11.0",
     "commonmark": "^0.28.1",
+    "coupon-code": "^0.4.5",
     "handlebars": "^4.0.10",
+    "jspdf": "^1.3.5",
     "juice": "^4.2.3",
     "lodash": "^4.17.5",
     "meteor-node-stubs": "^0.3.3",
@@ -39,6 +38,7 @@
     "prop-types": "^15.6.1",
     "react": "^16.3.1",
     "react-avatar-editor": "^11.0.2",
+    "react-day-picker": "^7.1.9",
     "react-dom": "^16.3.1",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",

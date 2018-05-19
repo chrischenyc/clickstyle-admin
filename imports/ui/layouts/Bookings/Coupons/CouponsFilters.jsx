@@ -7,20 +7,20 @@ import PropTypes from 'prop-types';
 const CouponsFilters = props => (
   <Button.Group>
     <Button
-      active={props.filter === 'new'}
-      onClick={() => {
-        props.onFilter('new');
-      }}
-    >
-      New
-    </Button>
-    <Button
       active={props.filter === 'printed'}
       onClick={() => {
         props.onFilter('printed');
       }}
     >
       Printed
+    </Button>
+    <Button
+      active={props.filter === 'new'}
+      onClick={() => {
+        props.onFilter('new');
+      }}
+    >
+      New
     </Button>
     <Button
       active={props.filter === 'redeemed'}

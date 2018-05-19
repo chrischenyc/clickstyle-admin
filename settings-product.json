@@ -30,7 +30,11 @@
       "admin": "admin",
       "superAdmin": "super-admin"
     },
-    "clientHost": "https://clickstyle.herokuapp.com"
+    "clientHost": "https://clickstyle.herokuapp.com",
+    "coupons": {
+      "maxDiscount": 100,
+      "maxQuantityPerGenerate": 200
+    }
   },
 
   "MAIL_URL":

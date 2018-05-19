@@ -263,3 +263,23 @@ export const sendCustomerReviewBookingReminder = ({
     log.error(error);
   });
 };
+
+export const sendAdminCouponGeneratedEmail = (userId, fileName, filePath) => {
+  const { email } = Profiles.findOne({ owner: userId });
+
+  sendEmail({
+    to: email,
+    from: fromAddress,
+    subject: 'Coupon generated',
+    template: 'admin-adminAccessGranted',
+    templateConstants,
+    attachments: [
+      {
+        fileName,
+        filePath,
+      },
+    ],
+  }).catch((error) => {
+    throw new Meteor.Error('500', `${error}`);
+  });
+};

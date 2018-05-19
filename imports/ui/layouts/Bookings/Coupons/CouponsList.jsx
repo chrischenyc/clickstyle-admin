@@ -6,7 +6,7 @@ import { Table } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
-import { dateTimeString } from '../../../../modules/format-date';
+import { dateString } from '../../../../modules/format-date';
 import Coupons from '../../../../api/coupons/coupons';
 
 class CouponsList extends Component {
@@ -25,9 +25,9 @@ class CouponsList extends Component {
             <Table.HeaderCell>Discount</Table.HeaderCell>
             <Table.HeaderCell>Min Booking</Table.HeaderCell>
             <Table.HeaderCell>Status</Table.HeaderCell>
-            <Table.HeaderCell>Create</Table.HeaderCell>
-            <Table.HeaderCell>Print</Table.HeaderCell>
-            <Table.HeaderCell>Redeem</Table.HeaderCell>
+            <Table.HeaderCell>Created</Table.HeaderCell>
+            <Table.HeaderCell>Printed</Table.HeaderCell>
+            <Table.HeaderCell>Redeemed</Table.HeaderCell>
             <Table.HeaderCell>Expiry</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -41,36 +41,43 @@ class CouponsList extends Component {
                 <Table.Cell>{coupon.minBookingValue}</Table.Cell>
                 <Table.Cell>{coupon.status}</Table.Cell>
                 <Table.Cell>
-                  created by <Link to={`/users/${coupon.createdBy}`}>{coupon.createdBy}</Link> at{' '}
-                  {dateTimeString(coupon.createdAt)}
+                  by <Link to={`/users/${coupon.createdBy}`}>{coupon.createdBy}</Link>
+                  <br />
+                  {dateString(coupon.createdAt)}
                 </Table.Cell>
                 <Table.Cell>
                   {coupon.printedBy &&
                     coupon.printedAt && (
                       <Fragment>
-                        printed by <Link to={`/users/${coupon.printedBy}`}>{coupon.printedBy}</Link>{' '}
-                        at {dateTimeString(coupon.printedAt)}
+                        by <Link to={`/users/${coupon.printedBy}`}>{coupon.printedBy}</Link>
+                        <br />
+                        {dateString(coupon.printedAt)}
                       </Fragment>
                     )}
                 </Table.Cell>
 
                 <Table.Cell>
                   {coupon.redeemedAt &&
-                    coupon.booking && (
+                    coupon.redeemedBooking && (
                       <Fragment>
-                        redeemed with booking{' '}
-                        <Link to={`/bookings/${coupon.booking}`}>{coupon.booking}</Link> at{' '}
-                        {dateTimeString(coupon.redeemedAt)}
+                        booking:
+                        <Link to={`/bookings/${coupon.redeemedBooking}`}>
+                          {coupon.redeemedBooking}
+                        </Link>
+                        <br />
+                        {dateString(coupon.redeemedAt)}
                       </Fragment>
                     )}
                 </Table.Cell>
 
                 <Table.Cell>
-                  {dateTimeString(coupon.expiry)}{' '}
+                  {coupon.expiry ? `expires by: ${dateString(coupon.expiry)}` : 'never expires'}
+                  <br />
                   {coupon.expiredBy &&
                     coupon.expiredAt && (
                       <Fragment>
-                        expired by {coupon.expiredBy} at {dateTimeString(coupon.expiredAt)}
+                        expired by {coupon.expiredBy}
+                        <br />on {dateString(coupon.expiredAt)}
                       </Fragment>
                     )}
                 </Table.Cell>
