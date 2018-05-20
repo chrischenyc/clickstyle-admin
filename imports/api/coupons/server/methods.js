@@ -11,7 +11,7 @@ const generateUniqueCoupon = () => {
   let code = null;
 
   do {
-    code = couponCode.generate();
+    code = couponCode.generate({ partLen: 8, parts: 1 });
   } while (Coupons.findOne({ code }));
 
   return code;
