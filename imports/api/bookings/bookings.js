@@ -99,6 +99,14 @@ const BookingsSchema = new SimpleSchema({
     max: 500,
     optional: true,
   },
+  discount: {
+    type: Number,
+    optional: true,
+  },
+  redeemedCoupon: {
+    type: String, // Coupons._id
+    optional: true,
+  },
 });
 
 Bookings.attachSchema(BookingsSchema);
