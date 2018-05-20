@@ -104,7 +104,7 @@ const BookingsSchema = new SimpleSchema({
     optional: true,
   },
   redeemedCoupon: {
-    type: String, // Coupons._id
+    type: String, // Coupons.code
     optional: true,
   },
 });
