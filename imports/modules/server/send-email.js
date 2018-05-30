@@ -45,7 +45,7 @@ const sendEmail = ({
 const {
   appName,
   homeUrl,
-  helpUrl,
+  stylistFAQUrl,
   contactUrl,
   searchUrl,
   joinUrl,
@@ -63,7 +63,7 @@ export const fromAddress = `${appName} <${supportEmail}>`;
 const constantsFromSettings = {
   appName,
   homeUrl: Meteor.settings.public.clientHost + homeUrl,
-  helpUrl: Meteor.settings.public.clientHost + helpUrl,
+  stylistFAQUrl: Meteor.settings.public.clientHost + stylistFAQUrl,
   contactUrl: Meteor.settings.public.clientHost + contactUrl,
   searchUrl: Meteor.settings.public.clientHost + searchUrl,
   joinUrl: Meteor.settings.public.clientHost + joinUrl,
