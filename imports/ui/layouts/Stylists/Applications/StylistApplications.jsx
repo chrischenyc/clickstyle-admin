@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
 import { Container, Header } from 'semantic-ui-react';
 
@@ -36,6 +37,9 @@ class StylistApplications extends Component {
           limit={this.state.limit}
           onDataLoaded={(hasMore) => {
             this.setState({ hasMore });
+          }}
+          onResendApprovalEmail={(userId) => {
+            Meteor.call('stylist.application.resend.approval.email', userId);
           }}
         />
 

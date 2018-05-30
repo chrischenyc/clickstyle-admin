@@ -180,10 +180,30 @@ Meteor.methods({
       throw exception;
     }
   },
+
+  'stylist.application.resend.approval.email': function resendApplicationApprovalEmail(userId) {
+    if (
+      !Roles.userIsInRole(Meteor.userId(), [
+        Meteor.settings.public.roles.admin,
+        Meteor.settings.public.roles.superAdmin,
+      ])
+    ) {
+      throw new Meteor.Error(403, 'unauthorized');
+    }
+
+    check(userId, String);
+
+    try {
+      sendStylistJoinApprovedEmail(userId);
+    } catch (exception) {
+      log.error(exception);
+      throw exception;
+    }
+  },
 });
 
 rateLimit({
-  methods: ['stylist.application.approve'],
+  methods: ['stylist.application.approve', 'stylist.application.resend.approval.email'],
   limit: 5,
   timeRange: 1000,
 });
