@@ -38,6 +38,7 @@ const StylistApplicationPage = (props) => {
     approvedAt,
     approvedBy,
     createdAt,
+    experienceYears,
   } = props.application;
 
   return (
@@ -73,6 +74,8 @@ const StylistApplicationPage = (props) => {
             </a>
           </div>
         )}
+
+        {experienceYears && <div>Years of experience:&nbsp;{experienceYears}</div>}
 
         <Divider />
         <Header as="h3">Services</Header>

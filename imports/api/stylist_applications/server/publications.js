@@ -39,6 +39,7 @@ Meteor.publish('stylist.applications', function stylistApplications(filter, page
       userId: 1,
       name: 1,
       email: 1,
+      experienceYears: 1,
     },
   });
 });
