@@ -153,6 +153,10 @@ const ProfilesSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
+  timezone: {
+    type: String,
+    optional: true,
+  },
 });
 
 Profiles.attachSchema(ProfilesSchema);
