@@ -167,6 +167,15 @@ Meteor.methods({
               link: '/users/stylist/calendar',
             });
 
+            Meteor.call('notifications.create', {
+              recipient: userId,
+              content: 'Please set your payment account info',
+              type: 'success',
+              dismissible: true,
+              dismissed: false,
+              link: '/users/stylist/payment',
+            });
+
             log.info(
               'Meteor.methods: stylist.application.approve',
               `userId: ${this.userId}`,
