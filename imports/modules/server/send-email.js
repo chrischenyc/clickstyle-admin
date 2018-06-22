@@ -5,7 +5,7 @@ import log from 'winston';
 import getPrivateFile from './get-private-file';
 import templateToText from './handlebars-email-to-text';
 import templateToHTML from './handlebars-email-to-html';
-import { dateTimeString, dateString } from '../../modules/format-date';
+import { dateTimeString, dateString } from '../../modules/server/format-date';
 import Profiles from '../../api/profiles/profiles';
 
 // core function to send email
@@ -132,11 +132,12 @@ export const sendCustomerBookingCancelledBySystemEmail = ({
   time,
   bookingsId,
   bookingUrl,
+  timezone,
 }) => {
   sendEmail({
     to: email,
     from: fromAddress,
-    subject: `We cancelled a booking on ${dateString(time)}`,
+    subject: `We cancelled a booking on ${dateString(time, timezone)}`,
     template: 'customer-bookingCancelledBySystem',
     templateConstants: {
       stylist,
@@ -147,7 +148,7 @@ export const sendCustomerBookingCancelledBySystemEmail = ({
       email,
       mobile,
       address,
-      time,
+      time: dateTimeString(time, timezone),
       bookingsId,
       bookingUrl: Meteor.settings.public.clientHost + bookingUrl,
       ...templateConstants,
@@ -193,11 +194,15 @@ export const sendStylistPendingBookingReminder = ({
   time,
   bookingId,
   bookingUrl,
+  timezone,
 }) => {
   sendEmail({
     to: stylistEmail,
     from: fromAddress,
-    subject: `Please response ${firstName}'s request for a booking on ${dateString(time)} asap`,
+    subject: `Please response ${firstName}'s request for a booking on ${dateString(
+      time,
+      timezone,
+    )} asap`,
     template: 'stylist-pendingBookingReminder',
     templateConstants: {
       stylistFirstName,
@@ -220,11 +225,12 @@ export const sendStylistCompleteBookingReminder = ({
   time,
   bookingId,
   bookingUrl,
+  timezone,
 }) => {
   sendEmail({
     to: stylistEmail,
     from: fromAddress,
-    subject: `Don't forget to complete the booking on ${dateString(time)}`,
+    subject: `Don't forget to complete the booking on ${dateString(time, timezone)}`,
     template: 'stylist-completeBookingReminder',
     templateConstants: {
       stylistFirstName,
@@ -246,11 +252,15 @@ export const sendCustomerReviewBookingReminder = ({
   time,
   bookingId,
   bookingUrl,
+  timezone,
 }) => {
   sendEmail({
     to: email,
     from: fromAddress,
-    subject: `How did the booking on ${dateString(time)} go? Write ${stylistFirstName} a review!`,
+    subject: `How did the booking on ${dateString(
+      time,
+      timezone,
+    )} go? Write ${stylistFirstName} a review!`,
     template: 'customer-reviewBooking',
     templateConstants: {
       stylistFirstName,

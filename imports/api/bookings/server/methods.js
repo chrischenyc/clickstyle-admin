@@ -86,6 +86,8 @@ Meteor.methods({
           time,
         } = booking;
 
+        const { timezone } = Profiles.findOne({ owner: booking.customer });
+
         sendCustomerBookingCancelledBySystemEmail({
           stylist: `${stylist.name.first} ${stylist.name.last}`,
           services: servicesSummary(services),
@@ -98,6 +100,7 @@ Meteor.methods({
           time: `${dateString(parseUrlQueryDate(date))} ${time}`,
           bookingsId: booking._id,
           bookingUrl: `/users/bookings/${booking._id}`,
+          timezone,
         });
 
         // notify customer via in-site notification
@@ -154,7 +157,7 @@ Meteor.methods({
       bookings.forEach((booking) => {
         sendAdminEmailLongPendingBooking(booking._id);
 
-        const { name, email } = Profiles.findOne({ owner: booking.stylist });
+        const { name, email, timezone } = Profiles.findOne({ owner: booking.stylist });
         sendStylistPendingBookingReminder({
           stylistEmail: email,
           stylistFirstName: name.first,
@@ -163,6 +166,7 @@ Meteor.methods({
           time: booking.time,
           bookingId: booking._id,
           bookingUrl: `/users/stylist/bookings/${booking._id}`,
+          timezone,
         });
 
         Bookings.update({ _id: booking._id }, { $set: { remindedPendingAt: Date.now() } });
@@ -211,7 +215,7 @@ Meteor.methods({
       }).fetch();
 
       bookings.forEach((booking) => {
-        const { name, email } = Profiles.findOne({ owner: booking.stylist });
+        const { name, email, timezone } = Profiles.findOne({ owner: booking.stylist });
         sendStylistCompleteBookingReminder({
           stylistEmail: email,
           stylistFirstName: name.first,
@@ -220,6 +224,7 @@ Meteor.methods({
           time: booking.time,
           bookingId: booking._id,
           bookingUrl: `/users/stylist/bookings/${booking._id}`,
+          timezone,
         });
 
         Bookings.update({ _id: booking._id }, { $set: { remindedCompleteAt: Date.now() } });
@@ -269,7 +274,7 @@ Meteor.methods({
 
       bookings.forEach((booking) => {
         const { name: stylistName } = Profiles.findOne({ owner: booking.stylist });
-        const { email } = Profiles.findOne({ owner: booking.customer });
+        const { email, timezone } = Profiles.findOne({ owner: booking.customer });
 
         sendCustomerReviewBookingReminder({
           email,
@@ -278,6 +283,7 @@ Meteor.methods({
           time: booking.time,
           bookingId: booking._id,
           bookingUrl: `/users/bookings/${booking._id}`,
+          timezone,
         });
 
         Bookings.update({ _id: booking._id }, { $set: { remindedReviewAt: Date.now() } });
