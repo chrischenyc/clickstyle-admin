@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Table } from 'semantic-ui-react';
+import { Table, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
@@ -26,6 +26,7 @@ class StylistApplicationsList extends Component {
             <Table.HeaderCell>User</Table.HeaderCell>
             <Table.HeaderCell>Mobile</Table.HeaderCell>
             <Table.HeaderCell>Email</Table.HeaderCell>
+            <Table.HeaderCell>Manage</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -44,6 +45,15 @@ class StylistApplicationsList extends Component {
                 </Table.Cell>
                 <Table.Cell>{application.mobile}</Table.Cell>
                 <Table.Cell>{application.email}</Table.Cell>
+                <Table.Cell>
+                  <Button
+                    onClick={() => {
+                      this.props.onResendApprovalEmail(application.userId);
+                    }}
+                  >
+                    resend approved email
+                  </Button>
+                </Table.Cell>
               </Table.Row>
             ))}
         </Table.Body>
@@ -64,6 +74,7 @@ StylistApplicationsList.propTypes = {
   page: PropTypes.number.isRequired,
   limit: PropTypes.number.isRequired,
   onDataLoaded: PropTypes.func.isRequired,
+  onResendApprovalEmail: PropTypes.func.isRequired,
 };
 
 export default withTracker((props) => {

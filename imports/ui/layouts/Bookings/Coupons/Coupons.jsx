@@ -1,19 +1,18 @@
-import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
-import { Container, Header } from 'semantic-ui-react';
+import { Container, Header, Button } from 'semantic-ui-react';
 
-import StylistApplicationsFilters from './StylistApplicationsFilters';
-import StylistApplicationsList from './StylistApplicationsList';
+import CouponsFilters from './CouponsFilters';
+import CouponsList from './CouponsList';
 import Pagination from '../../../components/Pagination';
 
-class StylistApplications extends Component {
+class Coupons extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      filter: 'pending',
+      filter: 'printed',
       page: 0,
-      limit: 25,
+      limit: 50,
       hasMore: false,
     };
 
@@ -27,19 +26,24 @@ class StylistApplications extends Component {
   render() {
     return (
       <Container>
-        <Header as="h2">Stylists Applications - {this.state.filter} </Header>
+        <Button
+          onClick={() => {
+            this.props.history.push('/coupons/new');
+          }}
+        >
+          Generate coupons
+        </Button>
 
-        <StylistApplicationsFilters filter={this.state.filter} onFilter={this.handleFilter} />
+        <Header as="h2">Coupons - {this.state.filter} </Header>
 
-        <StylistApplicationsList
+        <CouponsFilters filter={this.state.filter} onFilter={this.handleFilter} />
+
+        <CouponsList
           filter={this.state.filter}
           page={this.state.page}
           limit={this.state.limit}
           onDataLoaded={(hasMore) => {
             this.setState({ hasMore });
-          }}
-          onResendApprovalEmail={(userId) => {
-            Meteor.call('stylist.application.resend.approval.email', userId);
           }}
         />
 
@@ -62,4 +66,4 @@ class StylistApplications extends Component {
   }
 }
 
-export default StylistApplications;
+export default Coupons;

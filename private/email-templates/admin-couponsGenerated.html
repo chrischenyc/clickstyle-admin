@@ -4,7 +4,6 @@
 <head>
   <meta name="viewport" content="width=device-width" />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>Welcome! | {{appName}}</title>
   <style>
     /* -------------------------------------
     GLOBAL
@@ -28,6 +27,8 @@
       width: 100% !important;
       height: 100%;
       line-height: 1.6em;
+      /* 1.6em * 14px = 22.4px, use px to get airier line-height also in Thunderbird, and Yahoo!, Outlook.com, AOL webmail clients */
+      /*line-height: 22px;*/
     }
 
     /* Let's make sure all tables have defaults */
@@ -118,14 +119,20 @@
     h1 {
       font-size: 32px;
       font-weight: 500;
+      /* 1.2em * 32px = 38.4px, use px to get airier line-height also in Thunderbird, and Yahoo!, Outlook.com, AOL webmail clients */
+      /*line-height: 38px;*/
     }
 
     h2 {
       font-size: 24px;
+      /* 1.2em * 24px = 28.8px, use px to get airier line-height also in Thunderbird, and Yahoo!, Outlook.com, AOL webmail clients */
+      /*line-height: 29px;*/
     }
 
     h3 {
       font-size: 18px;
+      /* 1.2em * 18px = 21.6px, use px to get airier line-height also in Thunderbird, and Yahoo!, Outlook.com, AOL webmail clients */
+      /*line-height: 22px;*/
     }
 
     h4 {
@@ -159,10 +166,12 @@
     .btn-primary {
       text-decoration: none;
       color: #FFF;
-      background-color: #00aca4;
-      border: solid #00aca4;
+      background-color: #4285F4;
+      border: solid #4285F4;
       border-width: 10px 20px;
       line-height: 2em;
+      /* 2em * 14px = 28px, use px to get airier line-height also in Thunderbird, and Yahoo!, Outlook.com, AOL webmail clients */
+      /*line-height: 28px;*/
       font-weight: bold;
       text-align: center;
       cursor: pointer;
@@ -283,70 +292,36 @@
                 <table width="100%" cellpadding="0" cellspacing="0">
                   <tr>
                     <td class="content-block">
-                      Hi {{firstName}},
+                      The coupons you generated is in the attached file.
                     </td>
                   </tr>
+
                   <tr>
                     <td class="content-block">
-                      Woohoo!! Congratulations your stylist application with {{appName}} has been approved and now you can start making them monayyyy!
-                      This is a beginning of a great journey for us together and we are here with you on every step of the
-                      way because together we a Team.
+                      <b>Don't recognise this?</b>
+                      <br />Let us know—we’ll help secure and review your account. Otherwise, no action is required.
                     </td>
                   </tr>
+
                   <tr>
                     <td class="content-block">
-                      Here’s a quick guide on what to do next.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="content-block">
-                      <ol>
-                        <li>
-                          <b>Profile</b>:​ Log in to your account and setup your profile in full. Having every detail filled
-                          in will give you the best exposure and help attract more clients.
-                        </li>
-                        <li>
-                          <b>Service​ ​&​ ​Price​ ​List</b>:​ Fill in the services, prices, description of the service you provide
-                          and mobile service location you will be covering.
-                        </li>
-                        <li>
-                          <b>Calendar & Region</b>:​ Set your availability so clients can make bookings and also the parameter
-                          area that you will provide services in.
-                          <br/>Note: Please keep the calendar as updated as possible to avoid double bookings or potentially missing
-                          out on bookings.
-                        </li>
-                      </ol>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="content-block">
-                      Further help can be found on the
-                      <a href={{stylistFAQUrl}}>stylist FAQ page</a>. Feel free to contact us if you have any queries or suggestions (we are always
-                      open to new ideas, thoughts, comments and just about anything, please don’t hesitate whatever it is)
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler">
-                      <a href="{{homeUrl}}" class="btn-primary" itemprop="url">Get Started</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="content-block">
-                      Warm Regards
-                      <br /> {{appName}} Family
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="content-block">
-                      Fun fact:
-                      <p style="font-style: italic;">The fastest growing nail is on the middle finger</p>
+                      Cheers,
+                      <br /> {{appName}} Team
                     </td>
                   </tr>
                 </table>
               </td>
             </tr>
           </table>
-          {{{htmlFooter}}}
+          <div class="footer">
+            <table width="100%">
+              <tr>
+                <td class="aligncenter content-block">
+                  Contact Us&nbsp;{{supportEmail}}
+                </td>
+              </tr>
+            </table>
+          </div>
         </div>
       </td>
       <td></td>

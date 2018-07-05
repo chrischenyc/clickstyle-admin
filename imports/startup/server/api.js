@@ -1,7 +1,10 @@
 import '../../api/addons/server/methods';
 import '../../api/addons/server/publications';
+import '../../api/bookings/server/hooks';
 import '../../api/bookings/server/methods';
 import '../../api/bookings/server/publications';
+import '../../api/coupons/server/methods';
+import '../../api/coupons/server/publications';
 import '../../api/featured/server/methods';
 import '../../api/notifications/server/methods';
 import '../../api/profiles/server/publications';

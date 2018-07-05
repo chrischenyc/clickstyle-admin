@@ -72,6 +72,10 @@ const StylistApplicationsSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
+  experienceYears: {
+    type: SimpleSchema.Integer,
+    optional: true,
+  },
   approved: {
     type: Boolean,
   },

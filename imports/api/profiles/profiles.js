@@ -153,6 +153,22 @@ const ProfilesSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
+  timezone: {
+    type: String,
+    optional: true,
+  },
+  notifications: SimpleSchema.Integer,
+  messages: SimpleSchema.Integer,
+  confirmedBookings: SimpleSchema.Integer,
+  pendingBookings: SimpleSchema.Integer,
+  cancelledBookings: SimpleSchema.Integer,
+  declinedBookings: SimpleSchema.Integer,
+  completedBookings: SimpleSchema.Integer,
+  confirmedCustomerBookings: SimpleSchema.Integer,
+  pendingCustomerBookings: SimpleSchema.Integer,
+  cancelledCustomerBookings: SimpleSchema.Integer,
+  declinedCustomerBookings: SimpleSchema.Integer,
+  completedCustomerBookings: SimpleSchema.Integer,
 });
 
 Profiles.attachSchema(ProfilesSchema);

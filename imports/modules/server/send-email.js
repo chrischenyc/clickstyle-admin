@@ -5,7 +5,7 @@ import log from 'winston';
 import getPrivateFile from './get-private-file';
 import templateToText from './handlebars-email-to-text';
 import templateToHTML from './handlebars-email-to-html';
-import { dateTimeString, dateString } from '../../modules/format-date';
+import { dateTimeString, dateString } from '../../modules/server/format-date';
 import Profiles from '../../api/profiles/profiles';
 
 // core function to send email
@@ -45,7 +45,7 @@ const sendEmail = ({
 const {
   appName,
   homeUrl,
-  helpUrl,
+  stylistFAQUrl,
   contactUrl,
   searchUrl,
   joinUrl,
@@ -62,13 +62,13 @@ export const fromAddress = `${appName} <${supportEmail}>`;
 // standard vars most email templates use
 const constantsFromSettings = {
   appName,
-  homeUrl: Meteor.absoluteUrl(homeUrl),
-  helpUrl: Meteor.absoluteUrl(helpUrl),
-  contactUrl: Meteor.absoluteUrl(contactUrl),
-  searchUrl: Meteor.absoluteUrl(searchUrl),
-  joinUrl: Meteor.absoluteUrl(joinUrl),
-  privacyUrl: Meteor.absoluteUrl(privacyUrl),
-  termsUrl: Meteor.absoluteUrl(termsUrl),
+  homeUrl: Meteor.settings.public.clientHost + homeUrl,
+  stylistFAQUrl: Meteor.settings.public.clientHost + stylistFAQUrl,
+  contactUrl: Meteor.settings.public.clientHost + contactUrl,
+  searchUrl: Meteor.settings.public.clientHost + searchUrl,
+  joinUrl: Meteor.settings.public.clientHost + joinUrl,
+  privacyUrl: Meteor.settings.public.clientHost + privacyUrl,
+  termsUrl: Meteor.settings.public.clientHost + termsUrl,
   supportEmail,
   facebookUrl,
   twitterUrl,
@@ -132,11 +132,12 @@ export const sendCustomerBookingCancelledBySystemEmail = ({
   time,
   bookingsId,
   bookingUrl,
+  timezone,
 }) => {
   sendEmail({
     to: email,
     from: fromAddress,
-    subject: `We cancelled a booking on ${dateString(time)}`,
+    subject: `We cancelled a booking on ${dateString(time, timezone)}`,
     template: 'customer-bookingCancelledBySystem',
     templateConstants: {
       stylist,
@@ -147,7 +148,7 @@ export const sendCustomerBookingCancelledBySystemEmail = ({
       email,
       mobile,
       address,
-      time,
+      time: dateTimeString(time, timezone),
       bookingsId,
       bookingUrl: Meteor.settings.public.clientHost + bookingUrl,
       ...templateConstants,
@@ -165,19 +166,21 @@ export const sendAdminEmailLongPendingBooking = (bookingId) => {
     .fetch();
 
   try {
-    adminUsers.forEach((adminUser) => {
-      sendEmail({
-        to: adminUser.emails[0],
-        from: fromAddress,
-        subject: `Booking ${bookingId} has been pending for over 24 hours`,
-        template: 'admin-pendingBookingsReminder',
-        templateConstants: {
-          adminUrl,
-          bookingId,
-          ...templateConstants,
-        },
+    adminUsers
+      .filter(adminUser => adminUser.emails && adminUser.emails.length > 0)
+      .forEach((adminUser) => {
+        sendEmail({
+          to: adminUser.emails[0],
+          from: fromAddress,
+          subject: `Booking ${bookingId} has been pending for over 24 hours`,
+          template: 'admin-pendingBookingsReminder',
+          templateConstants: {
+            adminUrl,
+            bookingId,
+            ...templateConstants,
+          },
+        });
       });
-    });
   } catch (error) {
     log.error(error);
   }
@@ -191,11 +194,15 @@ export const sendStylistPendingBookingReminder = ({
   time,
   bookingId,
   bookingUrl,
+  timezone,
 }) => {
   sendEmail({
     to: stylistEmail,
     from: fromAddress,
-    subject: `Please response ${firstName}'s request for a booking on ${dateString(time)} asap`,
+    subject: `Please response ${firstName}'s request for a booking on ${dateString(
+      time,
+      timezone,
+    )} asap`,
     template: 'stylist-pendingBookingReminder',
     templateConstants: {
       stylistFirstName,
@@ -218,11 +225,12 @@ export const sendStylistCompleteBookingReminder = ({
   time,
   bookingId,
   bookingUrl,
+  timezone,
 }) => {
   sendEmail({
     to: stylistEmail,
     from: fromAddress,
-    subject: `Don't forget to complete the booking on ${dateString(time)}`,
+    subject: `Don't forget to complete the booking on ${dateString(time, timezone)}`,
     template: 'stylist-completeBookingReminder',
     templateConstants: {
       stylistFirstName,
@@ -244,11 +252,15 @@ export const sendCustomerReviewBookingReminder = ({
   time,
   bookingId,
   bookingUrl,
+  timezone,
 }) => {
   sendEmail({
     to: email,
     from: fromAddress,
-    subject: `How did the booking on ${dateString(time)} go? Write ${stylistFirstName} a review!`,
+    subject: `How did the booking on ${dateString(
+      time,
+      timezone,
+    )} go? Write ${stylistFirstName} a review!`,
     template: 'customer-reviewBooking',
     templateConstants: {
       stylistFirstName,
@@ -259,5 +271,25 @@ export const sendCustomerReviewBookingReminder = ({
     },
   }).catch((error) => {
     log.error(error);
+  });
+};
+
+export const sendAdminCouponGeneratedEmail = (userId, fileName, filePath) => {
+  const { email } = Profiles.findOne({ owner: userId });
+
+  sendEmail({
+    to: email,
+    from: fromAddress,
+    subject: 'Coupon generated',
+    template: 'admin-adminAccessGranted',
+    templateConstants,
+    attachments: [
+      {
+        fileName,
+        filePath,
+      },
+    ],
+  }).catch((error) => {
+    throw new Meteor.Error('500', `${error}`);
   });
 };

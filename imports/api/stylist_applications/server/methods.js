@@ -167,6 +167,15 @@ Meteor.methods({
               link: '/users/stylist/calendar',
             });
 
+            Meteor.call('notifications.create', {
+              recipient: userId,
+              content: 'Please set your payment account info',
+              type: 'success',
+              dismissible: true,
+              dismissed: false,
+              link: '/users/stylist/payment',
+            });
+
             log.info(
               'Meteor.methods: stylist.application.approve',
               `userId: ${this.userId}`,
@@ -180,10 +189,30 @@ Meteor.methods({
       throw exception;
     }
   },
+
+  'stylist.application.resend.approval.email': function resendApplicationApprovalEmail(userId) {
+    if (
+      !Roles.userIsInRole(Meteor.userId(), [
+        Meteor.settings.public.roles.admin,
+        Meteor.settings.public.roles.superAdmin,
+      ])
+    ) {
+      throw new Meteor.Error(403, 'unauthorized');
+    }
+
+    check(userId, String);
+
+    try {
+      sendStylistJoinApprovedEmail(userId);
+    } catch (exception) {
+      log.error(exception);
+      throw exception;
+    }
+  },
 });
 
 rateLimit({
-  methods: ['stylist.application.approve'],
+  methods: ['stylist.application.approve', 'stylist.application.resend.approval.email'],
   limit: 5,
   timeRange: 1000,
 });

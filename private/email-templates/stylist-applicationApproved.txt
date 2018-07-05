@@ -11,7 +11,7 @@ Here’s a quick guide on what to do next.
 3. Calendar & Region:​ Set your availability so clients can make bookings and also the parameter area that you will provide services in.
 Note: Please keep the calendar as updated as possible to avoid double bookings or potentially missing out on bookings.
 
-Further help can be found on the help page {{helpUrl}} which also has FAQ’s. Feel free to contact us if you have any queries or suggestions (we are always open to new ideas, thoughts, comments and just about anything, please don’t hesitate whatever it is)
+Further help can be found on the stylist FAQ page {{stylistFAQUrl}}. Feel free to contact us if you have any queries or suggestions (we are always open to new ideas, thoughts, comments and just about anything, please don’t hesitate whatever it is)
 
 Get​ ​Started​ {{homeUrl}}
 

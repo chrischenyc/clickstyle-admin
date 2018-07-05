@@ -17,6 +17,14 @@ const BookingPage = props => (
 
     <div>Total:&nbsp;{props.booking.total}</div>
 
+    {props.booking.discount && (
+      <div>Discount:&nbsp;{props.booking.discount}</div>
+    )}
+
+    {props.booking.redeemedCoupon && (
+      <div>Redeemed Coupon:&nbsp;{props.booking.redeemedCoupon}</div>
+    )}
+
     <div>Customer:&nbsp; {`${props.booking.firstName} ${props.booking.lastName}`}</div>
 
     <div>
