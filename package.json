@@ -4,20 +4,17 @@
   "description": "clickstyle.com.au admin app",
   "private": true,
   "author": "Chris Chen",
-  "contributors": ["Chris Chen <chrischen79@gmail.com>"],
+  "contributors": [
+    "Chris Chen <chrischen79@gmail.com>"
+  ],
   "scripts": {
-    "dev":
-      "MONGO_URL=mongodb://localhost:27017/clickstyle  meteor -s settings-development.json --port 4000",
-    "debug":
-      "MONGO_URL=mongodb://localhost:27017/clickstyle meteor run --inspect -s settings-development.json --port 4000",
+    "dev": "MONGO_URL=mongodb://localhost:27017/clickstyle  meteor -s settings-development.json --port 4000",
+    "debug": "MONGO_URL=mongodb://localhost:27017/clickstyle meteor run --inspect -s settings-development.json --port 4000",
     "start": "meteor run",
     "cloc": "cloc imports client server private --exclude-ext=json",
-
-    "predeploy-staging":
-      "heroku config:add METEOR_SETTINGS=\"$(cat settings-staging.json)\" --remote heroku-staging",
+    "predeploy-staging": "heroku config:add METEOR_SETTINGS=\"$(cat settings-staging.json)\" --remote heroku-staging",
     "deploy-staging": "git push heroku-staging develop:master",
-    "predeploy-product":
-      "heroku config:add METEOR_SETTINGS=\"$(cat settings-product.json)\" --remote heroku-product",
+    "predeploy-product": "heroku config:add METEOR_SETTINGS=\"$(cat settings-product.json)\" --remote heroku-product",
     "deploy-product": "git push heroku-product develop:master"
   },
   "dependencies": {
@@ -28,7 +25,7 @@
     "cloudinary": "^1.11.0",
     "commonmark": "^0.28.1",
     "handlebars": "^4.0.10",
-    "juice": "^4.2.3",
+    "juice": "^4.3.1",
     "lodash": "^4.17.5",
     "meteor-node-stubs": "^0.3.3",
     "moment": "^2.22.0",
