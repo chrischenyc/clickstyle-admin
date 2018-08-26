@@ -87,6 +87,8 @@ const StylistApplicationsSchema = new SimpleSchema({
     type: Date,
     optional: true,
   },
+  isMobile: Boolean,
+  isOnSite: Boolean,
 });
 
 StylistApplications.attachSchema(StylistApplicationsSchema);
