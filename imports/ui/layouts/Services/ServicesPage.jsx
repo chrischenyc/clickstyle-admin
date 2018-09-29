@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Container, Header, Table, Button, Message, Image } from 'semantic-ui-react';
+import {
+  Container, Header, Table, Button, Message, Image, Checkbox,
+} from 'semantic-ui-react';
 import _ from 'lodash';
 
 import scaledImageURL from '../../../modules/scaled-image-url';
@@ -30,18 +32,30 @@ const ServicesPage = ({
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>Name</Table.HeaderCell>
-          <Table.HeaderCell>Display Order</Table.HeaderCell>
+          <Table.HeaderCell>Front page display</Table.HeaderCell>
+          <Table.HeaderCell>Front page display order</Table.HeaderCell>
           <Table.HeaderCell>Photo</Table.HeaderCell>
           <Table.HeaderCell>Duration (mins.)</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
 
       <Table.Body>
-        {ready &&
-          services.map(service => (
+        {ready
+          && services.map(service => (
             <Table.Row key={service._id}>
               <Table.Cell>
                 <Link to={`/services/${service._id}`}>{service.name}</Link>
+              </Table.Cell>
+              <Table.Cell>
+                <Checkbox
+                  name="display"
+                  defaultChecked={false}
+                  onChange={(event, data) => {
+                    // onChange({
+                    //   target: { name: 'print', value: data.checked },
+                    // });
+                  }}
+                />
               </Table.Cell>
               <Table.Cell>
                 {service.displayOrder > 0 && (
