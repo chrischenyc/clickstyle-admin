@@ -49,11 +49,9 @@ const ServicesPage = ({
               <Table.Cell>
                 <Checkbox
                   name="display"
-                  defaultChecked={false}
+                  defaultChecked={service.display}
                   onChange={(event, data) => {
-                    // onChange({
-                    //   target: { name: 'print', value: data.checked },
-                    // });
+                    onServiceChange(service, { target: { name: 'display', value: data.checked } });
                   }}
                 />
               </Table.Cell>
