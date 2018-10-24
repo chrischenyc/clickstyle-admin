@@ -120,7 +120,10 @@ Meteor.methods({
     }
 
     try {
-      const stylists = Stylists.find({}, { fields: { services: 1, name: 1 } }).fetch();
+      const stylists = Stylists.find(
+        { published: true },
+        { fields: { services: 1, name: 1 } },
+      ).fetch();
 
       const services = [];
 
@@ -154,9 +157,7 @@ Meteor.methods({
         }
       });
 
-      services.push({ id: services.length, name: 'Average', price: total / services.length });
-
-      return services;
+      return { services, average: total / services.length };
     } catch (exception) {
       log.error(exception);
       throw exception;

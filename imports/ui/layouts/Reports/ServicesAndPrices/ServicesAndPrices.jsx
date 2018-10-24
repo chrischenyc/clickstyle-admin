@@ -6,26 +6,33 @@ class ServicesAndPrices extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { loading: false, services: null, error: null };
+    this.state = {
+      loading: false,
+      services: null,
+      average: null,
+      error: null,
+    };
   }
 
   componentDidMount() {
     this.setState({ loading: true });
 
-    Meteor.call('report.stylist.services', (error, services) => {
+    Meteor.call('report.stylist.services', (error, result) => {
       this.setState({ loading: false });
 
       if (error) {
         this.setState({ error });
       }
-      if (services) {
-        this.setState({ services });
+      if (result) {
+        this.setState({ services: result.services, average: result.average });
       }
     });
   }
 
   render() {
-    const { loading, services, error } = this.state;
+    const {
+      loading, services, average, error,
+    } = this.state;
 
     return (
       <Container>
@@ -44,6 +51,13 @@ class ServicesAndPrices extends Component {
           </Table.Header>
 
           <Table.Body>
+            {average && (
+              <Table.Row>
+                <Table.Cell>Average</Table.Cell>
+                <Table.Cell>{average}</Table.Cell>
+                <Table.Cell />
+              </Table.Row>
+            )}
             {services
               && services.map(service => (
                 <Table.Row key={service.id}>
