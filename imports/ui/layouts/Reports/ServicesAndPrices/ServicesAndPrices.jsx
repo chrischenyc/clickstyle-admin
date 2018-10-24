@@ -6,11 +6,18 @@ class ServicesAndPrices extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { services: null };
+    this.state = { loading: false, services: null, error: null };
   }
 
   componentDidMount() {
+    this.setState({ loading: true });
+
     Meteor.call('report.stylist.services', (error, services) => {
+      this.setState({ loading: false });
+
+      if (error) {
+        this.setState({ error });
+      }
       if (services) {
         this.setState({ services });
       }
@@ -18,11 +25,14 @@ class ServicesAndPrices extends Component {
   }
 
   render() {
-    const { services } = this.state;
+    const { loading, services, error } = this.state;
 
     return (
       <Container>
         <Header as="h2">Services &amp; Prices</Header>
+
+        {loading && <p>loading...</p>}
+        {error && <p>{error}</p>}
 
         <Table celled selectable>
           <Table.Header>
