@@ -32,7 +32,7 @@ class ServicesAndPrices extends Component {
         <Header as="h2">Services &amp; Prices</Header>
 
         {loading && <p>loading...</p>}
-        {error && <p>{error}</p>}
+        {error && <p>error!</p>}
 
         <Table celled selectable>
           <Table.Header>
