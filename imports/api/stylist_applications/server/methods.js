@@ -41,7 +41,13 @@ Meteor.methods({
             // then create a Stylists collection record
             const application = StylistApplications.findOne({ _id: applicationId });
             const {
-              services, qualificationUrl, referenceUrl, mobile, address,
+              services,
+              qualificationUrl,
+              referenceUrl,
+              mobile,
+              address,
+              isMobile,
+              isOnSite,
             } = application;
 
             Profiles.update(
@@ -122,6 +128,8 @@ Meteor.methods({
               name,
               address: { raw: address },
               photo,
+              isMobile,
+              isOnSite,
             });
 
             sendStylistJoinApprovedEmail(userId);

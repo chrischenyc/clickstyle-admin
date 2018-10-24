@@ -42,12 +42,10 @@ export const suburbsFindSelector = (filter, search) => {
   }
 
   if (!_.isEmpty(search)) {
-    const nameSelector = { name: RegExp(`^${search}`, 'i') };
-    const postcodeSelector = { postcode: RegExp(`^${search}`, 'i') };
-
-    selector = _.isNumber(search)
-      ? { ...selector, ...postcodeSelector }
-      : { ...selector, ...nameSelector };
+    selector = {
+      ...selector,
+      $or: [{ name: RegExp(`^${search}`, 'i') }, { postcode: RegExp(`^${search}`, 'i') }],
+    };
   }
 
   return selector;

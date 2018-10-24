@@ -37,6 +37,7 @@ const ServicesSchema = new SimpleSchema({
     type: String,
     unique: true,
   },
+  display: Boolean,
   displayOrder: {
     type: SimpleSchema.Integer,
   },
