@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import log from 'winston';
+import _ from 'lodash';
 
 import rateLimit from '../../../modules/server/rate-limit';
 import Stylists from '../stylists';
@@ -126,27 +127,31 @@ Meteor.methods({
       let total = 0;
 
       stylists.forEach((stylist) => {
-        stylist.services.forEach((service) => {
-          services.push({
-            id: services.length,
-            name: service.name,
-            price: service.basePrice,
-            stylist: `${stylist.name.first} ${stylist.name.last}`,
-          });
-
-          total += service.basePrice;
-
-          service.addons.forEach((addon) => {
+        if (!_.isNil(stylist.services)) {
+          stylist.services.forEach((service) => {
             services.push({
               id: services.length,
-              name: `${service.name} (${addon.name})`,
-              price: addon.price,
+              name: service.name,
+              price: service.basePrice,
               stylist: `${stylist.name.first} ${stylist.name.last}`,
             });
 
-            total += addon.price;
+            total += service.basePrice;
+
+            if (!_.isNil(service.addons)) {
+              service.addons.forEach((addon) => {
+                services.push({
+                  id: services.length,
+                  name: `${service.name} (${addon.name})`,
+                  price: addon.price,
+                  stylist: `${stylist.name.first} ${stylist.name.last}`,
+                });
+
+                total += addon.price;
+              });
+            }
           });
-        });
+        }
       });
 
       services.push({ id: services.length, name: 'Average', price: total / services.length });
