@@ -11,22 +11,24 @@ import SecureRoute from '../components/SecureRoute';
 import Header from '../components/Header';
 import { withSideMenu } from '../components/HOC';
 
-import Login from '../layouts/Login/Login';
-import DashboardPage from '../layouts/DashboardPage';
-import StylistApplications from '../layouts/Stylists/Applications/StylistApplications';
-import StylistApplication from '../layouts/Stylists/Application/StylistApplication';
-import Users from '../layouts/Users/Users';
-import User from '../layouts/Users/User/User';
-import Services from '../layouts/Services/Services';
-import Service from '../layouts/Services/Service/Service';
-import Suburbs from '../layouts/Suburbs/Suburbs';
-import FeaturedStylists from '../layouts/Stylists/Featured/FeaturedStylists';
-import Cron from '../layouts/System/Cron';
+import Login from './Login/Login';
+import DashboardPage from './DashboardPage';
+import StylistApplications from './Stylists/Applications/StylistApplications';
+import StylistApplication from './Stylists/Application/StylistApplication';
+import Users from './Users/Users';
+import User from './Users/User/User';
+import Services from './Services/Services';
+import Service from './Services/Service/Service';
+import Suburbs from './Suburbs/Suburbs';
+import FeaturedStylists from './Stylists/Featured/FeaturedStylists';
+import Cron from './System/Cron';
 
-import Bookings from '../layouts/Bookings/Bookings/Bookings';
-import Booking from '../layouts/Bookings/Booking/Booking';
-import Coupons from '../layouts/Bookings/Coupons/Coupons';
-import NewCoupons from '../layouts/Bookings/Coupons/NewCoupons';
+import Bookings from './Bookings/Bookings/Bookings';
+import Booking from './Bookings/Booking/Booking';
+import Coupons from './Bookings/Coupons/Coupons';
+import NewCoupons from './Bookings/Coupons/NewCoupons';
+
+import ServicesAndPrices from './Reports/ServicesAndPrices/ServicesAndPrices';
 
 class App extends Component {
   // after web App is refreshed, try to fetch Meteor user data then update redux states
@@ -85,11 +87,21 @@ class App extends Component {
               <SecureRoute exact path="/coupons" component={withSideMenu(Coupons)} />
               <SecureRoute exact path="/coupons/new" component={withSideMenu(NewCoupons)} />
 
+              <SecureRoute
+                exact
+                path="/reports/services-and-prices"
+                component={withSideMenu(ServicesAndPrices)}
+              />
+
               <SecureRoute exact path="/cron" component={withSideMenu(Cron)} />
 
               <Route exact path="/login" component={Login} />
 
-              <Route component={withSideMenu(() => <p>404 not found</p>)} />
+              <Route
+                component={withSideMenu(() => (
+                  <p>404 not found</p>
+                ))}
+              />
             </Switch>
           </div>
         </div>
@@ -103,7 +115,10 @@ App.propTypes = {
   userSignedOut: PropTypes.func.isRequired,
 };
 
-export default connect(null, {
-  userSignedIn,
-  userSignedOut,
-})(App);
+export default connect(
+  null,
+  {
+    userSignedIn,
+    userSignedOut,
+  },
+)(App);

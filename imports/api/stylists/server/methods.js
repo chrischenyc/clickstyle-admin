@@ -81,8 +81,8 @@ Meteor.methods({
 Meteor.methods({
   'stylist.occupiedTimeSlots.refresh': function refreshPublishedSuburbs(data) {
     if (
-      Meteor.isClient &&
-      !Roles.userIsInRole(Meteor.userId(), [
+      Meteor.isClient
+      && !Roles.userIsInRole(Meteor.userId(), [
         Meteor.settings.public.roles.admin,
         Meteor.settings.public.roles.superAdmin,
       ])
@@ -106,8 +106,66 @@ Meteor.methods({
   },
 });
 
+Meteor.methods({
+  'report.stylist.services': function stylistServices() {
+    if (
+      Meteor.isClient
+      && !Roles.userIsInRole(Meteor.userId(), [
+        Meteor.settings.public.roles.admin,
+        Meteor.settings.public.roles.superAdmin,
+      ])
+    ) {
+      throw new Meteor.Error(403, 'unauthorized');
+    }
+
+    try {
+      const stylists = Stylists.find({}, { fields: { services: 1, name: 1 } }).fetch();
+
+      const services = [];
+
+      let total = 0;
+
+      stylists.forEach((stylist) => {
+        stylist.services.forEach((service) => {
+          services.push({
+            id: services.length,
+            name: service.name,
+            price: service.basePrice,
+            stylist: `${stylist.name.first} ${stylist.name.last}`,
+          });
+
+          total += service.basePrice;
+
+          service.addons.forEach((addon) => {
+            services.push({
+              id: services.length,
+              name: `${service.name} (${addon.name})`,
+              price: addon.price,
+              stylist: `${stylist.name.first} ${stylist.name.last}`,
+            });
+
+            total += addon.price;
+          });
+        });
+      });
+
+      services.push({ id: services.length, name: 'Average', price: total / services.length });
+
+      return services;
+    } catch (exception) {
+      log.error(exception);
+      throw exception;
+    }
+  },
+});
+
 rateLimit({
-  methods: ['stylist.publish', 'stylists.search', 'stylist.occupiedTimeSlots.refresh'],
+  methods: [
+    'stylist.publish',
+    'stylists.search',
+    'stylist.occupiedTimeSlots.refresh',
+    'report.stylist.services',
+  ],
   limit: 5,
   timeRange: 1000,
 });
