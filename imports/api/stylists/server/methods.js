@@ -180,13 +180,18 @@ Meteor.methods({
     try {
       const profiles = Profiles.find({ postcode: { $exists: 1 } }).fetch();
 
-      const postcodes = [];
+      let postcodes = [];
 
       profiles.forEach((profile) => {
         if (postcodes.filter(postcode => postcode.postcode === profile.postcode).length === 0) {
           postcodes.push({ postcode: profile.postcode, users: 1 });
         } else {
-          postcodes[profile.postcode].users += 1;
+          postcodes = postcodes.map((postcode) => {
+            if (postcode.postcode === profile.postcode) {
+              return { ...postcode, users: postcode.users + 1 };
+            }
+            return postcode;
+          });
         }
       });
 
