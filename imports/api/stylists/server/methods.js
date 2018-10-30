@@ -195,7 +195,7 @@ Meteor.methods({
         }
       });
 
-      return postcodes.sort((a, b) => a.users - b.users);
+      return postcodes.sort((a, b) => b.users - a.users);
     } catch (exception) {
       log.error(exception);
       throw exception;
