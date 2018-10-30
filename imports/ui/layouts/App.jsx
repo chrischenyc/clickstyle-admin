@@ -28,7 +28,8 @@ import Booking from './Bookings/Booking/Booking';
 import Coupons from './Bookings/Coupons/Coupons';
 import NewCoupons from './Bookings/Coupons/NewCoupons';
 
-import ServicesAndPrices from './Reports/ServicesAndPrices/ServicesAndPrices';
+import ServicesAndPrices from './Reports/ServicesAndPrices';
+import Geo from './Reports/Geo';
 
 class App extends Component {
   // after web App is refreshed, try to fetch Meteor user data then update redux states
@@ -92,6 +93,8 @@ class App extends Component {
                 path="/reports/services-and-prices"
                 component={withSideMenu(ServicesAndPrices)}
               />
+
+              <SecureRoute exact path="/reports/geo" component={withSideMenu(Geo)} />
 
               <SecureRoute exact path="/cron" component={withSideMenu(Cron)} />
 

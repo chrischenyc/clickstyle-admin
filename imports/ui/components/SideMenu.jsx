@@ -54,6 +54,9 @@ const SideMenu = () => (
         <Menu.Item as={NavLink} to="/reports/services-and-prices">
           Services &amp; Prices
         </Menu.Item>
+        <Menu.Item as={NavLink} to="/reports/geo">
+          Geo
+        </Menu.Item>
       </Menu.Menu>
     </Menu.Item>
 

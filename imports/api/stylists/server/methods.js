@@ -165,12 +165,46 @@ Meteor.methods({
   },
 });
 
+Meteor.methods({
+  'report.geo': function geoReport() {
+    if (
+      Meteor.isClient
+      && !Roles.userIsInRole(Meteor.userId(), [
+        Meteor.settings.public.roles.admin,
+        Meteor.settings.public.roles.superAdmin,
+      ])
+    ) {
+      throw new Meteor.Error(403, 'unauthorized');
+    }
+
+    try {
+      const profiles = Profiles.find({ postcode: { $exists: 1 } }).fetch();
+
+      const postcodes = [];
+
+      profiles.forEach((profile) => {
+        if (postcodes.filter(postcode => postcode.postcode === profile.postcode).length === 0) {
+          postcodes.push({ postcode: profile.postcode, users: 1 });
+        } else {
+          postcodes[profile.postcode].users += 1;
+        }
+      });
+
+      return postcodes.sort((a, b) => a.users - b.users);
+    } catch (exception) {
+      log.error(exception);
+      throw exception;
+    }
+  },
+});
+
 rateLimit({
   methods: [
     'stylist.publish',
     'stylists.search',
     'stylist.occupiedTimeSlots.refresh',
     'report.stylist.services',
+    'report.geo',
   ],
   limit: 5,
   timeRange: 1000,
