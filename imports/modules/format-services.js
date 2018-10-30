@@ -1,24 +1,20 @@
 const servicesSummary = (services) => {
   let result = '';
 
-  services.forEach((service, index) => {
-    result += service.name;
-
-    if (service.addons.length > 0) {
-      result += ' (including ';
+  services.forEach((service) => {
+    if (service.baseSelected) {
+      if (result.length > 0) {
+        result += ', ';
+      }
+      result += service.name;
     }
 
     service.addons.forEach((addon) => {
+      if (result.length > 0) {
+        result += ', ';
+      }
       result += addon.name;
     });
-
-    if (service.addons.length > 0) {
-      result += ')';
-    }
-
-    if (index < services.length - 1) {
-      result += ', ';
-    }
   });
 
   return result;
