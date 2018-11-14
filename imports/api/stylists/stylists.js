@@ -67,9 +67,6 @@ const AreasSchema = new SimpleSchema({
   radius: {
     type: SimpleSchema.Integer,
   },
-  canTravel: {
-    type: Boolean,
-  },
   availableSuburbs: {
     type: Array,
     optional: true,
