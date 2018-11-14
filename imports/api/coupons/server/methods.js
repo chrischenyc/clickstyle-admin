@@ -20,8 +20,8 @@ const generateUniqueCoupon = () => {
 Meteor.methods({
   'coupons.find': function findBooking(_id) {
     if (
-      Meteor.isClient &&
-      !Roles.userIsInRole(Meteor.userId(), [
+      Meteor.isClient
+      && !Roles.userIsInRole(Meteor.userId(), [
         Meteor.settings.public.roles.admin,
         Meteor.settings.public.roles.superAdmin,
       ])
@@ -41,11 +41,13 @@ Meteor.methods({
       throw exception;
     }
   },
+});
 
+Meteor.methods({
   'coupons.create': function createCoupons(data) {
     if (
-      Meteor.isClient &&
-      !Roles.userIsInRole(Meteor.userId(), [
+      Meteor.isClient
+      && !Roles.userIsInRole(Meteor.userId(), [
         Meteor.settings.public.roles.admin,
         Meteor.settings.public.roles.superAdmin,
       ])
@@ -56,26 +58,48 @@ Meteor.methods({
     check(data, Object);
 
     const {
-      discount, minBookingValue, expiry, quantity, print,
+      discount, minBookingValue, expiry, quantity, print, reusable, fixedCouponCode,
     } = data;
 
     try {
       const codes = [];
-      for (let index = 0; index < quantity; index += 1) {
-        const code = generateUniqueCoupon();
-        if (code) {
-          Coupons.insert({
-            code,
-            discount,
-            minBookingValue,
-            createdBy: this.userId,
-            status: print ? 'printed' : 'new',
-            expiry,
-            printedAt: print ? Date.now() : null,
-            printedBy: print ? this.userId : null,
-          });
 
-          codes.push(code);
+      if (reusable) {
+        if (Coupons.findOne({ code: fixedCouponCode })) {
+          throw Error(`coupon code ${fixedCouponCode} taken`);
+        }
+
+        Coupons.insert({
+          reusable,
+          code: fixedCouponCode,
+          discount,
+          minBookingValue,
+          createdBy: this.userId,
+          status: print ? 'printed' : 'new',
+          expiry,
+          printedAt: print ? Date.now() : null,
+          printedBy: print ? this.userId : null,
+        });
+
+        codes.push(fixedCouponCode);
+      } else {
+        for (let index = 0; index < quantity; index += 1) {
+          const code = generateUniqueCoupon();
+          if (code) {
+            Coupons.insert({
+              reusable,
+              code,
+              discount,
+              minBookingValue,
+              createdBy: this.userId,
+              status: print ? 'printed' : 'new',
+              expiry,
+              printedAt: print ? Date.now() : null,
+              printedBy: print ? this.userId : null,
+            });
+
+            codes.push(code);
+          }
         }
       }
 
