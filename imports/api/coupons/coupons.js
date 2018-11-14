@@ -32,7 +32,26 @@ Coupons.attachBehaviour('timestampable', {
   updatedBy: false,
 });
 
+const RedeemedBookingSchema = new SimpleSchema({
+  date: Date,
+  bookingId: String,
+  userId: String,
+  mobile: {
+    type: String,
+    optional: true,
+  },
+  address: {
+    type: String,
+    optional: true,
+  },
+  email: {
+    type: String,
+    optional: true,
+  },
+});
+
 const CouponsSchema = new SimpleSchema({
+  reusable: Boolean, // can be used by multiple users
   code: String, // coupon code
   discount: Number, // discount value
   minBookingValue: Number, // min purchase value,
@@ -50,14 +69,6 @@ const CouponsSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
-  redeemedAt: {
-    type: Date,
-    optional: true,
-  },
-  redeemedBooking: {
-    type: String,
-    optional: true,
-  },
   expiredAt: {
     type: Date,
     optional: true,
@@ -66,6 +77,11 @@ const CouponsSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
+  redeemedBookings: {
+    type: Array,
+    optional: true,
+  },
+  'redeemedBookings.$': RedeemedBookingSchema,
 });
 
 Coupons.attachSchema(CouponsSchema);
