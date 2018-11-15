@@ -71,7 +71,7 @@ Meteor.methods({
 
         Coupons.insert({
           reusable,
-          code: fixedCouponCode,
+          code: fixedCouponCode.toUpperCase(),
           discount,
           minBookingValue,
           createdBy: this.userId,
@@ -81,14 +81,14 @@ Meteor.methods({
           printedBy: print ? this.userId : null,
         });
 
-        codes.push(fixedCouponCode);
+        codes.push(fixedCouponCode.toUpperCase());
       } else {
         for (let index = 0; index < quantity; index += 1) {
           const code = generateUniqueCoupon();
           if (code) {
             Coupons.insert({
               reusable,
-              code,
+              code: code.toUpperCase(),
               discount,
               minBookingValue,
               createdBy: this.userId,
