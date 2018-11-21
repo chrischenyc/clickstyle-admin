@@ -52,6 +52,10 @@ const RedeemedBookingSchema = new SimpleSchema({
 
 const CouponsSchema = new SimpleSchema({
   reusable: Boolean, // can be used by multiple users
+  maxRedeems: {
+    type: Number,
+    optional: true,
+  },
   code: String, // coupon code
   discount: Number, // discount value
   minBookingValue: Number, // min purchase value,
