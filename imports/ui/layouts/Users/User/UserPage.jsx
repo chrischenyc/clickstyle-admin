@@ -37,40 +37,45 @@ const UserPage = (props) => {
       <Segment>
         <Grid>
           <Grid.Row>
-            <Grid.Column width="6">
+            <Grid.Column width="4">
               <Image src={ScaledImageURL(photoURL, 'medium')} fluid />
             </Grid.Column>
 
-            <Grid.Column width="10">
+            <Grid.Column width="12">
               <Header as="h1">{`${profile.name.first} ${profile.name.last}`}</Header>
 
-              <div>{roles.map(role => <Label key={role}>{role}</Label>)}</div>
+              <List>
+                <List.Item>
+                  {roles.map(role => (
+                    <Label key={role}>{role}</Label>
+                  ))}
+                </List.Item>
 
-              <div>
-                Registered on:&nbsp;
-                {dateTimeString(createdAt)}
-              </div>
-              <div>
-                Email:&nbsp;
-                <a href={`mailto:${profile.email}`}>{profile.email}</a>
-              </div>
-              <div>
-                Mobile:&nbsp;
-                {profile.mobile}
-              </div>
-              {profile.address &&
-                profile.address.raw && (
-                  <div>
+                <List.Item>
+                  Registered on:&nbsp;
+                  {dateTimeString(createdAt)}
+                </List.Item>
+                <List.Item>
+                  Email:&nbsp;
+                  <a href={`mailto:${profile.email}`}>{profile.email}</a>
+                </List.Item>
+                <List.Item>
+                  Mobile:&nbsp;
+                  {profile.mobile}
+                </List.Item>
+                {profile.address && profile.address.raw && (
+                  <List.Item>
                     Address:&nbsp;
                     <a href={`https://maps.google.com/?q=${profile.address.raw}`} target="_blank">
                       {profile.address.raw}
                     </a>
-                  </div>
+                  </List.Item>
                 )}
-              <div>
-                About:&nbsp;
-                {profile.about}
-              </div>
+                <List.Item>
+                  About:&nbsp;
+                  {profile.about}
+                </List.Item>
+              </List>
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -87,36 +92,48 @@ const UserPage = (props) => {
           </div>
         )}
 
-        {stylist &&
-          stylist.services && (
-            <div>
-              <Divider horizontal>Stylist Services</Divider>
+        {stylist && stylist.services && (
+          <div>
+            <Divider horizontal>Stylist Services</Divider>
 
-              <List>
-                {stylist.services.map(service => (
-                  <List.Item key={service._id}>{service.name}</List.Item>
-                ))}
-              </List>
-            </div>
-          )}
+            <List>
+              {stylist.services.map(service => (
+                <List.Item key={service._id}>{service.name}</List.Item>
+              ))}
+            </List>
+          </div>
+        )}
 
-        {stylist &&
-          stylist.openHours && (
-            <div>
-              <Divider horizontal>Stylist Open Hours</Divider>
+        {stylist && (
+          <div>
+            <Divider horizontal>Serving Area</Divider>
+            <List>
+              <List.Item>{`Suburb: ${stylist.areas.suburb.postcode} - ${stylist.areas.suburb.name}`}</List.Item>
+              <List.Item>{`Radius: ${stylist.areas.radius}km`}</List.Item>
+              <List.Item><br/></List.Item>
+              {stylist.areas.availableSuburbs.map(suburb => (
+                <List.Item key={suburb._id}>{`${suburb.postcode} - ${suburb.name}`}</List.Item>
+              ))}
+            </List>
+          </div>
+        )}
 
-              <List>
-                {stylist.openHours.map(openHour => (
-                  <List.Item key={openHour.day}>
-                    {`${openHour.day}: ${openHour.openAt} - ${openHour.closeAt}`}
-                  </List.Item>
-                ))}
-              </List>
-            </div>
-          )}
+        {stylist && stylist.openHours && (
+          <div>
+            <Divider horizontal>Stylist Open Hours</Divider>
+
+            <List>
+              {stylist.openHours.map(openHour => (
+                <List.Item key={openHour.day}>
+                  {`${openHour.day}: ${openHour.openAt} - ${openHour.closeAt}`}
+                </List.Item>
+              ))}
+            </List>
+          </div>
+        )}
       </Segment>
 
-      {!Roles.userIsInRole(props.user._id, [Meteor.settings.public.roles.admin]) ? (
+      {!Roles.userIsInRole(props.user._id, [Meteor.settings.public.roles.superAdmin]) ? (
         <Button
           size="large"
           primary
@@ -154,31 +171,29 @@ const UserPage = (props) => {
         View public profile
       </Button>
 
-      {stylist &&
-        stylist.published && (
-          <Button
-            size="large"
-            negative
-            onClick={() => {
-              props.onPublishStylist(false);
-            }}
-          >
-            Un-publish Stylist Profile
-          </Button>
-        )}
+      {stylist && stylist.published && (
+        <Button
+          size="large"
+          negative
+          onClick={() => {
+            props.onPublishStylist(false);
+          }}
+        >
+          Un-publish Stylist Profile
+        </Button>
+      )}
 
-      {stylist &&
-        !stylist.published && (
-          <Button
-            size="large"
-            primary
-            onClick={() => {
-              props.onPublishStylist(true);
-            }}
-          >
-            Publish Stylist Profile
-          </Button>
-        )}
+      {stylist && !stylist.published && (
+        <Button
+          size="large"
+          primary
+          onClick={() => {
+            props.onPublishStylist(true);
+          }}
+        >
+          Publish Stylist Profile
+        </Button>
+      )}
 
       {!_.isEmpty(props.error) && <Message error>{props.error}</Message>}
     </Container>
