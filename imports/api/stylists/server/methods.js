@@ -34,7 +34,10 @@ Meteor.methods({
       `param: ${JSON.stringify(data)}`,
     );
   },
-  'stylists.search': function searchStylists(search) {
+});
+
+Meteor.methods({
+  'stylists.search': function searchStylists(params) {
     if (
       !Roles.userIsInRole(this.userId, [
         Meteor.settings.public.roles.admin,
@@ -43,34 +46,36 @@ Meteor.methods({
     ) {
       throw new Meteor.Error(403, 'unauthorized');
     }
-    check(search, String);
+
+    check(params, Object);
+    const { search, published } = params;
+    if (search) {
+      check(search, String);
+    }
+
+    if (published) {
+      check(published, Boolean);
+    }
 
     try {
-      const userSelector = usersFindSelector('stylist', search);
-      const users = Meteor.users.find(userSelector).fetch();
-      const userIds = users.map(user => user._id);
+      let stylistsSelector = {};
+
+      if (search) {
+        const userSelector = usersFindSelector('stylist', search);
+        const users = Meteor.users.find(userSelector).fetch();
+        const userIds = users.map(user => user._id);
+
+        stylistsSelector = { ...stylistsSelector, owner: { $in: userIds } };
+      }
+
+      stylistsSelector = { ...stylistsSelector, published };
 
       // query Stylists
-      const stylists = Stylists.find(
-        { owner: { $in: userIds }, published: true },
-        {
-          fields: { owner: 1 },
-        },
-      ).fetch();
+      const stylists = Stylists.find(stylistsSelector, {
+        fields: { owner: 1, name: 1, photo: 1 },
+      }).fetch();
 
-      // query Profiles
-      const stylistOwnerIds = stylists.map(stylist => stylist.owner);
-      const profiles = Profiles.find(
-        { owner: { $in: stylistOwnerIds } },
-        {
-          fields: {
-            owner: 1,
-            name: 1,
-          },
-        },
-      ).fetch();
-
-      return profiles;
+      return stylists;
     } catch (exception) {
       log.error(exception);
       throw exception;

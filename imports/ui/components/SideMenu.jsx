@@ -32,6 +32,10 @@ const SideMenu = () => (
         <Menu.Item as={NavLink} to="/stylists/featured">
           Featured
         </Menu.Item>
+
+        <Menu.Item as={NavLink} to="/stylists/published">
+          Published
+        </Menu.Item>
       </Menu.Menu>
     </Menu.Item>
 

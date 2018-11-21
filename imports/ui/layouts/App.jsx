@@ -21,6 +21,7 @@ import Services from './Services/Services';
 import Service from './Services/Service/Service';
 import Suburbs from './Suburbs/Suburbs';
 import FeaturedStylists from './Stylists/Featured/FeaturedStylists';
+import PublishedStylists from './Stylists/Published/PublishedStylists';
 import Cron from './System/Cron';
 
 import Bookings from './Bookings/Bookings/Bookings';
@@ -78,6 +79,12 @@ class App extends Component {
                 exact
                 path="/stylists/featured"
                 component={withSideMenu(FeaturedStylists)}
+              />
+
+              <SecureRoute
+                exact
+                path="/stylists/published"
+                component={withSideMenu(PublishedStylists)}
               />
 
               <SecureRoute exact path="/suburbs" component={withSideMenu(Suburbs)} />
