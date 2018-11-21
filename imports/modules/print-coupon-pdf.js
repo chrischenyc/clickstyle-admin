@@ -3,7 +3,15 @@ import PDF from 'jspdf';
 
 import { dateString } from './format-date';
 
-export default (reusable, discount, minBookingValue, expiry, quantity, generatedCouponCodes) => {
+export default (
+  reusable,
+  maxRedeems,
+  discount,
+  minBookingValue,
+  expiry,
+  quantity,
+  generatedCouponCodes,
+) => {
   let output = `${Meteor.settings.public.appName} Admin - Coupons Generated on ${dateString(
     Date.now(),
   )}\n\n`;
@@ -11,6 +19,10 @@ export default (reusable, discount, minBookingValue, expiry, quantity, generated
   output += `Reusable: ${
     reusable ? 'can be used by more than one users\n' : 'can only be used once\n'
   }`;
+
+  if (reusable) {
+    output += `Max number of redeems: ${maxRedeems || 'unlimited'}\n`;
+  }
 
   output += `Discount: ${discount}\n`;
 

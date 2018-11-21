@@ -19,6 +19,7 @@ const NewCouponsPage = (props) => {
     loading,
     errors,
     reusable,
+    maxRedeems,
     discount,
     minBookingValue,
     expiry,
@@ -33,6 +34,8 @@ const NewCouponsPage = (props) => {
       <h2>Create Coupons</h2>
 
       <Form onSubmit={onSubmit} loading={loading} error={!_.isEmpty(errors)}>
+        {errors.message && <p>{errors.message}</p>}
+
         <Form.Field>
           <Checkbox
             name="reusable"
@@ -54,6 +57,19 @@ const NewCouponsPage = (props) => {
             onChange={onChange}
             errors={errors}
             value={fixedCouponCode}
+          />
+        )}
+
+        {reusable && (
+          <FormInputField
+            label="Max number of redeems"
+            placeholder="0 for unlimited redeems"
+            name="maxRedeems"
+            type="number"
+            min="0"
+            onChange={onChange}
+            errors={errors}
+            value={maxRedeems}
           />
         )}
 
@@ -157,6 +173,7 @@ NewCouponsPage.propTypes = {
   loading: PropTypes.bool.isRequired,
   errors: PropTypes.object.isRequired,
   reusable: PropTypes.bool.isRequired,
+  maxRedeems: PropTypes.string.isRequired,
   discount: PropTypes.string.isRequired,
   minBookingValue: PropTypes.string.isRequired,
   expiry: PropTypes.instanceOf(Date),

@@ -58,7 +58,14 @@ Meteor.methods({
     check(data, Object);
 
     const {
-      discount, minBookingValue, expiry, quantity, print, reusable, fixedCouponCode,
+      discount,
+      minBookingValue,
+      expiry,
+      quantity,
+      print,
+      reusable,
+      fixedCouponCode,
+      maxRedeems,
     } = data;
 
     try {
@@ -66,11 +73,12 @@ Meteor.methods({
 
       if (reusable) {
         if (Coupons.findOne({ code: fixedCouponCode })) {
-          throw Error(`coupon code ${fixedCouponCode} taken`);
+          throw new Meteor.Error({ fixedCouponCode: `coupon code ${fixedCouponCode} taken` });
         }
 
         Coupons.insert({
           reusable,
+          maxRedeems: maxRedeems || null,
           code: fixedCouponCode.toUpperCase(),
           discount,
           minBookingValue,

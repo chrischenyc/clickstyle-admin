@@ -14,6 +14,7 @@ class NewCoupons extends Component {
       loading: false,
       errors: {},
       reusable: false,
+      maxRedeems: '',
       discount: '',
       minBookingValue: '',
       expiry: null,
@@ -45,6 +46,7 @@ class NewCoupons extends Component {
 
     const {
       reusable,
+      maxRedeems,
       discount,
       minBookingValue,
       expiry,
@@ -57,6 +59,7 @@ class NewCoupons extends Component {
       'coupons.create',
       {
         reusable,
+        maxRedeems: parseInt(maxRedeems, 10),
         discount: parseInt(discount, 10),
         minBookingValue: parseInt(minBookingValue, 10),
         expiry,
@@ -66,7 +69,7 @@ class NewCoupons extends Component {
       },
       (error, generatedCouponCodes) => {
         if (error) {
-          this.setState({ errors: error.reason });
+          this.setState({ errors: error.error });
         } else {
           this.setState({ errors: {}, generatedCouponCodes });
         }
@@ -77,6 +80,7 @@ class NewCoupons extends Component {
   handleDownloadCoupons() {
     const {
       reusable,
+      maxRedeems,
       discount,
       minBookingValue,
       expiry,
@@ -86,6 +90,7 @@ class NewCoupons extends Component {
 
     const doc = printCouponPDF(
       reusable,
+      maxRedeems,
       discount,
       minBookingValue,
       expiry,
@@ -141,6 +146,7 @@ class NewCoupons extends Component {
       loading,
       errors,
       reusable,
+      maxRedeems,
       discount,
       minBookingValue,
       expiry,
@@ -159,6 +165,7 @@ class NewCoupons extends Component {
         loading={loading}
         errors={errors}
         reusable={reusable}
+        maxRedeems={maxRedeems}
         discount={discount}
         minBookingValue={minBookingValue}
         expiry={expiry}
