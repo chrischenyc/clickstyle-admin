@@ -104,7 +104,7 @@ const UserPage = (props) => {
           </div>
         )}
 
-        {stylist && (
+        {stylist && stylist.areas && (
           <div>
             <Divider horizontal>Serving Area</Divider>
             <List>
