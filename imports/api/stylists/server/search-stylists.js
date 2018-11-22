@@ -13,7 +13,7 @@ const searchStylistsWithParams = (params) => {
 
   let stylistsSelector = {};
 
-  if (search) {
+  if (search && search.length > 0) {
     const userSelector = usersFindSelector('stylist', search);
     const users = Meteor.users.find(userSelector).fetch();
     const userIds = users.map(user => user._id);

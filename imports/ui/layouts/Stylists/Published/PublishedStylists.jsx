@@ -32,25 +32,36 @@ class PublishedStylists extends Component {
     this.rowComponent = this.rowComponent.bind(this);
   }
 
-  componentDidMount() {
-    this.loadPublishedStylistsCount();
-    this.loadPublishedStylists();
+  loadPublishedStylists(page, limit, search) {
+    Meteor.call(
+      'stylists.search',
+      {
+        published: true,
+        page,
+        limit,
+        search,
+      },
+      (error, stylists) => {
+        if (stylists) {
+          this.setState({ stylists });
+        }
+      },
+    );
   }
 
-  loadPublishedStylists(page, limit) {
-    Meteor.call('stylists.search', { published: true, page, limit }, (error, stylists) => {
-      if (stylists) {
-        this.setState({ stylists });
-      }
-    });
-  }
-
-  loadPublishedStylistsCount() {
-    Meteor.call('stylists.count', { published: true }, (error, total) => {
-      if (total) {
-        this.setState({ total });
-      }
-    });
+  loadPublishedStylistsCount(search) {
+    Meteor.call(
+      'stylists.count',
+      {
+        published: true,
+        search,
+      },
+      (error, total) => {
+        if (total) {
+          this.setState({ total });
+        }
+      },
+    );
   }
 
   handlePublishStylist() {
@@ -63,6 +74,7 @@ class PublishedStylists extends Component {
         } else {
           this.setState({ selectedStylist: null, stylistName: '', matchedStylists: [] });
           this.loadPublishedStylists();
+          this.loadPublishedStylistsCount();
         }
       },
     );
@@ -74,6 +86,7 @@ class PublishedStylists extends Component {
         console.log('error', error);
       } else {
         this.loadPublishedStylists();
+        this.loadPublishedStylistsCount();
       }
     });
   }
@@ -114,7 +127,11 @@ class PublishedStylists extends Component {
         <PaginationTable
           total={total}
           items={stylists}
-          loadItems={this.loadPublishedStylists}
+          onLoadItemsForPage={this.loadPublishedStylists}
+          onReloadItems={(page, limit, search) => {
+            this.loadPublishedStylistsCount(search);
+            this.loadPublishedStylists(page, limit, search);
+          }}
           headerComponent={headerComponent}
           rowComponent={this.rowComponent}
         />

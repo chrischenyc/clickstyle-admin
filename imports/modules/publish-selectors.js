@@ -22,10 +22,14 @@ export const usersFindSelector = (filter, search) => {
   let selector = roleSelector;
   if (!_.isEmpty(search)) {
     const emailSelector = { 'emails.0.address': RegExp(search, 'i') };
+    const registeredEmailSelector = { 'registered_emails.0.address': RegExp(search, 'i') };
     const firstNameSelector = { 'profile.name.first': RegExp(search, 'i') };
     const lastNameSelector = { 'profile.name.last': RegExp(search, 'i') };
 
-    selector = { ...roleSelector, $or: [emailSelector, firstNameSelector, lastNameSelector] };
+    selector = {
+      ...roleSelector,
+      $or: [emailSelector, registeredEmailSelector, firstNameSelector, lastNameSelector],
+    };
   }
 
   return selector;
