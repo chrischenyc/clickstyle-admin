@@ -10,12 +10,11 @@ class PaginationTable extends Component {
 
     this.state = {
       page: 0,
-      limit: 25,
+      limit: 15,
       search: '',
     };
 
     this.reloadItems = this.reloadItems.bind(this);
-    this.loadItemsForPage = this.loadItemsForPage.bind(this);
     this.handlePrev = this.handlePrev.bind(this);
     this.handleNext = this.handleNext.bind(this);
   }
@@ -25,38 +24,32 @@ class PaginationTable extends Component {
   }
 
   handlePrev() {
-    const { page } = this.state;
+    const { page, limit, search } = this.state;
+    const { onLoadItemsForPage } = this.props;
 
     if (page > 0) {
       this.setState({ page: page - 1 });
-      this.loadItemsForPage();
+      onLoadItemsForPage(page - 1, limit, search);
     }
   }
 
   handleNext() {
-    const { page, limit } = this.state;
-    const { total } = this.props;
+    const { page, limit, search } = this.state;
+    const { total, onLoadItemsForPage } = this.props;
 
     if ((page + 1) * limit < total) {
       this.setState({ page: page + 1 });
-      this.loadItemsForPage();
+      onLoadItemsForPage(page + 1, limit, search);
     }
   }
 
   reloadItems() {
-    const { page, limit, search } = this.state;
+    const { limit, search } = this.state;
     const { onReloadItems } = this.props;
 
     this.setState({ page: 0 });
 
-    onReloadItems(page, limit, search);
-  }
-
-  loadItemsForPage() {
-    const { page, limit, search } = this.state;
-    const { onLoadItemsForPage } = this.props;
-
-    onLoadItemsForPage(page, limit, search);
+    onReloadItems(0, limit, search);
   }
 
   render() {
