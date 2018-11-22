@@ -25,10 +25,10 @@ const searchStylistsWithParams = (params) => {
 
   const stylists = Stylists.find(
     stylistsSelector,
+    { skip: page * limit, limit },
     {
       fields: { owner: 1, name: 1, photo: 1 },
     },
-    { skip: page * limit, limit },
   ).fetch();
 
   return stylists;
