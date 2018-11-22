@@ -1,81 +1,55 @@
 import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
-import _ from 'lodash';
+import { Link } from 'react-router-dom';
 
-import { Container, Header } from 'semantic-ui-react';
-import PublishedStylistsPage from './PublishedStylistsPage';
-import Pagination from '../../../components/Pagination';
+import {
+  Container, Header, Table, Button, Image,
+} from 'semantic-ui-react';
+import PaginationTable from '../../../components/PaginationTable';
+import scaledImageURL from '../../../../modules/scaled-image-url';
+
+const headerComponent = () => (
+  <Table.Row>
+    <Table.HeaderCell>Name</Table.HeaderCell>
+    <Table.HeaderCell>Photo</Table.HeaderCell>
+    <Table.HeaderCell>UnPublish</Table.HeaderCell>
+  </Table.Row>
+);
 
 class PublishedStylists extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      error: '',
+      total: 0,
       stylists: [],
-      searchingStylists: false,
-      matchedStylists: [],
-      selectedStylist: null,
-      stylistName: '',
-      search: '',
-      page: 0,
-      limit: 25,
-      hasMore: false,
     };
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSelectStylist = this.handleSelectStylist.bind(this);
+    this.loadPublishedStylists = this.loadPublishedStylists.bind(this);
+    this.loadPublishedStylistsCount = this.loadPublishedStylistsCount.bind(this);
     this.handlePublishStylist = this.handlePublishStylist.bind(this);
     this.handleUnPublishStylist = this.handleUnPublishStylist.bind(this);
+    this.rowComponent = this.rowComponent.bind(this);
   }
 
   componentDidMount() {
+    this.loadPublishedStylistsCount();
     this.loadPublishedStylists();
   }
 
-  loadPublishedStylists() {
-    Meteor.call('stylists.search', { published: true }, (error, stylists) => {
+  loadPublishedStylists(page, limit) {
+    Meteor.call('stylists.search', { published: true, page, limit }, (error, stylists) => {
       if (stylists) {
         this.setState({ stylists });
       }
     });
   }
 
-  handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
-
-    if (event.target.name === 'stylistName') {
-      // once user starts changing the search keyword
-      // we empty current selected stylist object
-      this.setState({ selectedStylist: null });
-
-      if (_.isEmpty(event.target.value)) {
-        this.setState({ searchingStylists: false, matchedStylists: [] });
-      } else if (event.target.value.length >= 2) {
-        this.setState({ searchingStylists: true });
-        Meteor.call(
-          'stylists.search',
-          { search: event.target.value, published: false },
-          (error, stylists) => {
-            this.setState({ searchingStylists: false });
-            if (!error) {
-              this.setState({
-                matchedStylists: stylists.map(stylist => ({
-                  ...stylist,
-                  title: `${stylist.name.first} ${stylist.name.last}`,
-                })),
-              });
-            }
-          },
-        );
+  loadPublishedStylistsCount() {
+    Meteor.call('stylists.count', { published: true }, (error, total) => {
+      if (total) {
+        this.setState({ total });
       }
-    }
-  }
-
-  handleSelectStylist(selectedStylist) {
-    this.setState({
-      selectedStylist,
-      stylistName: `${selectedStylist.name.first} ${selectedStylist.name.last}`,
     });
   }
 
@@ -104,31 +78,45 @@ class PublishedStylists extends Component {
     });
   }
 
+  rowComponent(stylist) {
+    return (
+      <Table.Row key={stylist.owner}>
+        <Table.Cell>
+          <Link to={`/users/${stylist.owner}`}>{`${stylist.name.first} ${stylist.name.last}`}</Link>
+        </Table.Cell>
+
+        <Table.Cell>
+          {stylist.photo && <Image src={scaledImageURL(stylist.photo, 'small')} size="tiny" />}
+          {!stylist.photo && 'no photo'}
+        </Table.Cell>
+
+        <Table.Cell>
+          <Button
+            negative
+            onClick={() => {
+              this.handleUnPublishStylist(stylist.owner);
+            }}
+          >
+            UnPublish
+          </Button>
+        </Table.Cell>
+      </Table.Row>
+    );
+  }
+
   render() {
-    const { stylists, page, hasMore } = this.state;
+    const { stylists, total } = this.state;
 
     return (
       <Container>
         <Header as="h2">Stylists published</Header>
 
-        <PublishedStylistsPage
-          stylists={stylists}
-          onUnPublishStylist={this.handleUnPublishStylist}
-        />
-
-        <Pagination
-          page={page}
-          onPrev={() => {
-            this.setState({
-              page: Math.max(page - 1, 0),
-            });
-          }}
-          onNext={() => {
-            this.setState({
-              page: hasMore ? page + 1 : page,
-            });
-          }}
-          hasMore={hasMore}
+        <PaginationTable
+          total={total}
+          items={stylists}
+          loadItems={this.loadPublishedStylists}
+          headerComponent={headerComponent}
+          rowComponent={this.rowComponent}
         />
       </Container>
     );
