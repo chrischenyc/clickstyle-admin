@@ -2,49 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
-  Container, Header, Table, Button, Message, Image, Search,
+  Container, Table, Button, Image,
 } from 'semantic-ui-react';
-import _ from 'lodash';
 
 import scaledImageURL from '../../../../modules/scaled-image-url';
 
-const PublishedStylistsPage = ({
-  error,
-  stylists,
-  searchingStylists,
-  onSelectStylist,
-  onChange,
-  matchedStylists,
-  stylistName,
-  selectedStylist,
-  onPublishStylist,
-  onUnPublishStylist,
-}) => (
+const PublishedStylistsPage = ({ stylists, onUnPublishStylist }) => (
   <Container>
-    <Header as="h2">Stylists published</Header>
-
-    {!_.isEmpty(error) && <Message error content={error} compact />}
-
-    <Search
-      name="stylistName"
-      placeholder="stylist name, email"
-      style={{ display: 'inline', marginRight: '1rem' }}
-      loading={searchingStylists}
-      onResultSelect={(e, { result }) => {
-        onSelectStylist(result);
-      }}
-      onSearchChange={(e, data) => {
-        onChange({ target: data });
-      }}
-      results={matchedStylists}
-      showNoResults={false}
-      value={stylistName}
-    />
-
-    <Button primary disabled={!selectedStylist} onClick={onPublishStylist}>
-      Publish to public
-    </Button>
-
     <Table celled>
       <Table.Header>
         <Table.Row>
@@ -85,20 +49,8 @@ const PublishedStylistsPage = ({
   </Container>
 );
 
-PublishedStylistsPage.defaultProps = {
-  selectedStylist: null,
-};
-
 PublishedStylistsPage.propTypes = {
-  error: PropTypes.string.isRequired,
   stylists: PropTypes.array.isRequired,
-  searchingStylists: PropTypes.bool.isRequired,
-  onSelectStylist: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  matchedStylists: PropTypes.array.isRequired,
-  stylistName: PropTypes.string.isRequired,
-  selectedStylist: PropTypes.object,
-  onPublishStylist: PropTypes.func.isRequired,
   onUnPublishStylist: PropTypes.func.isRequired,
 };
 

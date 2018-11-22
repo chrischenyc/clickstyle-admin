@@ -2,7 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
 import _ from 'lodash';
 
+import { Container, Header } from 'semantic-ui-react';
 import PublishedStylistsPage from './PublishedStylistsPage';
+import Pagination from '../../../components/Pagination';
 
 class PublishedStylists extends Component {
   constructor(props) {
@@ -15,6 +17,10 @@ class PublishedStylists extends Component {
       matchedStylists: [],
       selectedStylist: null,
       stylistName: '',
+      search: '',
+      page: 0,
+      limit: 25,
+      hasMore: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -99,19 +105,32 @@ class PublishedStylists extends Component {
   }
 
   render() {
+    const { stylists, page, hasMore } = this.state;
+
     return (
-      <PublishedStylistsPage
-        stylists={this.state.stylists}
-        error={this.state.error}
-        searchingStylists={this.state.searchingStylists}
-        onSelectStylist={this.handleSelectStylist}
-        onChange={this.handleChange}
-        matchedStylists={this.state.matchedStylists}
-        stylistName={this.state.stylistName}
-        selectedStylist={this.state.selectedStylist}
-        onPublishStylist={this.handlePublishStylist}
-        onUnPublishStylist={this.handleUnPublishStylist}
-      />
+      <Container>
+        <Header as="h2">Stylists published</Header>
+
+        <PublishedStylistsPage
+          stylists={stylists}
+          onUnPublishStylist={this.handleUnPublishStylist}
+        />
+
+        <Pagination
+          page={page}
+          onPrev={() => {
+            this.setState({
+              page: Math.max(page - 1, 0),
+            });
+          }}
+          onNext={() => {
+            this.setState({
+              page: hasMore ? page + 1 : page,
+            });
+          }}
+          hasMore={hasMore}
+        />
+      </Container>
     );
   }
 }
