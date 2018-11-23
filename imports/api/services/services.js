@@ -46,6 +46,7 @@ const ServicesSchema = new SimpleSchema({
     optional: true,
   },
   duration: SimpleSchema.Integer,
+  minPrice: Number,
 });
 
 Services.attachSchema(ServicesSchema);

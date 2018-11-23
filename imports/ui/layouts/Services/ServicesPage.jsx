@@ -32,10 +32,11 @@ const ServicesPage = ({
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>Name</Table.HeaderCell>
-          <Table.HeaderCell>Front page display</Table.HeaderCell>
-          <Table.HeaderCell>Front page display order</Table.HeaderCell>
+          <Table.HeaderCell>Display on front page</Table.HeaderCell>
+          <Table.HeaderCell>Display order</Table.HeaderCell>
           <Table.HeaderCell>Photo</Table.HeaderCell>
-          <Table.HeaderCell>Duration (mins.)</Table.HeaderCell>
+          <Table.HeaderCell>Default Duration (mins)</Table.HeaderCell>
+          <Table.HeaderCell>Min. Price</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
 
@@ -84,6 +85,16 @@ const ServicesPage = ({
                 <NumberField
                   name="duration"
                   value={service.duration}
+                  onChange={(event) => {
+                    onServiceChange(service, event);
+                  }}
+                />
+              </Table.Cell>
+
+              <Table.Cell>
+                <NumberField
+                  name="minPrice"
+                  value={service.minPrice}
                   onChange={(event) => {
                     onServiceChange(service, event);
                   }}

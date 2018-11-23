@@ -22,9 +22,7 @@ Meteor.methods({
 
     try {
       services.forEach((service) => {
-        const { display, displayOrder, duration } = service;
-
-        Services.update({ _id: service._id }, { $set: { display, displayOrder, duration } });
+        Services.update({ _id: service._id }, { $set: { ...service } });
       });
 
       log.info(
