@@ -56,7 +56,10 @@ const CouponsSchema = new SimpleSchema({
     type: Number,
     optional: true,
   },
-  code: String, // coupon code
+  code: {
+    type: String,
+    unique: true,
+  },
   discount: Number, // discount value
   minBookingValue: Number, // min purchase value,
   createdBy: String, // Users._id,
