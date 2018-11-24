@@ -98,7 +98,15 @@ const UserPage = (props) => {
 
             <List>
               {stylist.services.map(service => (
-                <List.Item key={service._id}>{service.name}</List.Item>
+                <List.Item key={service._id}>
+                  {service.name}
+                  <List>
+                    <List.Item>
+                      {`Basic service: ${service.basePrice}`}
+                    </List.Item>
+                    {service.addons.map(addon => (<List.Item key={addon._id}>{`${addon.name}: ${addon.price}`}</List.Item>))}
+                  </List>
+                </List.Item>
               ))}
             </List>
           </div>
@@ -128,6 +136,18 @@ const UserPage = (props) => {
                   {`${openHour.day}: ${openHour.openAt} - ${openHour.closeAt}`}
                 </List.Item>
               ))}
+            </List>
+          </div>
+        )}
+
+        {stylist && stylist.bankInfo && (
+          <div>
+            <Divider horizontal>Stylist Bank Account</Divider>
+
+            <List>
+              <List.Item>Name: {stylist.bankInfo.accountName}</List.Item>
+              <List.Item>BSB: {stylist.bankInfo.bsb}</List.Item>
+              <List.Item>Account Number: {stylist.bankInfo.accountNumber}</List.Item>
             </List>
           </div>
         )}
