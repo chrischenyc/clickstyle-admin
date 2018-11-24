@@ -69,11 +69,11 @@ FormInputField.propTypes = {
 export const NumberField = ({ onChange, ...rest }) => (
   <Input
     type="number"
-    min="1"
+    min="0"
     onChange={onChange}
     onBlur={(event) => {
-      const price = parseInt(event.target.value);
-      if (price <= 0) {
+      const price = parseInt(event.target.value, 10);
+      if (price < 0) {
         onChange({ target: { name: event.target.name, value: '' } });
       }
     }}
