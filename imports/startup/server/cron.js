@@ -9,7 +9,7 @@ SyncedCron.config({
 SyncedCron.add({
   name: 'Refresh all suburbs .published field',
   schedule(parser) {
-    return parser.text('every 4 hours');
+    return parser.text('every hour');
   },
   job() {
     Meteor.call('suburbs.refresh.published', {}, (error) => {
