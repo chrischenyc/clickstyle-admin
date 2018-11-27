@@ -200,6 +200,10 @@ const StylistsSchema = new SimpleSchema({
 
   isMobile: Boolean,
   isOnSite: Boolean,
+  isGST: {
+    type: Boolean,
+    defaultValue: false,
+  },
 
   // ------------------------------
   // denormalised data from Profiles
