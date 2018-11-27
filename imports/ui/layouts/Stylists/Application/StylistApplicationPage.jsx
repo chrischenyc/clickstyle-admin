@@ -41,6 +41,7 @@ const StylistApplicationPage = (props) => {
     experienceYears,
     isMobile,
     isOnSite,
+    isGST,
   } = props.application;
 
   return (
@@ -102,6 +103,7 @@ const StylistApplicationPage = (props) => {
         </List>
         {isMobile && <Label>Can travel to clients</Label>}
         {isOnSite && <Label>Clients travel to stylist</Label>}
+        {isGST && <Label>Registered for GST</Label>}
       </Segment>
 
       {approved ? (
@@ -110,7 +112,8 @@ const StylistApplicationPage = (props) => {
             Application was approved by admin user (
             <Link to={`/users/${approvedBy}`}>{approvedBy}</Link>
             )&nbsp;on&nbsp;
-            {dateTimeString(approvedAt)}.
+            {dateTimeString(approvedAt)}
+.
           </p>
         </Message>
       ) : (

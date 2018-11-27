@@ -21,7 +21,7 @@ class StylistApplication extends Component {
     this.setState({ loading: true });
 
     Meteor.call(
-      'stylist.application.approve',
+      'approve.stylist.application',
       { applicationId: this.props.application._id, userId: this.props.application.userId },
       (error) => {
         this.setState({ loading: false });
