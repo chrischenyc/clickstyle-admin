@@ -41,6 +41,8 @@ export default function stylistApplicationApprove(data) {
           const {
             services,
             qualificationUrl,
+            policeCheckUrl,
+            workingWithChildrenUrl,
             referenceUrl,
             mobile,
             address,
@@ -116,6 +118,8 @@ export default function stylistApplicationApprove(data) {
           Stylists.insert({
             services: updatedServices,
             qualificationUrl,
+            policeCheckUrl,
+            workingWithChildrenUrl,
             referenceUrl,
             owner: userId,
             openHours,
