@@ -34,6 +34,8 @@ const StylistApplicationPage = (props) => {
     services,
     referenceUrl,
     qualificationUrl,
+    policeCheckUrl,
+    workingWithChildrenUrl,
     approved,
     approvedAt,
     approvedBy,
@@ -81,6 +83,26 @@ const StylistApplicationPage = (props) => {
           <div>
             Qualification:&nbsp;
             <a href={qualificationUrl} target="_blank">
+              <Icon name="file outline" />
+              &nbsp;open
+            </a>
+          </div>
+        )}
+
+        {policeCheckUrl && (
+          <div>
+            Police Check:&nbsp;
+            <a href={policeCheckUrl} target="_blank">
+              <Icon name="file outline" />
+              &nbsp;open
+            </a>
+          </div>
+        )}
+
+        {workingWithChildrenUrl && (
+          <div>
+            Working with Children:&nbsp;
+            <a href={workingWithChildrenUrl} target="_blank">
               <Icon name="file outline" />
               &nbsp;open
             </a>
