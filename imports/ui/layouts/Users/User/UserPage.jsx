@@ -104,7 +104,7 @@ const UserPage = (props) => {
                     <List.Item>
                       {`Basic service: ${service.basePrice}`}
                     </List.Item>
-                    {service.addons.map(addon => (<List.Item key={addon._id}>{`${addon.name}: ${addon.price}`}</List.Item>))}
+                    {service.addons && service.addons.map(addon => (<List.Item key={addon._id}>{`${addon.name}: ${addon.price}`}</List.Item>))}
                   </List>
                 </List.Item>
               ))}
