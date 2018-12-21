@@ -68,6 +68,14 @@ const StylistApplicationsSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
+  policeCheckUrl: {
+    type: String,
+    optional: true,
+  },
+  workingWithChildrenUrl: {
+    type: String,
+    optional: true,
+  },
   referenceUrl: {
     type: String,
     optional: true,
