@@ -137,6 +137,13 @@ const StylistApplicationPage = (props) => {
             {dateTimeString(approvedAt)}
 .
           </p>
+          <p>
+            View
+            {' '}
+            <Link to={`/users/${userId}`}>this stylist</Link>
+            {' '}
+for further approval process
+          </p>
         </Message>
       ) : (
         <Button

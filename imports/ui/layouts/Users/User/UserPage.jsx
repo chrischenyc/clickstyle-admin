@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
   Container,
   Grid,
@@ -12,6 +12,7 @@ import {
   Button,
   Divider,
   Label,
+  Icon
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
@@ -92,8 +93,45 @@ const UserPage = (props) => {
           </div>
         )}
 
+
+        <Divider horizontal>Documents</Divider>
+
+        <List>
+          {stylist.qualificationUrl && (
+          <List.Item>
+            Qualification:&nbsp;
+            <a href={stylist.qualificationUrl} target="_blank">
+              <Icon name="file outline" />
+              &nbsp;open
+            </a>
+          </List.Item>)}
+        </List>
+
+        <List>
+          {stylist.policeCheckUrl && (
+          <List.Item>
+            Police Check:&nbsp;
+            <a href={stylist.policeCheckUrl} target="_blank">
+              <Icon name="file outline" />
+              &nbsp;open
+            </a>
+          </List.Item>)}
+        </List>
+
+        <List>
+          {stylist.workingWithChildrenUrl && (
+          <List.Item>
+            Working with Children:&nbsp;
+            <a href={stylist.workingWithChildrenUrl} target="_blank">
+              <Icon name="file outline" />
+              &nbsp;open
+            </a>
+          </List.Item>)}
+        </List>
+
+
         {stylist && stylist.services && (
-          <div>
+          <Fragment>
             <Divider horizontal>Stylist Services</Divider>
 
             <List>
@@ -109,11 +147,11 @@ const UserPage = (props) => {
                 </List.Item>
               ))}
             </List>
-          </div>
+          </Fragment>
         )}
 
         {stylist && stylist.areas && (
-          <div>
+          <Fragment>
             <Divider horizontal>Serving Area</Divider>
             <List>
               <List.Item>{`Suburb: ${stylist.areas.suburb.postcode} - ${stylist.areas.suburb.name}`}</List.Item>
@@ -123,11 +161,11 @@ const UserPage = (props) => {
                 <List.Item key={suburb._id}>{`${suburb.postcode} - ${suburb.name}`}</List.Item>
               ))}
             </List>
-          </div>
+          </Fragment>
         )}
 
         {stylist && stylist.openHours && (
-          <div>
+          <Fragment>
             <Divider horizontal>Stylist Open Hours</Divider>
 
             <List>
@@ -137,11 +175,11 @@ const UserPage = (props) => {
                 </List.Item>
               ))}
             </List>
-          </div>
+          </Fragment>
         )}
 
         {stylist && stylist.bankInfo && (
-          <div>
+          <Fragment>
             <Divider horizontal>Stylist Bank Account</Divider>
 
             <List>
@@ -149,7 +187,7 @@ const UserPage = (props) => {
               <List.Item>BSB: {stylist.bankInfo.bsb}</List.Item>
               <List.Item>Account Number: {stylist.bankInfo.accountNumber}</List.Item>
             </List>
-          </div>
+          </Fragment>
         )}
       </Segment>
 
