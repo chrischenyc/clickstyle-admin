@@ -7,6 +7,7 @@ import { searchStylists, countStylists } from './search-stylists';
 import refreshStylistTimeSlots from './refresh-stylist-time-slots';
 import reportStylistServices from './report-stylist-services';
 import reportStylistSuburbs from './report-stylist-suburbs';
+import verifyStylistDocument from './verify-stylist-document';
 
 Meteor.methods({
   'stylists.search': searchStylists,
@@ -15,6 +16,7 @@ Meteor.methods({
   'stylist.occupiedTimeSlots.refresh': refreshStylistTimeSlots,
   'report.stylist.services': reportStylistServices,
   'report.geo': reportStylistSuburbs,
+  'stylist.verify.document': verifyStylistDocument,
 });
 
 rateLimit({
@@ -25,6 +27,7 @@ rateLimit({
     'stylist.occupiedTimeSlots.refresh',
     'report.stylist.services',
     'report.geo',
+    'stylist.verify.document',
   ],
   limit: 5,
   timeRange: 1000,

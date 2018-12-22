@@ -107,10 +107,9 @@ const UserPage = (props) => {
             &nbsp;
             <Checkbox
               label="Verified, show on public profile"
-              checked={false}
+              checked={stylist.qualificationVerified}
               onChange={(event, data) => {
-                // data.checked
-                // TODO: update record
+                props.onVerifyDocument('qualification', data.checked);
               }}
             />
           </List.Item>)}
@@ -123,6 +122,14 @@ const UserPage = (props) => {
             <a href={stylist.policeCheckUrl} target="_blank">
               <Icon name="file outline" />
             </a>
+            &nbsp;
+            <Checkbox
+              label="Verified, show on public profile"
+              checked={stylist.policeCheckVerified}
+              onChange={(event, data) => {
+                props.onVerifyDocument('policeCheck', data.checked);
+              }}
+            />
           </List.Item>)}
         </List>
 
@@ -133,6 +140,14 @@ const UserPage = (props) => {
             <a href={stylist.workingWithChildrenUrl} target="_blank">
               <Icon name="file outline" />
             </a>
+            &nbsp;
+            <Checkbox
+              label="Verified, show on public profile"
+              checked={stylist.workingWithChildrenVerified}
+              onChange={(event, data) => {
+                props.onVerifyDocument('workingWithChildren', data.checked);
+              }}
+            />
           </List.Item>)}
         </List>
 
@@ -275,6 +290,7 @@ UserPage.propTypes = {
   stylist: PropTypes.object,
   onGrantAdmin: PropTypes.func.isRequired,
   onPublishStylist: PropTypes.func.isRequired,
+  onVerifyDocument: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   error: PropTypes.string.isRequired,
 };

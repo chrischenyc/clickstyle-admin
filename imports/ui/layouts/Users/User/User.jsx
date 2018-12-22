@@ -14,6 +14,7 @@ class User extends Component {
 
     this.handleGrantAdmin = this.handleGrantAdmin.bind(this);
     this.handlePublishStylist = this.handlePublishStylist.bind(this);
+    this.handleVerifyDocument = this.handleVerifyDocument.bind(this);
   }
 
   componentDidMount() {
@@ -60,6 +61,24 @@ class User extends Component {
     });
   }
 
+  handleVerifyDocument(document, verified) {
+    this.setState({ loading: true });
+
+    Meteor.call(
+      'stylist.verify.document',
+      { userId: this.state.user._id, document, verified },
+      (error) => {
+        this.setState({ loading: false });
+
+        if (error) {
+          this.setState({ error: error.message });
+        }
+
+        this.loadUser();
+      },
+    );
+  }
+
   render() {
     const { user, loading, error } = this.state;
 
@@ -70,6 +89,7 @@ class User extends Component {
         stylist={user.stylist}
         onGrantAdmin={this.handleGrantAdmin}
         onPublishStylist={this.handlePublishStylist}
+        onVerifyDocument={this.handleVerifyDocument}
         loading={loading}
         error={error}
       />
