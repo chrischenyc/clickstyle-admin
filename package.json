@@ -16,10 +16,10 @@
     "debug": "MONGO_URL=mongodb://localhost:27017/clickstyle meteor run --inspect -s settings-development.json --port 4000",
     "start": "meteor run",
     "cloc": "cloc imports client server private --exclude-ext=json",
-    "predeploy-staging": "heroku config:add METEOR_SETTINGS=\"$(cat settings-staging.json)\" --remote heroku-staging",
-    "deploy-staging": "git push heroku-staging develop:master",
-    "predeploy-product": "heroku config:add METEOR_SETTINGS=\"$(cat settings-product.json)\" --remote heroku-product",
-    "deploy-product": "git push heroku-product develop:master"
+    "predeploy:staging": "heroku config:add METEOR_SETTINGS=\"$(cat settings-staging.json)\" --remote heroku-staging",
+    "deploy:staging": "git push heroku-staging develop:master",
+    "predeploy:product": "heroku config:add METEOR_SETTINGS=\"$(cat settings-product.json)\" --remote heroku-product",
+    "deploy:product": "git push heroku-product develop:master"
   },
   "dependencies": {
     "@babel/runtime": "^7.1.5",
