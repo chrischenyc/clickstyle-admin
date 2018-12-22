@@ -157,14 +157,29 @@ const StylistsSchema = new SimpleSchema({
     optional: true,
   },
 
+  qualificationVerified: {
+    type: Boolean,
+    defaultValue: false,
+  },
+
   policeCheckUrl: {
     type: String,
     optional: true,
   },
 
+  policeCheckVerified: {
+    type: Boolean,
+    defaultValue: false,
+  },
+
   workingWithChildrenUrl: {
     type: String,
     optional: true,
+  },
+
+  workingWithChildrenVerified: {
+    type: Boolean,
+    defaultValue: false,
   },
 
   referenceUrl: {

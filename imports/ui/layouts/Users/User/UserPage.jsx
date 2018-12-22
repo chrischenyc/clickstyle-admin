@@ -12,7 +12,8 @@ import {
   Button,
   Divider,
   Label,
-  Icon
+  Icon,
+  Checkbox,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
@@ -102,8 +103,16 @@ const UserPage = (props) => {
             Qualification:&nbsp;
             <a href={stylist.qualificationUrl} target="_blank">
               <Icon name="file outline" />
-              &nbsp;open
             </a>
+            &nbsp;
+            <Checkbox
+              label="Verified, show on public profile"
+              checked={false}
+              onChange={(event, data) => {
+                // data.checked
+                // TODO: update record
+              }}
+            />
           </List.Item>)}
         </List>
 
@@ -113,7 +122,6 @@ const UserPage = (props) => {
             Police Check:&nbsp;
             <a href={stylist.policeCheckUrl} target="_blank">
               <Icon name="file outline" />
-              &nbsp;open
             </a>
           </List.Item>)}
         </List>
@@ -124,7 +132,6 @@ const UserPage = (props) => {
             Working with Children:&nbsp;
             <a href={stylist.workingWithChildrenUrl} target="_blank">
               <Icon name="file outline" />
-              &nbsp;open
             </a>
           </List.Item>)}
         </List>

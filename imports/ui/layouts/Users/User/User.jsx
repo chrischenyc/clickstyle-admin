@@ -41,6 +41,8 @@ class User extends Component {
       if (error) {
         this.setState({ error: error.message });
       }
+
+      this.loadUser();
     });
   }
 
@@ -53,6 +55,8 @@ class User extends Component {
       if (error) {
         this.setState({ error: error.message });
       }
+
+      this.loadUser();
     });
   }
 
