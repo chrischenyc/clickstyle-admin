@@ -1,11 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { Email } from 'meteor/email';
 import log from 'winston';
+import fs from 'fs';
+import path from 'path';
 
 import getPrivateFile from './get-private-file';
 import templateToText from './handlebars-email-to-text';
 import templateToHTML from './handlebars-email-to-html';
-import { dateTimeString, dateString } from '../../modules/server/format-date';
+import { dateTimeString, dateString } from './format-date';
 import Profiles from '../../api/profiles/profiles';
 
 // core function to send email
@@ -31,6 +33,7 @@ const sendEmail = ({
               )
               : html,
           });
+
           resolve();
         });
       } catch (exception) {
@@ -38,7 +41,9 @@ const sendEmail = ({
       }
     });
   }
-  throw new Error("Please pass an HTML string, text, or template name to compile for your message's body.");
+  throw new Error(
+    "Please pass an HTML string, text, or template name to compile for your message's body.",
+  );
 };
 
 // retrieve constants from Meteor settings files
@@ -274,22 +279,34 @@ export const sendCustomerReviewBookingReminder = ({
   });
 };
 
-export const sendAdminCouponGeneratedEmail = (userId, fileName, filePath) => {
-  const { email } = Profiles.findOne({ owner: userId });
+export const sendAdminEmailStylistsDailyReport = (filePath) => {
+  const adminUsers = Meteor.users
+    .find({ roles: Meteor.settings.public.roles.admin }, { fields: { emails: 1 } })
+    .fetch();
 
-  sendEmail({
-    to: email,
-    from: fromAddress,
-    subject: 'Coupon generated',
-    template: 'admin-adminAccessGranted',
-    templateConstants,
-    attachments: [
-      {
-        fileName,
-        filePath,
-      },
-    ],
-  }).catch((error) => {
-    throw new Meteor.Error('500', `${error}`);
-  });
+  const emails = adminUsers
+    .filter(adminUser => adminUser.emails && adminUser.emails.length > 0)
+    .map(adminUser => adminUser.emails[0]);
+
+  // emails.push('chrischen79@gmail.com');
+
+  try {
+    emails.forEach((email) => {
+      sendEmail({
+        to: email,
+        from: fromAddress,
+        subject: 'Clickstyle stylists sign up in last 30 days',
+        template: 'admin-report-stylists-daily',
+        templateConstants,
+        attachments: [
+          {
+            filename: path.parse(filePath).base,
+            path: filePath,
+          },
+        ],
+      });
+    });
+  } catch (error) {
+    log.error(error);
+  }
 };
