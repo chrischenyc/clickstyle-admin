@@ -3,7 +3,7 @@ import { Email } from 'meteor/email';
 import log from 'winston';
 import path from 'path';
 
-import getPrivateFile from './get-private-file';
+import { getPrivateFile } from './private-file';
 import templateToText from './handlebars-email-to-text';
 import templateToHTML from './handlebars-email-to-html';
 import { dateTimeString, dateString } from './format-date';

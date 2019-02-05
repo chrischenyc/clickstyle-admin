@@ -11,7 +11,7 @@ import Stylists from '../stylists';
 import Profiles from '../../profiles/profiles';
 import { timestampString } from '../../../modules/format-date';
 import { sendAdminEmailStylistsDailyReport } from '../../../modules/server/send-email';
-import getPrivateFile from '../../../modules/server/get-private-file';
+import { privateFilePath } from '../../../modules/server/private-file';
 
 export default function stylistSignUps() {
   if (
@@ -94,15 +94,8 @@ export default function stylistSignUps() {
       output.push(row.join());
     });
 
-    const tempDir = getPrivateFile('tmp/');
-
-    if (!fs.existsSync(tempDir)) {
-      fs.mkdirSync(tempDir);
-    }
-
-    const filePath = path.join(
-      tempDir,
-      `clickstyle_stylists_last_30days_${timestampString(new Date())}.csv`,
+    const filePath = privateFilePath(
+      `tmp/clickstyle_stylists_last_30days_${timestampString(new Date())}.csv`,
     );
 
     fs.writeFileSync(filePath, output.join(os.EOL));
