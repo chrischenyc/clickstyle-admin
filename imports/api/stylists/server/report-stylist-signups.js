@@ -9,7 +9,7 @@ import os from 'os';
 
 import Stylists from '../stylists';
 import Profiles from '../../profiles/profiles';
-import { timestampString } from '../../../modules/format-date';
+import { timestampString, dateString } from '../../../modules/format-date';
 import { sendAdminEmailStylistsDailyReport } from '../../../modules/server/send-email';
 import { privateFilePath } from '../../../modules/server/private-file';
 
@@ -30,7 +30,7 @@ export default function stylistSignUps() {
       {
         createdAt: {
           $gte: moment()
-            .subtract(3, 'month')
+            .subtract(1, 'month')
             .toDate(),
         },
       },
@@ -62,6 +62,7 @@ export default function stylistSignUps() {
 
     // header
     const header = [];
+    header.push('sign up date');
     header.push('name');
     header.push('email');
     header.push('mobile');
@@ -78,6 +79,7 @@ export default function stylistSignUps() {
 
     stylists.forEach((stylist) => {
       const row = [];
+      row.push(dateString(stylist.createdAt));
       row.push(`${stylist.name.first} ${stylist.name.last}`);
       row.push(stylist.email);
       row.push(stylist.mobile);
