@@ -95,7 +95,7 @@ export default function stylistSignUps() {
     });
 
     const filePath = privateFilePath(
-      `tmp/clickstyle_stylists_last_30days_${timestampString(new Date())}.csv`,
+      `clickstyle_stylists_last_30days_${timestampString(new Date())}.csv`,
     );
 
     fs.writeFileSync(filePath, output.join(os.EOL));
