@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Email } from 'meteor/email';
 import log from 'winston';
-import fs from 'fs';
 import path from 'path';
 
 import getPrivateFile from './get-private-file';
@@ -295,7 +294,7 @@ export const sendAdminEmailStylistsDailyReport = (filePath) => {
       sendEmail({
         to: email,
         from: fromAddress,
-        subject: 'Clickstyle stylists sign up in last 30 days',
+        subject: `Clickstyle stylists sign up in last 30 days - ${dateString(new Date())}`,
         template: 'admin-report-stylists-daily',
         templateConstants,
         attachments: [
