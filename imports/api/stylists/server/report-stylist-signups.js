@@ -11,6 +11,7 @@ import Stylists from '../stylists';
 import Profiles from '../../profiles/profiles';
 import { timestampString } from '../../../modules/format-date';
 import { sendAdminEmailStylistsDailyReport } from '../../../modules/server/send-email';
+import getPrivateFile from '../../../modules/server/get-private-file';
 
 export default function stylistSignUps() {
   if (
@@ -93,7 +94,7 @@ export default function stylistSignUps() {
       output.push(row.join());
     });
 
-    const tempDir = `${fs.realpathSync('tmp')}`;
+    const tempDir = getPrivateFile('tmp/');
 
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir);

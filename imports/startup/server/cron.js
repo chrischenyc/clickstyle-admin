@@ -93,7 +93,7 @@ SyncedCron.add({
 SyncedCron.add({
   name: 'Send stylists signup daily report',
   schedule(parser) {
-    return parser.text('at 3:20pm everyday');
+    return parser.text('at 4:00pm everyday');
   },
   job() {
     Meteor.call('report.stylist.signUps', (error) => {
