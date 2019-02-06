@@ -243,6 +243,9 @@ const StylistsSchema = new SimpleSchema({
     type: AddressSchema,
     optional: true,
   },
+
+  // full text search filed, contents aggregated from .name, .services, Profiles.about
+  keywords: { type: String, index: 'text' },
 });
 
 Stylists.attachSchema(StylistsSchema);
