@@ -287,7 +287,8 @@ export const sendAdminEmailStylistsDailyReport = (filePath) => {
     .filter(adminUser => adminUser.emails && adminUser.emails.length > 0)
     .map(adminUser => adminUser.emails[0]);
 
-  // emails.push('chrischen79@gmail.com');
+  emails.push('vishal@clickstyle.com.au');
+  emails.push('consultant@clickstyle.com.au');
 
   try {
     emails.forEach((email) => {
