@@ -1,358 +1,523 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-
-<head>
-  <meta name="viewport" content="width=device-width" />
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>Welcome! | {{appName}}</title>
-  <style>
-    /* -------------------------------------
+  <head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Welcome! | {{ appName }}</title>
+    <style>
+      /* -------------------------------------
     GLOBAL
     A very basic CSS reset
   ------------------------------------- */
 
-    * {
-      margin: 0;
-      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-      box-sizing: border-box;
-      font-size: 14px;
-    }
+      * {
+        margin: 0;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        box-sizing: border-box;
+        font-size: 14px;
+      }
 
-    img {
-      max-width: 100%;
-    }
+      img {
+        max-width: 100%;
+      }
 
-    body {
-      -webkit-font-smoothing: antialiased;
-      -webkit-text-size-adjust: none;
-      width: 100% !important;
-      height: 100%;
-      line-height: 1.6em;
-    }
+      body {
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-size-adjust: none;
+        width: 100% !important;
+        height: 100%;
+        line-height: 1.6em;
+      }
 
-    /* Let's make sure all tables have defaults */
+      /* Let's make sure all tables have defaults */
 
-    table td {
-      vertical-align: top;
-    }
+      table td {
+        vertical-align: top;
+      }
 
-    /* -------------------------------------
+      /* -------------------------------------
     BODY & CONTAINER
   ------------------------------------- */
 
-    body {
-      background-color: #f6f6f6;
-    }
+      body {
+        background-color: #f6f6f6;
+      }
 
-    .body-wrap {
-      background-color: #f6f6f6;
-      width: 100%;
-    }
+      .body-wrap {
+        background-color: #f6f6f6;
+        width: 100%;
+      }
 
-    .container {
-      display: block !important;
-      max-width: 600px !important;
-      margin: 0 auto !important;
-      /* makes it centered */
-      clear: both !important;
-    }
+      .container {
+        display: block !important;
+        max-width: 600px !important;
+        margin: 0 auto !important;
+        /* makes it centered */
+        clear: both !important;
+      }
 
-    .content {
-      max-width: 600px;
-      margin: 0 auto;
-      display: block;
-      padding: 20px;
-    }
+      .content {
+        max-width: 600px;
+        margin: 0 auto;
+        display: block;
+        padding: 20px;
+      }
 
-    /* -------------------------------------
+      /* -------------------------------------
     HEADER, FOOTER, MAIN
   ------------------------------------- */
 
-    .main {
-      background-color: #fff;
-      border: 1px solid #e9e9e9;
-      border-radius: 3px;
-    }
+      .main {
+        background-color: #fff;
+        border: 1px solid #e9e9e9;
+        border-radius: 3px;
+      }
 
-    .content-wrap {
-      padding: 20px;
-    }
+      .content-wrap {
+        padding: 20px;
+      }
 
-    .content-block {
-      padding: 0 0 20px;
-    }
+      .content-block {
+        padding: 0 0 20px;
+      }
 
-    .header {
-      width: 100%;
-      margin-bottom: 20px;
-    }
+      .header {
+        width: 100%;
+        margin-bottom: 20px;
+      }
 
-    .footer {
-      width: 100%;
-      clear: both;
-      color: #999;
-      padding: 20px;
-    }
+      .footer {
+        width: 100%;
+        clear: both;
+        color: #999;
+        padding: 20px;
+      }
 
-    .footer p,
-    .footer a,
-    .footer td {
-      color: #999;
-      font-size: 12px;
-    }
+      .footer p,
+      .footer a,
+      .footer td {
+        color: #999;
+        font-size: 12px;
+      }
 
-    /* -------------------------------------
+      /* -------------------------------------
     TYPOGRAPHY
   ------------------------------------- */
 
-    h1,
-    h2,
-    h3 {
-      font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-      color: #000;
-      margin: 40px 0 0;
-      line-height: 1.2em;
-      font-weight: 400;
-    }
+      h1,
+      h2,
+      h3 {
+        font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande",
+          sans-serif;
+        color: #000;
+        margin: 40px 0 0;
+        line-height: 1.2em;
+        font-weight: 400;
+      }
 
-    h1 {
-      font-size: 32px;
-      font-weight: 500;
-    }
+      h1 {
+        font-size: 32px;
+        font-weight: 500;
+      }
 
-    h2 {
-      font-size: 24px;
-    }
+      h2 {
+        font-size: 24px;
+      }
 
-    h3 {
-      font-size: 18px;
-    }
+      h3 {
+        font-size: 18px;
+      }
 
-    h4 {
-      font-size: 14px;
-      font-weight: 600;
-    }
+      h4 {
+        font-size: 14px;
+        font-weight: 600;
+      }
 
-    p,
-    ul,
-    ol {
-      margin-bottom: 10px;
-      font-weight: normal;
-    }
+      p,
+      ul,
+      ol {
+        margin-bottom: 10px;
+        font-weight: normal;
+      }
 
-    p li,
-    ul li,
-    ol li {
-      margin-left: 5px;
-      list-style-position: inside;
-    }
+      p li,
+      ul li,
+      ol li {
+        margin-left: 5px;
+        list-style-position: inside;
+      }
 
-    /* -------------------------------------
+      /* -------------------------------------
     LINKS & BUTTONS
   ------------------------------------- */
 
-    a {
-      color: #348eda;
-      text-decoration: underline;
-    }
+      a {
+        color: #348eda;
+        text-decoration: underline;
+      }
 
-    .btn-primary {
-      text-decoration: none;
-      color: #FFF;
-      background-color: #00aca4;
-      border: solid #00aca4;
-      border-width: 10px 20px;
-      line-height: 2em;
-      font-weight: bold;
-      text-align: center;
-      cursor: pointer;
-      display: inline-block;
-      border-radius: 2px;
-      text-transform: capitalize;
-    }
+      .btn-primary {
+        text-decoration: none;
+        color: #fff;
+        background-color: #00aca4;
+        border: solid #00aca4;
+        border-width: 10px 20px;
+        line-height: 2em;
+        font-weight: bold;
+        text-align: center;
+        cursor: pointer;
+        display: inline-block;
+        border-radius: 2px;
+        text-transform: capitalize;
+      }
 
-    /* -------------------------------------
+      /* -------------------------------------
     OTHER STYLES THAT MIGHT BE USEFUL
   ------------------------------------- */
 
-    .last {
-      margin-bottom: 0;
-    }
+      .last {
+        margin-bottom: 0;
+      }
 
-    .first {
-      margin-top: 0;
-    }
+      .first {
+        margin-top: 0;
+      }
 
-    .aligncenter {
-      text-align: center;
-    }
+      .aligncenter {
+        text-align: center;
+      }
 
-    .alignright {
-      text-align: right;
-    }
+      .alignright {
+        text-align: right;
+      }
 
-    .alignleft {
-      text-align: left;
-    }
+      .alignleft {
+        text-align: left;
+      }
 
-    .clear {
-      clear: both;
-    }
+      .clear {
+        clear: both;
+      }
 
-    /* -------------------------------------
+      /* -------------------------------------
     ALERTS
     Change the class depending on warning email, good email or bad email
   ------------------------------------- */
 
-    .alert {
-      font-size: 16px;
-      color: #fff;
-      font-weight: 500;
-      padding: 20px;
-      text-align: center;
-      border-radius: 3px 3px 0 0;
-    }
+      .alert {
+        font-size: 16px;
+        color: #fff;
+        font-weight: 500;
+        padding: 20px;
+        text-align: center;
+        border-radius: 3px 3px 0 0;
+      }
 
-    .alert a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 16px;
-    }
+      .alert a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 16px;
+      }
 
-    /* -------------------------------------
+      /* -------------------------------------
     RESPONSIVE AND MOBILE FRIENDLY STYLES
   ------------------------------------- */
 
-    @media only screen and (max-width: 640px) {
-      body {
-        padding: 0 !important;
+      @media only screen and (max-width: 640px) {
+        body {
+          padding: 0 !important;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+          font-weight: 800 !important;
+          margin: 20px 0 5px !important;
+        }
+
+        h1 {
+          font-size: 22px !important;
+        }
+
+        h2 {
+          font-size: 18px !important;
+        }
+
+        h3 {
+          font-size: 16px !important;
+        }
+
+        .container {
+          padding: 0 !important;
+          width: 100% !important;
+        }
+
+        .content {
+          padding: 0 !important;
+        }
+
+        .content-wrap {
+          padding: 10px !important;
+        }
+
+        .invoice {
+          width: 100% !important;
+        }
       }
 
-      h1,
-      h2,
-      h3,
-      h4 {
-        font-weight: 800 !important;
-        margin: 20px 0 5px !important;
+      /* embedded video */
+      /* https://www.emailonacid.com/blog/article/email-development/a_how_to_guide_to_embedding_html5_video_in_email/ */
+      .video-wrapper {
+        display: none;
       }
-
-      h1 {
-        font-size: 22px !important;
+      @media (-webkit-min-device-pixel-ratio: 0) and (min-device-width: 1024px) {
+        .video-wrapper {
+          display: block !important;
+        }
+        .video-fallback {
+          display: none !important;
+        }
       }
-
-      h2 {
-        font-size: 18px !important;
+      @supports (-webkit-overflow-scrolling: touch) and (color: #ffffffff) {
+        div[class^="video-wrapper"] {
+          display: block !important;
+        }
+        div[class^="video-fallback"] {
+          display: none !important;
+        }
       }
-
-      h3 {
-        font-size: 16px !important;
+      #MessageViewBody .video-wrapper {
+        display: block !important;
       }
-
-      .container {
-        padding: 0 !important;
-        width: 100% !important;
+      #MessageViewBody .video-fallback {
+        display: none !important;
       }
+    </style>
+  </head>
 
-      .content {
-        padding: 0 !important;
-      }
+  <body itemscope itemtype="http://schema.org/EmailMessage">
+    <table class="body-wrap">
+      <tr>
+        <td></td>
+        <td class="container" width="600">
+          <div class="content">
+            <table
+              class="main"
+              width="100%"
+              cellpadding="0"
+              cellspacing="0"
+              itemprop="action"
+              itemscope
+              itemtype="http://schema.org/JoinAction"
+            >
+              <tr>
+                <td class="content-wrap">
+                  <meta itemprop="name" content="Welcome" />
+                  <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td class="content-block">Hi {{ firstName }},</td>
+                    </tr>
+                    <tr>
+                      <td class="content-block">
+                        Woohoo!! Congratulations your stylist application with
+                        {{ appName }} has been approved and now you can start
+                        making them monayyyy! This is a beginning of a great
+                        journey for us together and we are here with you on
+                        every step of the way because together we a Team.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="content-block">
+                        Here’s a quick guide on what to do next.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="content-block">
+                        <ol>
+                          <li>
+                            <b>Profile</b>:​ Log in to your account and setup
+                            your profile in full. Having every detail filled in
+                            will give you the best exposure and help attract
+                            more clients.
+                          </li>
+                          <li>
+                            <b>Service​ ​&​ ​Price​ ​List</b>:​ Fill in the
+                            services, prices, description of the service you
+                            provide and mobile service location you will be
+                            covering.
+                          </li>
+                          <li>
+                            <b>Calendar & Region</b>:​ Set your availability so
+                            clients can make bookings and also the parameter
+                            area that you will provide services in. <br />Note:
+                            Please keep the calendar as updated as possible to
+                            avoid double bookings or potentially missing out on
+                            bookings.
+                          </li>
+                        </ol>
+                      </td>
+                    </tr>
 
-      .content-wrap {
-        padding: 10px !important;
-      }
+                    <!-- How to Setup Profile Details -->
+                    <tr>
+                      <td class="content-block">
+                        <div class="video-wrapper" style="display:none;">
+                          <p>How to Setup Profile Details</p>
+                          <video
+                            width="320"
+                            height="176"
+                            controls="controls"
+                            poster="https://i.ytimg.com/vi/iTCMK0FcURA/hqdefault.jpg?sqp=-oaymwEYCMQBEG5IVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLD06chdVnWoTeEkxsCHbx_4OBw7wQ"
+                            src="https://www.youtube.com/watch?v=iTCMK0FcURA"
+                          >
+                            <!-- fallback 1 -->
+                            <a
+                              href="https://www.youtube.com/watch?v=iTCMK0FcURA"
+                              ><img
+                                height="176"
+                                src="https://i.ytimg.com/vi/iTCMK0FcURA/hqdefault.jpg?sqp=-oaymwEYCMQBEG5IVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLD06chdVnWoTeEkxsCHbx_4OBw7wQ"
+                                width="320"
+                            /></a>
+                          </video>
+                        </div>
 
-      .invoice {
-        width: 100% !important;
-      }
-    }
-  </style>
-</head>
+                        <!-- fallback section -->
+                        <div class="video-fallback">
+                          <p>How to Setup Profile Details</p>
+                          <a href="https://www.youtube.com/watch?v=iTCMK0FcURA"
+                            ><img
+                              height="176"
+                              src="https://i.ytimg.com/vi/iTCMK0FcURA/hqdefault.jpg?sqp=-oaymwEYCMQBEG5IVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLD06chdVnWoTeEkxsCHbx_4OBw7wQ"
+                              width="320"
+                          /></a>
+                        </div>
+                      </td>
+                    </tr>
 
-<body itemscope itemtype="http://schema.org/EmailMessage">
+                    <!-- How Set Services and Pricing -->
+                    <tr>
+                      <td class="content-block">
+                        <div class="video-wrapper" style="display:none;">
+                          <p>How Set Services and Pricing</p>
+                          <video
+                            width="320"
+                            height="176"
+                            controls="controls"
+                            poster="https://i.ytimg.com/vi/nIvElJMvFt4/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLApMPOT7JMrCqs_glK9sqE5b_x3dA"
+                            src="https://www.youtube.com/watch?v=nIvElJMvFt4"
+                          >
+                            <!-- fallback 1 -->
+                            <a
+                              href="https://www.youtube.com/watch?v=nIvElJMvFt4"
+                              ><img
+                                height="176"
+                                src="https://i.ytimg.com/vi/nIvElJMvFt4/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLApMPOT7JMrCqs_glK9sqE5b_x3dA"
+                                width="320"
+                            /></a>
+                          </video>
+                        </div>
 
-  <table class="body-wrap">
-    <tr>
-      <td></td>
-      <td class="container" width="600">
-        <div class="content">
-          <table class="main" width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope itemtype="http://schema.org/JoinAction">
-            <tr>
-              <td class="content-wrap">
-                <meta itemprop="name" content="Welcome" />
-                <table width="100%" cellpadding="0" cellspacing="0">
-                  <tr>
-                    <td class="content-block">
-                      Hi {{firstName}},
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="content-block">
-                      Woohoo!! Congratulations your stylist application with {{appName}} has been approved and now you can start making them monayyyy!
-                      This is a beginning of a great journey for us together and we are here with you on every step of the
-                      way because together we a Team.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="content-block">
-                      Here’s a quick guide on what to do next.
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="content-block">
-                      <ol>
-                        <li>
-                          <b>Profile</b>:​ Log in to your account and setup your profile in full. Having every detail filled
-                          in will give you the best exposure and help attract more clients.
-                        </li>
-                        <li>
-                          <b>Service​ ​&​ ​Price​ ​List</b>:​ Fill in the services, prices, description of the service you provide
-                          and mobile service location you will be covering.
-                        </li>
-                        <li>
-                          <b>Calendar & Region</b>:​ Set your availability so clients can make bookings and also the parameter
-                          area that you will provide services in.
-                          <br/>Note: Please keep the calendar as updated as possible to avoid double bookings or potentially missing
-                          out on bookings.
-                        </li>
-                      </ol>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="content-block">
-                      Further help can be found on the
-                      <a href={{stylistFAQUrl}}>stylist FAQ page</a>. Feel free to contact us if you have any queries or suggestions (we are always
-                      open to new ideas, thoughts, comments and just about anything, please don’t hesitate whatever it is)
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler">
-                      <a href="{{homeUrl}}" class="btn-primary" itemprop="url">Get Started</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="content-block">
-                      Warm Regards
-                      <br /> {{appName}} Family
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="content-block">
-                      Fun fact:
-                      <p style="font-style: italic;">The fastest growing nail is on the middle finger</p>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-          </table>
-          {{{htmlFooter}}}
-        </div>
-      </td>
-      <td></td>
-    </tr>
-  </table>
+                        <!-- fallback section -->
+                        <div class="video-fallback">
+                          <p>How Set Services and Pricing</p>
+                          <a href="https://www.youtube.com/watch?v=nIvElJMvFt4"
+                            ><img
+                              height="176"
+                              src="https://i.ytimg.com/vi/nIvElJMvFt4/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLApMPOT7JMrCqs_glK9sqE5b_x3dA"
+                              width="320"
+                          /></a>
+                        </div>
+                      </td>
+                    </tr>
 
-</body>
+                    <!-- How set your Calender and Other Details -->
+                    <tr>
+                      <td class="content-block">
+                        <div class="video-wrapper" style="display:none;">
+                          <p>How set your Calender and Other Details</p>
+                          <video
+                            width="320"
+                            height="176"
+                            controls="controls"
+                            poster="https://i.ytimg.com/vi/4KNUGEhdCPU/hqdefault.jpg?sqp=-oaymwEYCMQBEG5IVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLCYNYcNXZRsiFxhO_ICkUbLTJSfHQ"
+                            src="https://www.youtube.com/watch?v=4KNUGEhdCPU"
+                          >
+                            <!-- fallback 1 -->
+                            <a
+                              href="https://www.youtube.com/watch?v=4KNUGEhdCPU"
+                              ><img
+                                height="176"
+                                src="https://i.ytimg.com/vi/4KNUGEhdCPU/hqdefault.jpg?sqp=-oaymwEYCMQBEG5IVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLCYNYcNXZRsiFxhO_ICkUbLTJSfHQ"
+                                width="320"
+                            /></a>
+                          </video>
+                        </div>
 
+                        <!-- fallback section -->
+                        <div class="video-fallback">
+                          <p>How set your Calender and Other Details</p>
+                          <a href="https://www.youtube.com/watch?v=4KNUGEhdCPU"
+                            ><img
+                              height="176"
+                              src="https://i.ytimg.com/vi/4KNUGEhdCPU/hqdefault.jpg?sqp=-oaymwEYCMQBEG5IVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLCYNYcNXZRsiFxhO_ICkUbLTJSfHQ"
+                              width="320"
+                          /></a>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="content-block">
+                        Further help can be found on the
+                        <a href="{{ stylistFAQUrl }}">stylist FAQ page</a>. Feel
+                        free to contact us if you have any queries or
+                        suggestions (we are always open to new ideas, thoughts,
+                        comments and just about anything, please don’t hesitate
+                        whatever it is)
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="content-block"
+                        itemprop="handler"
+                        itemscope
+                        itemtype="http://schema.org/HttpActionHandler"
+                      >
+                        <a
+                          href="{{ homeUrl }}"
+                          class="btn-primary"
+                          itemprop="url"
+                          >Get Started</a
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="content-block">
+                        Warm Regards
+                        <br />
+                        {{ appName }} Family
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="content-block">
+                        Fun fact:
+                        <p style="font-style: italic;">
+                          The fastest growing nail is on the middle finger
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+
+            {{{htmlFooter}}}
+          </div>
+        </td>
+        <td></td>
+      </tr>
+    </table>
+  </body>
 </html>
