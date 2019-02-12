@@ -245,7 +245,7 @@ const StylistsSchema = new SimpleSchema({
   },
 
   // full text search filed, contents aggregated from .name, .services, Profiles.about
-  keywords: { type: String, index: 'text' },
+  keywords: { type: String, index: 'text', defaultValue: '' },
 });
 
 Stylists.attachSchema(StylistsSchema);
