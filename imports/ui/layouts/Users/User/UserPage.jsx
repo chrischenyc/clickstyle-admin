@@ -98,7 +98,7 @@ const UserPage = (props) => {
         <Divider horizontal>Documents</Divider>
 
         <List>
-          {stylist.qualificationUrl && (
+          {stylist && stylist.qualificationUrl && (
           <List.Item>
             Qualification:&nbsp;
             <a href={stylist.qualificationUrl} target="_blank">
@@ -116,7 +116,7 @@ const UserPage = (props) => {
         </List>
 
         <List>
-          {stylist.policeCheckUrl && (
+          {stylist && stylist.policeCheckUrl && (
           <List.Item>
             Police Check:&nbsp;
             <a href={stylist.policeCheckUrl} target="_blank">
@@ -134,7 +134,7 @@ const UserPage = (props) => {
         </List>
 
         <List>
-          {stylist.workingWithChildrenUrl && (
+          {stylist && stylist.workingWithChildrenUrl && (
           <List.Item>
             Working with Children:&nbsp;
             <a href={stylist.workingWithChildrenUrl} target="_blank">
