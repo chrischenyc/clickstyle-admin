@@ -2,13 +2,14 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import log from 'winston';
+import { Accounts } from 'meteor/accounts-base';
 
 import Profiles from '../../profiles/profiles';
 import Stylists from '../../stylists/stylists';
 import Suburbs from '../../suburbs/suburbs';
 
 import rateLimit from '../../../modules/server/rate-limit';
-import { sendAdminAccessGrantEmail } from '../../../modules/server/send-email';
+import { sendAdminAccessGrantEmail, sendWelcomeEmail } from '../../../modules/server/send-email';
 
 Meteor.methods({
   'users.grant.admin': function usersGrantAdmin(data) {
@@ -75,8 +76,27 @@ Meteor.methods({
   },
 });
 
+Meteor.methods({
+  'users.sendVerificationEmail': function usersSendVerificationEmail(userId) {
+    check(userId, String);
+    Accounts.sendVerificationEmail(userId);
+  },
+});
+
+Meteor.methods({
+  'users.sendWelcomeEmail': function usersSendVerificationEmail(userId) {
+    check(userId, String);
+    sendWelcomeEmail(userId);
+  },
+});
+
 rateLimit({
-  methods: ['users.grant.admin', 'user.find'],
+  methods: [
+    'users.grant.admin',
+    'user.find',
+    'users.sendVerificationEmail',
+    'users.sendWelcomeEmail',
+  ],
   limit: 5,
   timeRange: 1000,
 });

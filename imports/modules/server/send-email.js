@@ -310,3 +310,22 @@ export const sendAdminEmailStylistsDailyReport = (filePath) => {
     log.error(error);
   }
 };
+
+export const sendWelcomeEmail = (userId) => {
+  const profile = Profiles.findOne({ owner: userId });
+
+  if (profile) {
+    sendEmail({
+      to: profile.email,
+      from: fromAddress,
+      subject: `Welcome to ${appName}!`,
+      template: 'user-welcome',
+      templateConstants: {
+        firstName: profile.name.first,
+        ...templateConstants,
+      },
+    }).catch((error) => {
+      log.error(error);
+    });
+  }
+};
