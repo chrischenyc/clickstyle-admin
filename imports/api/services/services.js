@@ -37,7 +37,7 @@ const ServicesSchema = new SimpleSchema({
     type: String,
     unique: true,
   },
-  display: Boolean,
+  display: { type: Boolean, defaultValue: false },
   displayOrder: {
     type: SimpleSchema.Integer,
   },
@@ -45,7 +45,7 @@ const ServicesSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
-  duration: SimpleSchema.Integer,
+  duration: { type: SimpleSchema.Integer, defaultValue: 30 },
   minPrice: { type: Number, defaultValue: 0 },
 });
 
