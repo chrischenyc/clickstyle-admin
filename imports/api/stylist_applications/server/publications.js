@@ -41,6 +41,7 @@ Meteor.publish('stylist.applications', function stylistApplications(filter, page
       email: 1,
       experienceYears: 1,
     },
+    sort: { createdAt: -1 },
   });
 });
 

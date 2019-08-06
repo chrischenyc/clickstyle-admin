@@ -9,5 +9,6 @@ import '../slingshot-restrictions';
 import './slingshot-directives';
 import './cloudinary';
 import './cron';
+import './email-templates';
 
 WebApp.addHtmlAttributeHook(() => ({ lang: 'en' }));

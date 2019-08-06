@@ -1,10 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { withTracker } from 'meteor/react-meteor-data';
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-
-import Profiles from '../../../../api/profiles/profiles';
-import Stylists from '../../../../api/stylists/stylists';
 
 import UserPage from './UserPage';
 
@@ -14,46 +9,89 @@ class User extends Component {
     this.state = {
       loading: false,
       error: '',
+      user: null,
     };
 
     this.handleGrantAdmin = this.handleGrantAdmin.bind(this);
     this.handlePublishStylist = this.handlePublishStylist.bind(this);
+    this.handleVerifyDocument = this.handleVerifyDocument.bind(this);
+  }
+
+  componentDidMount() {
+    this.loadUser();
+  }
+
+  loadUser() {
+    Meteor.call('user.find', this.props.match.params.id, (error, user) => {
+      if (error) {
+        console.log('error', error);
+      }
+
+      if (user) {
+        this.setState({ user });
+      }
+    });
   }
 
   handleGrantAdmin(grant) {
     this.setState({ loading: true });
 
-    Meteor.call('users.grant.admin', { userId: this.props.user._id, grant }, (error) => {
+    Meteor.call('users.grant.admin', { userId: this.state.user._id, grant }, (error) => {
       this.setState({ loading: false });
 
       if (error) {
         this.setState({ error: error.message });
       }
+
+      this.loadUser();
     });
   }
 
   handlePublishStylist(publish) {
     this.setState({ loading: true });
 
-    Meteor.call('stylist.publish', { userId: this.props.user._id, publish }, (error) => {
+    Meteor.call('stylist.publish', { userId: this.state.user._id, publish }, (error) => {
       this.setState({ loading: false });
 
       if (error) {
         this.setState({ error: error.message });
       }
+
+      this.loadUser();
     });
   }
 
+  handleVerifyDocument(document, verified) {
+    this.setState({ loading: true });
+
+    Meteor.call(
+      'stylist.verify.document',
+      { userId: this.state.user._id, document, verified },
+      (error) => {
+        this.setState({ loading: false });
+
+        if (error) {
+          this.setState({ error: error.message });
+        }
+
+        this.loadUser();
+      },
+    );
+  }
+
   render() {
-    return this.props.ready ? (
+    const { user, loading, error } = this.state;
+
+    return user ? (
       <UserPage
-        user={this.props.user}
-        profile={this.props.profile}
-        stylist={this.props.stylist}
+        user={user}
+        profile={user.profile}
+        stylist={user.stylist}
         onGrantAdmin={this.handleGrantAdmin}
         onPublishStylist={this.handlePublishStylist}
-        loading={this.state.loading}
-        error={this.state.error}
+        onVerifyDocument={this.handleVerifyDocument}
+        loading={loading}
+        error={error}
       />
     ) : (
       <p>loading...</p>
@@ -61,30 +99,4 @@ class User extends Component {
   }
 }
 
-User.defaultProps = {
-  ready: false,
-  user: null,
-  profile: null,
-  stylist: null,
-};
-
-User.propTypes = {
-  match: PropTypes.object.isRequired,
-  ready: PropTypes.bool,
-  user: PropTypes.object,
-  profile: PropTypes.object,
-  stylist: PropTypes.object,
-};
-
-export default withTracker((props) => {
-  const userHandle = Meteor.subscribe('user', props.match.params.id);
-  const profileHandle = Meteor.subscribe('profile', props.match.params.id);
-  const stylistHandle = Meteor.subscribe('stylist', props.match.params.id);
-
-  return {
-    ready: userHandle.ready() && profileHandle.ready() && stylistHandle.ready(),
-    user: Meteor.users.findOne({ _id: props.match.params.id }),
-    profile: Profiles.findOne({ owner: props.match.params.id }),
-    stylist: Stylists.findOne({ owner: props.match.params.id }),
-  };
-})(User);
+export default User;

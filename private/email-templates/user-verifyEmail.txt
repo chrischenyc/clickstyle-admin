@@ -1,0 +1,19 @@
+Hi {{firstName}},
+
+Woohooo! Thanks heaps for registering an account with {{appName}}! You are super awesome (and I’ve met many awesome people).
+
+Before we get started, we'll need to verify your email. (Just to make sure you are human like us and not an alien spy from another planet) 
+
+
+[Verify Email Address]({{verifyUrl}})
+
+
+See you on the other side :D
+
+Warm regards
+{{appName}} Family
+
+Before you go, here’s a cool fact:
+Hair is more elastic than you think! It can expand by up to 30% of its original length when wet.
+
+{{{txtFooter}}}

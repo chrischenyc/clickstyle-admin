@@ -114,6 +114,10 @@ const ProfilesSchema = new SimpleSchema({
     type: AddressSchema,
     optional: true,
   },
+  postcode: {
+    type: String,
+    optional: true,
+  },
   about: {
     type: String,
     optional: true,

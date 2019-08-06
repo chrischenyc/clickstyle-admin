@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
 import _ from 'lodash';
-import PDF from 'jspdf';
 
 import NewCouponsPage from './NewCouponsPage';
-import { dateString } from '../../../../modules/format-date';
+import { timestampString } from '../../../../modules/format-date';
+import printCouponPDF from '../../../../modules/print-coupon-pdf';
 
 class NewCoupons extends Component {
   constructor(props) {
@@ -13,11 +13,14 @@ class NewCoupons extends Component {
     this.state = {
       loading: false,
       errors: {},
+      reusable: false,
+      maxRedeems: '',
       discount: '',
       minBookingValue: '',
       expiry: null,
       quantity: '',
       print: true,
+      fixedCouponCode: '',
       generatedCouponCodes: null,
     };
 
@@ -42,83 +45,95 @@ class NewCoupons extends Component {
     }
 
     const {
-      discount, minBookingValue, expiry, quantity, print,
+      reusable,
+      maxRedeems,
+      discount,
+      minBookingValue,
+      expiry,
+      quantity,
+      print,
+      fixedCouponCode,
     } = this.state;
 
     Meteor.call(
       'coupons.create',
       {
+        reusable,
+        maxRedeems: parseInt(maxRedeems, 10),
         discount: parseInt(discount, 10),
         minBookingValue: parseInt(minBookingValue, 10),
         expiry,
         quantity: parseInt(quantity, 10),
         print,
+        fixedCouponCode,
       },
       (error, generatedCouponCodes) => {
         if (error) {
-          this.setState({ errors: error.reason });
+          this.setState({ errors: error.error });
         } else {
-          this.setState({ errors: {} });
-
-          console.log(generatedCouponCodes);
-
-          this.setState({ generatedCouponCodes });
+          this.setState({ errors: {}, generatedCouponCodes });
         }
       },
     );
   }
 
   handleDownloadCoupons() {
-    const doc = this.generatePDF();
-    doc.save(`${Meteor.settings.public.appName}-coupons.pdf`);
+    const {
+      reusable,
+      maxRedeems,
+      discount,
+      minBookingValue,
+      expiry,
+      quantity,
+      generatedCouponCodes,
+    } = this.state;
+
+    const doc = printCouponPDF(
+      reusable,
+      maxRedeems,
+      discount,
+      minBookingValue,
+      expiry,
+      quantity,
+      generatedCouponCodes,
+    );
+
+    doc.save(`${Meteor.settings.public.appName}-coupons_${timestampString(Date.now())}.pdf`);
   }
 
   handleDone() {
     this.props.history.push('/coupons');
   }
 
-  generatePDF() {
-    let output = `${Meteor.settings.public.appName} Admin - Coupons Generation ${dateString(Date.now())}\n\n`;
-    output += `Discount: ${this.state.discount}\n`;
-    output += `Min Order: ${this.state.minBookingValue}\n`;
-    if (this.state.expiry) {
-      output += `Expiry: ${dateString(this.state.expiry)}\n`;
-    }
-    output += `Number of coupons: ${this.state.quantity}\n\n`;
-
-    this.state.generatedCouponCodes.forEach((code) => {
-      output += `${code}\n`;
-    });
-
-    const doc = new PDF();
-    doc.text(output, 10, 10);
-    return doc;
-  }
-
   validateForm() {
     const errors = {};
 
     const {
-      discount, minBookingValue, expiry, quantity,
+      discount, minBookingValue, expiry, quantity, reusable, fixedCouponCode,
     } = this.state;
 
-    if (_.isEmpty(discount) || parseInt(discount, 10) <= 0) {
+    if (reusable && _.isEmpty(fixedCouponCode)) {
+      errors.fixedCouponCode = 'You need to provide a fixed code for reusable coupon';
+    } else if (_.isEmpty(discount) || parseInt(discount, 10) <= 0) {
       errors.discount = 'Discount should be greater than zero';
     } else if (parseInt(discount, 10) > Meteor.settings.public.coupons.maxDiscount) {
       errors.discount = `Discount should be less than ${
         Meteor.settings.public.coupons.maxDiscount
       }`;
     } else if (
-      _.isEmpty(minBookingValue) ||
-      parseInt(minBookingValue, 10) < parseInt(discount, 10)
+      _.isEmpty(minBookingValue)
+      || parseInt(minBookingValue, 10) < parseInt(discount, 10)
     ) {
       errors.minBookingValue = 'Minimum booking value should be greater than discount amount';
     } else if (!_.isNull(expiry) && expiry < Date.now()) {
       errors.expiry = 'expiry date should be in the future';
-    } else if (_.isEmpty(quantity) || parseInt(quantity, 10) <= 0) {
+    } else if (!reusable && (_.isEmpty(quantity) || parseInt(quantity, 10) <= 0)) {
       errors.quantity = 'quantity should be at least one';
-    } else if (parseInt(quantity, 10) > Meteor.settings.public.coupons.maxQuantityPerGenerate) {
-      errors.quantity = `quantity should be more than ${
+    } else if (
+      !reusable
+      && parseInt(quantity, 10) > Meteor.settings.public.coupons.maxQuantityPerGenerate
+    ) {
+      errors.quantity = `quantity should not be more than ${
         Meteor.settings.public.coupons.maxQuantityPerGenerate
       }`;
     }
@@ -127,20 +142,37 @@ class NewCoupons extends Component {
   }
 
   render() {
+    const {
+      loading,
+      errors,
+      reusable,
+      maxRedeems,
+      discount,
+      minBookingValue,
+      expiry,
+      quantity,
+      print,
+      generatedCouponCodes,
+      fixedCouponCode,
+    } = this.state;
+
     return (
       <NewCouponsPage
         onSubmit={this.handleSubmit}
         onChange={this.handleChange}
         onDownloadCoupons={this.handleDownloadCoupons}
         onDone={this.handleDone}
-        loading={this.state.loading}
-        errors={this.state.errors}
-        discount={this.state.discount}
-        minBookingValue={this.state.minBookingValue}
-        expiry={this.state.expiry}
-        quantity={this.state.quantity}
-        print={this.state.print}
-        generatedCouponCodes={this.state.generatedCouponCodes}
+        loading={loading}
+        errors={errors}
+        reusable={reusable}
+        maxRedeems={maxRedeems}
+        discount={discount}
+        minBookingValue={minBookingValue}
+        expiry={expiry}
+        quantity={quantity}
+        print={print}
+        generatedCouponCodes={generatedCouponCodes}
+        fixedCouponCode={fixedCouponCode}
       />
     );
   }

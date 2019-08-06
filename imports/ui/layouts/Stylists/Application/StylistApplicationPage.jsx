@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -10,6 +9,7 @@ import {
   Button,
   Divider,
   Icon,
+  Label,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
@@ -34,11 +34,16 @@ const StylistApplicationPage = (props) => {
     services,
     referenceUrl,
     qualificationUrl,
+    policeCheckUrl,
+    workingWithChildrenUrl,
     approved,
     approvedAt,
     approvedBy,
     createdAt,
     experienceYears,
+    isMobile,
+    isOnSite,
+    isGST,
   } = props.application;
 
   return (
@@ -46,14 +51,22 @@ const StylistApplicationPage = (props) => {
       <Header as="h1">Stylist Join Application</Header>
 
       <Segment>
-        <div>Applied on:&nbsp;{dateTimeString(createdAt)}</div>
         <div>
-          Name:&nbsp;<Link to={`/users/${userId}`}>{name}</Link>
+          Applied on:&nbsp;
+          {dateTimeString(createdAt)}
         </div>
         <div>
-          Email:&nbsp;<a href={`mailto:${email}`}>{email}</a>
+          Name:&nbsp;
+          <Link to={`/users/${userId}`}>{name}</Link>
         </div>
-        <div>Mobile:&nbsp;{mobile}</div>
+        <div>
+          Email:&nbsp;
+          <a href={`mailto:${email}`}>{email}</a>
+        </div>
+        <div>
+          Mobile:&nbsp;
+          {mobile}
+        </div>
         <div>
           Address:&nbsp;
           <a href={`https://maps.google.com/?q=${address}`} target="_blank">
@@ -70,27 +83,66 @@ const StylistApplicationPage = (props) => {
           <div>
             Qualification:&nbsp;
             <a href={qualificationUrl} target="_blank">
-              <Icon name="file outline" />&nbsp;open
+              <Icon name="file outline" />
+              &nbsp;open
             </a>
           </div>
         )}
 
-        {experienceYears && <div>Years of experience:&nbsp;{experienceYears}</div>}
+        {policeCheckUrl && (
+          <div>
+            Police Check:&nbsp;
+            <a href={policeCheckUrl} target="_blank">
+              <Icon name="file outline" />
+              &nbsp;open
+            </a>
+          </div>
+        )}
+
+        {workingWithChildrenUrl && (
+          <div>
+            Working with Children:&nbsp;
+            <a href={workingWithChildrenUrl} target="_blank">
+              <Icon name="file outline" />
+              &nbsp;open
+            </a>
+          </div>
+        )}
+
+        {experienceYears && (
+          <div>
+            Years of experience:&nbsp;
+            {experienceYears}
+          </div>
+        )}
 
         <Divider />
         <Header as="h3">Services</Header>
         <List>
-          {services.map(service => <List.Item key={service._id}>{service.name}</List.Item>)}
+          {services.map(service => (
+            <List.Item key={service._id}>{service.name}</List.Item>
+          ))}
         </List>
+        {isMobile && <Label>Can travel to clients</Label>}
+        {isOnSite && <Label>Clients travel to stylist</Label>}
+        {isGST && <Label>Registered for GST</Label>}
       </Segment>
 
       {approved ? (
         <Message info>
           <p>
-            Application was approved by admin user (<Link to={`/users/${approvedBy}`}>
-              {approvedBy}
-            </Link>)&nbsp;on&nbsp;
-            {dateTimeString(approvedAt)}.
+            Application was approved by admin user (
+            <Link to={`/users/${approvedBy}`}>{approvedBy}</Link>
+            )&nbsp;on&nbsp;
+            {dateTimeString(approvedAt)}
+.
+          </p>
+          <p>
+            View
+            {' '}
+            <Link to={`/users/${userId}`}>this stylist</Link>
+            {' '}
+for further approval process
           </p>
         </Message>
       ) : (

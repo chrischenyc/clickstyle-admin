@@ -66,7 +66,7 @@ const FeaturedStylistsPage = ({
           <Table.Row key={stylist.owner}>
             <Table.Cell>
               <Link to={`/users/${stylist.owner}`}>
-                {`${stylist.profile.name.first} ${stylist.profile.name.last}`}
+                {`${stylist.name.first} ${stylist.name.last}`}
               </Link>
             </Table.Cell>
             <Table.Cell>
@@ -89,10 +89,10 @@ const FeaturedStylistsPage = ({
               )}
             </Table.Cell>
             <Table.Cell>
-              {stylist.profile.photo && (
-                <Image src={scaledImageURL(stylist.profile.photo, 'small')} size="tiny" />
+              {stylist.photo && (
+                <Image src={scaledImageURL(stylist.photo, 'small')} size="tiny" />
               )}
-              {!stylist.profile.photo && 'no photo'}
+              {!stylist.photo && 'no photo'}
             </Table.Cell>
             <Table.Cell>
               <Button

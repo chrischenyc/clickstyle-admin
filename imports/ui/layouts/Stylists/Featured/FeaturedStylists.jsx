@@ -33,11 +33,7 @@ class FeaturedStylists extends Component {
   }
 
   loadFeaturedStylists() {
-    Meteor.call('featured.home.stylists', {}, (error, stylists) => {
-      if (error) {
-        console.log('error', error);
-      }
-
+    Meteor.call('featured.home.stylists', (error, stylists) => {
       if (stylists) {
         this.setState({ stylists });
       }
@@ -96,17 +92,21 @@ class FeaturedStylists extends Component {
         this.setState({ searchingStylists: false, matchedStylists: [] });
       } else if (event.target.value.length >= 2) {
         this.setState({ searchingStylists: true });
-        Meteor.call('stylists.search', event.target.value, (error, stylists) => {
-          this.setState({ searchingStylists: false });
-          if (!error) {
-            this.setState({
-              matchedStylists: stylists.map(stylist => ({
-                ...stylist,
-                title: `${stylist.name.first} ${stylist.name.last}`,
-              })),
-            });
-          }
-        });
+        Meteor.call(
+          'stylists.search',
+          { search: event.target.value, published: true },
+          (error, stylists) => {
+            this.setState({ searchingStylists: false });
+            if (!error) {
+              this.setState({
+                matchedStylists: stylists.map(stylist => ({
+                  ...stylist,
+                  title: `${stylist.name.first} ${stylist.name.last}`,
+                })),
+              });
+            }
+          },
+        );
       }
     }
   }
