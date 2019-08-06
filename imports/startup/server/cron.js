@@ -9,7 +9,7 @@ SyncedCron.config({
 SyncedCron.add({
   name: 'Refresh all suburbs .published field',
   schedule(parser) {
-    return parser.text('every 4 hours');
+    return parser.text('every hour');
   },
   job() {
     Meteor.call('suburbs.refresh.published', {}, (error) => {
@@ -37,7 +37,7 @@ SyncedCron.add({
 SyncedCron.add({
   name: 'Cancel overdue pending bookings',
   schedule(parser) {
-    return parser.text('every 24 hours');
+    return parser.text('at 1:00am everyday');
   },
   job() {
     Meteor.call('bookings.cancel.overdue.pending', (error) => {
@@ -49,9 +49,9 @@ SyncedCron.add({
 });
 
 SyncedCron.add({
-  name: 'Notify administrators and stylists of pending bookings over 24 hours',
+  name: 'Notify administrators and stylists of pending bookings',
   schedule(parser) {
-    return parser.text('every 1 day');
+    return parser.text('at 9:00am everyday');
   },
   job() {
     Meteor.call('bookings.remind.pending', (error) => {
@@ -63,9 +63,9 @@ SyncedCron.add({
 });
 
 SyncedCron.add({
-  name: 'Notify stylists to complete booking over 24 hours',
+  name: 'Notify stylists to complete booking',
   schedule(parser) {
-    return parser.text('every 1 day');
+    return parser.text('at 10:00am everyday');
   },
   job() {
     Meteor.call('bookings.remind.complete', (error) => {
@@ -77,14 +77,28 @@ SyncedCron.add({
 });
 
 SyncedCron.add({
-  name: 'Remind customers to review completed bookings one day later',
+  name: 'Remind customers to review completed bookings',
   schedule(parser) {
-    return parser.text('every 1 day');
+    return parser.text('at 10:00am everyday');
   },
   job() {
     Meteor.call('bookings.remind.review', (error) => {
       if (error) {
         log.error('bookings.remind.review', error);
+      }
+    });
+  },
+});
+
+SyncedCron.add({
+  name: 'Send stylists signup daily report',
+  schedule(parser) {
+    return parser.text('at 9:00am on Sunday');
+  },
+  job() {
+    Meteor.call('report.stylist.signUps', (error) => {
+      if (error) {
+        log.error('report.stylist.signUps', error);
       }
     });
   },

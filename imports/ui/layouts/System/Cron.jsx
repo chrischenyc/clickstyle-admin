@@ -161,6 +161,26 @@ class Cron extends Component {
               <List.Description>This job is scheduled to run every day.</List.Description>
             </List.Content>
           </List.Item>
+
+          <List.Item>
+            <List.Content>
+              <List.Header>
+                <Button
+                  primary
+                  onClick={() => {
+                    this.setState({ loading: true });
+                    Meteor.call('report.stylist.signUps', () => {
+                      this.setState({ loading: false });
+                    });
+                  }}
+                  loading={this.state.loading}
+                >
+                  Send stylist sign up daily report now!
+                </Button>
+              </List.Header>
+              <List.Description>This job is scheduled to run 9am everyday.</List.Description>
+            </List.Content>
+          </List.Item>
         </List>
       </Container>
     );

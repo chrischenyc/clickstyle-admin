@@ -1,6 +1,6 @@
 {
   "public": {
-    "appName": "ClickStyle",
+    "appName": "ClickStyle Dev",
     "legalName": "ClickStyle Services Pty Ltd",
     "supportEmail": "team@clickstyle.com.au",
     "twitterUrl": "https://twitter.com/clickstyle01",
@@ -15,11 +15,10 @@
     "termsUrl": "/terms",
     "SlingshotS3File": "S3File",
     "SlingshotCloudinaryImage": "CloudinaryImage",
-    "CloudinaryTag": "product",
+    "CloudinaryTag": "development",
     "image": {
       "maxFileSize": 4,
-      "defaultProfilePhoto":
-        "https://res.cloudinary.com/stylesquard/image/upload/v1508935172/6dbb9016-1715-4426-bd0e-1f369bc8aa1e"
+      "defaultProfilePhoto": "https://res.cloudinary.com/stylesquard/image/upload/v1508935172/6dbb9016-1715-4426-bd0e-1f369bc8aa1e"
     },
     "document": {
       "maxFileSize": 8
@@ -30,27 +29,23 @@
       "admin": "admin",
       "superAdmin": "super-admin"
     },
-    "clientHost": "https://clickstyle.herokuapp.com",
+    "clientHost": "http://localhost:3000",
     "coupons": {
       "maxDiscount": 100,
       "maxQuantityPerGenerate": 200
     }
   },
 
-  "MAIL_URL":
-    "smtp://postmaster%40mg.clickstyle.com.au:bc6a7f703ad3ad2340a9cfab98856557-97923b2d-8776308e@smtp.mailgun.org:587",
+  "MAIL_URL": "smtp-server-url",
 
-  "CloudinaryCloudName": "clickstyle-com-au",
-  "CloudinarySecret": "GjbCmE566kC2I-Es0dTyOzE0Ae0",
-  "CloudinaryKey": "711511832669922",
-  "CloudinaryPreset": "product",
+  "CloudinaryCloudName": "cloudinary-account-name",
+  "CloudinarySecret": "cloudinary-secret",
+  "CloudinaryKey": "cloudinary-key",
+  "CloudinaryPreset": "development",
 
-  "CDN": "https://dde2jtknbb0fh.cloudfront.net/",
-  "AWSAccessKeyId": "AKIAJGKMVZ32Q5TVMSMA",
-  "AWSSecretAccessKey": "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",
-  "S3Bucket": "clickstyle-product",
-  "AWSRegion": "ap-southeast-2",
-
-  "PapertrailHost": "logs6.papertrailapp.com",
-  "PapertrailPort": 21261
+  "CDN": "aws-cloudfront-dns",
+  "AWSAccessKeyId": "dev-aws-access-key-id",
+  "AWSSecretAccessKey": "dev-aws-access-key",
+  "S3Bucket": "aws-s3-bucket-name",
+  "AWSRegion": "ap-southeast-2"
 }

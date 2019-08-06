@@ -32,6 +32,10 @@ const SideMenu = () => (
         <Menu.Item as={NavLink} to="/stylists/featured">
           Featured
         </Menu.Item>
+
+        <Menu.Item as={NavLink} to="/stylists/published">
+          Published
+        </Menu.Item>
       </Menu.Menu>
     </Menu.Item>
 
@@ -44,6 +48,18 @@ const SideMenu = () => (
 
         <Menu.Item as={NavLink} to="/coupons">
           Coupons
+        </Menu.Item>
+      </Menu.Menu>
+    </Menu.Item>
+
+    <Menu.Item>
+      <Menu.Header>Reports</Menu.Header>
+      <Menu.Menu>
+        <Menu.Item as={NavLink} to="/reports/services-and-prices">
+          Services &amp; Prices
+        </Menu.Item>
+        <Menu.Item as={NavLink} to="/reports/geo">
+          Geo
         </Menu.Item>
       </Menu.Menu>
     </Menu.Item>

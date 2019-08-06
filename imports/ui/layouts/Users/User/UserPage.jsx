@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
   Container,
   Grid,
@@ -12,6 +12,8 @@ import {
   Button,
   Divider,
   Label,
+  Icon,
+  Checkbox,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
@@ -37,40 +39,45 @@ const UserPage = (props) => {
       <Segment>
         <Grid>
           <Grid.Row>
-            <Grid.Column width="6">
+            <Grid.Column width="4">
               <Image src={ScaledImageURL(photoURL, 'medium')} fluid />
             </Grid.Column>
 
-            <Grid.Column width="10">
+            <Grid.Column width="12">
               <Header as="h1">{`${profile.name.first} ${profile.name.last}`}</Header>
 
-              <div>{roles.map(role => <Label key={role}>{role}</Label>)}</div>
+              <List>
+                <List.Item>
+                  {roles.map(role => (
+                    <Label key={role}>{role}</Label>
+                  ))}
+                </List.Item>
 
-              <div>
-                Registered on:&nbsp;
-                {dateTimeString(createdAt)}
-              </div>
-              <div>
-                Email:&nbsp;
-                <a href={`mailto:${profile.email}`}>{profile.email}</a>
-              </div>
-              <div>
-                Mobile:&nbsp;
-                {profile.mobile}
-              </div>
-              {profile.address &&
-                profile.address.raw && (
-                  <div>
+                <List.Item>
+                  Registered on:&nbsp;
+                  {dateTimeString(createdAt)}
+                </List.Item>
+                <List.Item>
+                  Email:&nbsp;
+                  <a href={`mailto:${profile.email}`}>{profile.email}</a>
+                </List.Item>
+                <List.Item>
+                  Mobile:&nbsp;
+                  {profile.mobile}
+                </List.Item>
+                {profile.address && profile.address.raw && (
+                  <List.Item>
                     Address:&nbsp;
                     <a href={`https://maps.google.com/?q=${profile.address.raw}`} target="_blank">
                       {profile.address.raw}
                     </a>
-                  </div>
+                  </List.Item>
                 )}
-              <div>
-                About:&nbsp;
-                {profile.about}
-              </div>
+                <List.Item>
+                  About:&nbsp;
+                  {profile.about}
+                </List.Item>
+              </List>
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -87,36 +94,126 @@ const UserPage = (props) => {
           </div>
         )}
 
-        {stylist &&
-          stylist.services && (
-            <div>
-              <Divider horizontal>Stylist Services</Divider>
 
-              <List>
-                {stylist.services.map(service => (
-                  <List.Item key={service._id}>{service.name}</List.Item>
-                ))}
-              </List>
-            </div>
-          )}
+        <Divider horizontal>Documents</Divider>
 
-        {stylist &&
-          stylist.openHours && (
-            <div>
-              <Divider horizontal>Stylist Open Hours</Divider>
+        <List>
+          {stylist && stylist.qualificationUrl && (
+          <List.Item>
+            Qualification:&nbsp;
+            <a href={stylist.qualificationUrl} target="_blank">
+              <Icon name="file outline" />
+            </a>
+            &nbsp;
+            <Checkbox
+              label="Verified, show on public profile"
+              checked={stylist.qualificationVerified}
+              onChange={(event, data) => {
+                props.onVerifyDocument('qualification', data.checked);
+              }}
+            />
+          </List.Item>)}
+        </List>
 
-              <List>
-                {stylist.openHours.map(openHour => (
-                  <List.Item key={openHour.day}>
-                    {`${openHour.day}: ${openHour.openAt} - ${openHour.closeAt}`}
-                  </List.Item>
-                ))}
-              </List>
-            </div>
-          )}
+        <List>
+          {stylist && stylist.policeCheckUrl && (
+          <List.Item>
+            Police Check:&nbsp;
+            <a href={stylist.policeCheckUrl} target="_blank">
+              <Icon name="file outline" />
+            </a>
+            &nbsp;
+            <Checkbox
+              label="Verified, show on public profile"
+              checked={stylist.policeCheckVerified}
+              onChange={(event, data) => {
+                props.onVerifyDocument('policeCheck', data.checked);
+              }}
+            />
+          </List.Item>)}
+        </List>
+
+        <List>
+          {stylist && stylist.workingWithChildrenUrl && (
+          <List.Item>
+            Working with Children:&nbsp;
+            <a href={stylist.workingWithChildrenUrl} target="_blank">
+              <Icon name="file outline" />
+            </a>
+            &nbsp;
+            <Checkbox
+              label="Verified, show on public profile"
+              checked={stylist.workingWithChildrenVerified}
+              onChange={(event, data) => {
+                props.onVerifyDocument('workingWithChildren', data.checked);
+              }}
+            />
+          </List.Item>)}
+        </List>
+
+
+        {stylist && stylist.services && (
+          <Fragment>
+            <Divider horizontal>Stylist Services</Divider>
+
+            <List>
+              {stylist.services.map(service => (
+                <List.Item key={service._id}>
+                  {service.name}
+                  <List>
+                    <List.Item>
+                      {`Basic service: ${service.basePrice}`}
+                    </List.Item>
+                    {service.addons && service.addons.map(addon => (<List.Item key={addon._id}>{`${addon.name}: ${addon.price}`}</List.Item>))}
+                  </List>
+                </List.Item>
+              ))}
+            </List>
+          </Fragment>
+        )}
+
+        {stylist && stylist.areas && (
+          <Fragment>
+            <Divider horizontal>Serving Area</Divider>
+            <List>
+              <List.Item>{`Suburb: ${stylist.areas.suburb.postcode} - ${stylist.areas.suburb.name}`}</List.Item>
+              <List.Item>{`Radius: ${stylist.areas.radius}km`}</List.Item>
+              <List.Item><br/></List.Item>
+              {stylist.areas.availableSuburbs.map(suburb => (
+                <List.Item key={suburb._id}>{`${suburb.postcode} - ${suburb.name}`}</List.Item>
+              ))}
+            </List>
+          </Fragment>
+        )}
+
+        {stylist && stylist.openHours && (
+          <Fragment>
+            <Divider horizontal>Stylist Open Hours</Divider>
+
+            <List>
+              {stylist.openHours.map(openHour => (
+                <List.Item key={openHour.day}>
+                  {`${openHour.day}: ${openHour.openAt} - ${openHour.closeAt}`}
+                </List.Item>
+              ))}
+            </List>
+          </Fragment>
+        )}
+
+        {stylist && stylist.bankInfo && (
+          <Fragment>
+            <Divider horizontal>Stylist Bank Account</Divider>
+
+            <List>
+              <List.Item>Name: {stylist.bankInfo.accountName}</List.Item>
+              <List.Item>BSB: {stylist.bankInfo.bsb}</List.Item>
+              <List.Item>Account Number: {stylist.bankInfo.accountNumber}</List.Item>
+            </List>
+          </Fragment>
+        )}
       </Segment>
 
-      {!Roles.userIsInRole(props.user._id, [Meteor.settings.public.roles.admin]) ? (
+      {!Roles.userIsInRole(props.user._id, [Meteor.settings.public.roles.superAdmin]) ? (
         <Button
           size="large"
           primary
@@ -154,31 +251,29 @@ const UserPage = (props) => {
         View public profile
       </Button>
 
-      {stylist &&
-        stylist.published && (
-          <Button
-            size="large"
-            negative
-            onClick={() => {
-              props.onPublishStylist(false);
-            }}
-          >
-            Un-publish Stylist Profile
-          </Button>
-        )}
+      {stylist && stylist.published && (
+        <Button
+          size="large"
+          negative
+          onClick={() => {
+            props.onPublishStylist(false);
+          }}
+        >
+          Un-publish Stylist Profile
+        </Button>
+      )}
 
-      {stylist &&
-        !stylist.published && (
-          <Button
-            size="large"
-            primary
-            onClick={() => {
-              props.onPublishStylist(true);
-            }}
-          >
-            Publish Stylist Profile
-          </Button>
-        )}
+      {stylist && !stylist.published && (
+        <Button
+          size="large"
+          primary
+          onClick={() => {
+            props.onPublishStylist(true);
+          }}
+        >
+          Publish Stylist Profile
+        </Button>
+      )}
 
       {!_.isEmpty(props.error) && <Message error>{props.error}</Message>}
     </Container>
@@ -195,6 +290,7 @@ UserPage.propTypes = {
   stylist: PropTypes.object,
   onGrantAdmin: PropTypes.func.isRequired,
   onPublishStylist: PropTypes.func.isRequired,
+  onVerifyDocument: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   error: PropTypes.string.isRequired,
 };

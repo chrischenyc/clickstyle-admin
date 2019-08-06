@@ -2,7 +2,7 @@
 import { Mongo } from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
-import ServiceSchema from '../stylists/stylists-services-schema';
+import ServiceSchema from './bookings-services-schema';
 
 const Bookings = new Mongo.Collection('bookings');
 

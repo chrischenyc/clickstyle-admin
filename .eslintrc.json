@@ -31,6 +31,7 @@
     ],
 
     "import/no-unresolved": ["error", { "ignore": ["^meteor/", "^/"] }],
-    "import/extensions": ["off", "never"]
+    "import/extensions": ["off", "never"],
+    "react/destructuring-assignment": ["off", "never"]
   }
 }

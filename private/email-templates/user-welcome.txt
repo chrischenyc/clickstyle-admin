@@ -1,0 +1,28 @@
+Welcome, {{firstName}}
+
+Thanks heaps for jumping on board the {{appName}} bandwagon. Here’s a quick guide to how you can make your first booking and experience that royal like treatment at your comfort.
+
+* Search - Select when, where and what time suits you
+* Find & Book - Select a stylist from the list and select the service and book
+* Get pampered - Your selected stylist will arrive at your desired location and get you pampered
+
+Get Started: {{homeUrl}}
+
+Try it out, you’d be surprises how easy and convenient mobile service is. Be part of the revolution. Try it out before your neighbour does, so you could be the coolest person on the street;)
+
+A welcome gift on us, $15 OFF COUPON
+Use Code: CLICK-STYLE-15
+
+For more info, deals, competitions and latest news follow us on social media.
+{{facebookUrl}}
+{{twitterUrl}}
+{{instagramUrl}}
+
+
+Warm Regards
+{{appName}} Family
+
+PS: How cool is this Fun Fact:
+Our hair is constantly growing, and has a lifespan of around 5 years. 90% of our hair is growing at any given time, while the other 10% is taking a break.
+
+{{{txtFooter}}}

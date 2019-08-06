@@ -67,9 +67,6 @@ const AreasSchema = new SimpleSchema({
   radius: {
     type: SimpleSchema.Integer,
   },
-  canTravel: {
-    type: Boolean,
-  },
   availableSuburbs: {
     type: Array,
     optional: true,
@@ -159,6 +156,32 @@ const StylistsSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
+
+  qualificationVerified: {
+    type: Boolean,
+    defaultValue: false,
+  },
+
+  policeCheckUrl: {
+    type: String,
+    optional: true,
+  },
+
+  policeCheckVerified: {
+    type: Boolean,
+    defaultValue: false,
+  },
+
+  workingWithChildrenUrl: {
+    type: String,
+    optional: true,
+  },
+
+  workingWithChildrenVerified: {
+    type: Boolean,
+    defaultValue: false,
+  },
+
   referenceUrl: {
     type: String,
     optional: true,
@@ -201,6 +224,13 @@ const StylistsSchema = new SimpleSchema({
     optional: true,
   },
 
+  isMobile: Boolean,
+  isOnSite: Boolean,
+  isGST: {
+    type: Boolean,
+    defaultValue: false,
+  },
+
   // ------------------------------
   // denormalised data from Profiles
   name: NameSchema,
@@ -213,6 +243,9 @@ const StylistsSchema = new SimpleSchema({
     type: AddressSchema,
     optional: true,
   },
+
+  // full text search filed, contents aggregated from .name, .services, Profiles.about
+  keywords: { type: String, index: 'text', defaultValue: '' },
 });
 
 Stylists.attachSchema(StylistsSchema);
