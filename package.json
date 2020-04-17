@@ -29,7 +29,7 @@
     "cloudinary": "^1.13.2",
     "commonmark": "^0.28.1",
     "coupon-code": "^0.4.5",
-    "handlebars": "^4.1.0",
+    "handlebars": "^4.3.0",
     "jspdf": "^1.5.3",
     "juice": "^5.1.0",
     "lodash": "^4.17.11",
