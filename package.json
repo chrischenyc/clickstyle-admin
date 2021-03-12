@@ -30,7 +30,7 @@
     "commonmark": "^0.28.1",
     "coupon-code": "^0.4.5",
     "handlebars": "^4.1.0",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.3.1",
     "juice": "^5.1.0",
     "lodash": "^4.17.11",
     "meteor-node-stubs": "^0.4.1",
